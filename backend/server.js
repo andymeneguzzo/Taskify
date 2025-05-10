@@ -23,6 +23,9 @@ app.get('/', (req, res) => {
     res.json({message: 'Welcome to Taskify API'}); // welcome endpoint at the root path
 });
 
+// Routes
+app.use('/api/users', require('./routes/userRoutes'));
+
 // Define port
 const PORT = process.env.PORT || 5000;
 
