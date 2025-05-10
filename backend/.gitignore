@@ -1,0 +1,74 @@
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.pnpm-debug.log
+package-lock.json
+yarn.lock
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build directories
+dist/
+build/
+out/
+.next/
+
+# Logs
+logs/
+*.log
+
+# macOS specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# IDE files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+
+# MongoDB data
+data/
+*.dump
+
+# Coverage
+coverage/
+
+# Temporary files
+tmp/
+.tmp/
+temp/
+
+# Cache
+.cache/
+.npm
+.eslintcache
+
+# Secret files 
+config/secrets.js
+*.pem
+*.key
+*.cert
+
+# Debug files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test files
+/test-results/
+/playwright-report/
+/playwright/.cache/
