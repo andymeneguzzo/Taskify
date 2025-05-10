@@ -24,7 +24,8 @@ app.get('/', (req, res) => {
 });
 
 // Routes
-app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/users', require('./routes/userRoutes')); // send /api/users requests to the userRoutes
+app.use('/api/tasks', require('./routes/taskRoutes')); // same but for tasks
 
 // Define port
 const PORT = process.env.PORT || 5000;

@@ -74,6 +74,23 @@ const loginUser = async (req, res) => {
     }
 };
 
+// @desc Get user profile
+// @route GET /api/users/me
+// @access Private
+
+const getMe = async (req, res) => {
+    try {
+        // req.user is set by the protect middleware
+        const user = {
+            id: req.user._id,
+            email: req.user.email
+        };
+
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+};
 // Generate JWT
 const generateToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET || 'defaultsecret', {
@@ -85,4 +102,5 @@ const generateToken = (id) => {
 module.exports = {
     registerUser,
     loginUser,
+    getMe,
 };
