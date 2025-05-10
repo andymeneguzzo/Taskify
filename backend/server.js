@@ -1,7 +1,7 @@
 // Essential imports
 const express = require('express');
 const dotenv = require('dotenv');
-const {connectDB} = require('./config/db');
+const connectDB = require('./config/db'); // Fix import directly without destructuring
 const cors = require('cors');
 
 // Load environment variables
