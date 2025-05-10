@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 // Basic route
-app.get('/', (res) => {
+app.get('/', (req, res) => {
     res.json({message: 'Welcome to Taskify API'}); // welcome endpoint at the root path
 });
 
@@ -32,7 +32,7 @@ app.listen(PORT, () => {
 });
 
 // Error handling middleware
-app.use((err, res) => {
+app.use((err, req, res, next) => {
     const statusCode = res.statusCode ? res.statusCode : 500;
     res.status(statusCode);
     res.json({
