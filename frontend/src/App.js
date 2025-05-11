@@ -23,8 +23,11 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Routes>
+          {/* Public routes accessible to all users */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          
+          {/* Protected route - only accessible when authenticated */}
           <Route 
             path="/dashboard" 
             element={
@@ -33,6 +36,8 @@ function App() {
               </ProtectedRoute>
             } 
           />
+          
+          {/* Default route redirects to login page */}
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </div>
