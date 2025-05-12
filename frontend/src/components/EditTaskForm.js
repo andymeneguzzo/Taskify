@@ -7,7 +7,9 @@ function EditTaskForm({task, onTaskUpdated, onCancel}) {
         title: '',
         description: '',
         status: 'pending',
-        category: 'general'
+        category: 'general',
+        dueDate: '',
+        reminderDate: ''
     });
 
     const [loading, setLoading] = useState(false);
@@ -22,12 +24,36 @@ function EditTaskForm({task, onTaskUpdated, onCancel}) {
     ];
 
     useEffect(() => {
-        if(task) {
+        if (task) {
+            console.log('Original task data:', task);
+            
+            // Format the dates for the datetime-local input
+            const formatDateForInput = (dateString) => {
+                if (!dateString) return '';
+                
+                try {
+                    const date = new Date(dateString);
+                    if (isNaN(date.getTime())) {
+                        console.log('Invalid date:', dateString);
+                        return '';
+                    }
+                    
+                    console.log('Formatted date:', date.toISOString().slice(0, 16));
+                    return date.toISOString().slice(0, 16);
+                } catch (error) {
+                    console.error('Error formatting date:', error);
+                    return '';
+                }
+            };
+            
+            // Set form data with properly formatted dates
             setFormData({
                 title: task.title || '',
                 description: task.description || '',
                 status: task.status || 'pending',
-                category: task.category || 'general'
+                category: task.category || 'general',
+                dueDate: formatDateForInput(task.dueDate),
+                reminderDate: formatDateForInput(task.reminderDate)
             });
         }
     }, [task]);
@@ -46,28 +72,39 @@ function EditTaskForm({task, onTaskUpdated, onCancel}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        // Validate form
         if (!formData.title.trim()) {
-          setError('Task title is required');
-          return;
+            setError('Task title is required');
+            return;
         }
         
         setLoading(true);
         
         try {
-          // Use PATCH method to update only the changed fields
-          const response = await api.patch(`/tasks/${task._id}`, formData);
-          
-          // Notify parent component about the updated task
-          if (onTaskUpdated) {
-            onTaskUpdated(response.data);
-          }
-          
+            // Create a copy of the data to send
+            const taskData = { ...formData };
+            
+            // Fix date formatting
+            if (formData.dueDate) {
+                taskData.dueDate = new Date(formData.dueDate).toISOString();
+            }
+            
+            if (formData.reminderDate) {
+                taskData.reminderDate = new Date(formData.reminderDate).toISOString();
+            }
+            
+            console.log('Data being sent to API for update:', taskData);
+            
+            const response = await api.patch(`/tasks/${task._id}`, taskData);
+            console.log('Update response from API:', response.data);
+            
+            if (onTaskUpdated) {
+                onTaskUpdated(response.data);
+            }
         } catch (err) {
-          setError(err.response?.data?.message || 'Failed to update task. Please try again.');
-          console.error('Error updating task:', err);
+            setError(err.response?.data?.message || 'Failed to update task. Please try again.');
+            console.error('Error updating task:', err);
         } finally {
-          setLoading(false);
+            setLoading(false);
         }
     };
 
@@ -136,6 +173,35 @@ function EditTaskForm({task, onTaskUpdated, onCancel}) {
                     </option>
                   ))}
                 </select>
+              </div>
+            </div>
+            
+            {/* Date fields */}
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="dueDate">Due Date</label>
+                <input
+                  type="datetime-local"
+                  id="dueDate"
+                  name="dueDate"
+                  value={formData.dueDate}
+                  onChange={handleChange}
+                  disabled={loading}
+                  className="date-input"
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="reminderDate">Reminder</label>
+                <input
+                  type="datetime-local"
+                  id="reminderDate"
+                  name="reminderDate"
+                  value={formData.reminderDate}
+                  onChange={handleChange}
+                  disabled={loading}
+                  className="date-input"
+                />
               </div>
             </div>
             

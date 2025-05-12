@@ -7,7 +7,9 @@ function CreateTaskForm({onTaskCreated}) {
         title: '',
         description: '',
         status: 'pending',
-        category: 'general' // default
+        category: 'general', // default
+        dueDate: '',
+        reminderDate: ''
     });
 
     const [loading, setLoading] = useState(false);
@@ -44,14 +46,34 @@ function CreateTaskForm({onTaskCreated}) {
         setLoading(true);
 
         try {
-            const response = await api.post('/tasks', formData);
+            // Add this logging to see what's being sent to the API
+            console.log('Form data before submission:', formData);
+
+            // Create a copy of the data to send
+            const taskData = { ...formData };
+            
+            // Fix date formatting - convert to ISO strings
+            if (formData.dueDate) {
+                taskData.dueDate = new Date(formData.dueDate).toISOString();
+            }
+            
+            if (formData.reminderDate) {
+                taskData.reminderDate = new Date(formData.reminderDate).toISOString();
+            }
+            
+            console.log('Data being sent to API:', taskData);
+
+            const response = await api.post('/tasks', taskData);
+            console.log('Response from API:', response.data);
 
             // clear form after successful submission
             setFormData({
                 title: '',
                 description: '',
                 status: 'pending',
-                category: 'general'
+                category: 'general',
+                dueDate: '',
+                reminderDate: ''
             });
 
             // Notify parent component about new task
@@ -155,6 +177,35 @@ function CreateTaskForm({onTaskCreated}) {
                     </option>
                   ))}
                 </select>
+              </div>
+            </div>
+            
+            {/* Date fields */}
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="dueDate">Due Date</label>
+                <input
+                  type="datetime-local"
+                  id="dueDate"
+                  name="dueDate"
+                  value={formData.dueDate}
+                  onChange={handleChange}
+                  disabled={loading}
+                  className="date-input"
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="reminderDate">Reminder</label>
+                <input
+                  type="datetime-local"
+                  id="reminderDate"
+                  name="reminderDate"
+                  value={formData.reminderDate}
+                  onChange={handleChange}
+                  disabled={loading}
+                  className="date-input"
+                />
               </div>
             </div>
             

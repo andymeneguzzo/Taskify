@@ -125,3 +125,34 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Date input styling */
+.date-input {
+  font-family: var(--font-primary);
+  color: var(--text-color);
+  padding: 10px 15px;
+  background-color: var(--bg-color);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--neu-inset-shadow);
+  width: 100%;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.date-input:focus {
+  outline: none;
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.2), inset -3px -3px 6px rgba(255, 255, 255, 0.7);
+}
+
+/* Some browsers need specific styling for datetime inputs */
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.6;
+  filter: invert(0.5);
+  transition: opacity 0.2s;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}

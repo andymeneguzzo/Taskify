@@ -7,8 +7,10 @@ const Task = require('../models/Task');
 const getTasks = async (req, res) => {
     try {
         const tasks = await Task.find({owner: req.user._id});
+        console.log('Tasks retrieved:', tasks);
         res.status(200).json(tasks);
     } catch(error) {
+        console.error('Error fetching tasks:', error);
         res.status(500).json({message: error.message});
     }
 };
@@ -19,22 +21,41 @@ const getTasks = async (req, res) => {
 
 const createTask = async (req, res) => {
     try {
-        const {title, description, status, category} = req.body;
+        // Add logging to see what's being received
+        console.log('Received task data:', req.body);
+        
+        const {title, description, status, category, dueDate, reminderDate} = req.body;
 
         if(!title) {
             return res.status(400).json({message: 'Please add a title'}); // 400 is the status code for bad request
         }
 
-        const task = await Task.create({
+        // Create task object explicitly listing each field
+        const taskData = {
             title,
             description,
             status,
             category,
             owner: req.user._id
-        });
-
+        };
+        
+        // Only add dates if they exist and are valid
+        if (dueDate) {
+            taskData.dueDate = new Date(dueDate);
+        }
+        
+        if (reminderDate) {
+            taskData.reminderDate = new Date(reminderDate);
+        }
+        
+        console.log('Creating task with data:', taskData);
+        
+        const task = await Task.create(taskData);
+        console.log('Created task:', task);
+        
         res.status(201).json(task); // 201 is the status code for created
     } catch(error) {
+        console.error('Error creating task:', error);
         res.status(500).json({message: error.message}); // 500 is the status code for internal server error
     }
 };

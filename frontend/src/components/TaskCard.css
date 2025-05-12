@@ -192,3 +192,63 @@
   bottom: -20px; /* Position it below the card */
   left: 0;
 }
+
+/* Date display styling */
+.task-dates {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background-color: var(--bg-color);
+  padding: 10px;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--neu-inset-shadow);
+  font-size: 13px;
+}
+
+.task-due-date,
+.task-reminder-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.date-label {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-muted);
+}
+
+.date-value {
+  color: var(--text-color);
+}
+
+/* Special states for due dates */
+.due-soon .date-value {
+  color: var(--warning-color);
+  font-weight: var(--font-weight-medium);
+}
+
+.overdue .date-value {
+  color: var(--danger-color);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Add a little icon for dates */
+.task-due-date::before,
+.task-reminder-date::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.7;
+}
+
+.task-due-date::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E");
+}
+
+.task-reminder-date::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9'%3E%3C/path%3E%3Cpath d='M13.73 21a2 2 0 0 1-3.46 0'%3E%3C/path%3E%3C/svg%3E");
+}

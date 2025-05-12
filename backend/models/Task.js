@@ -21,6 +21,14 @@ const taskSchema = new Schema({
         enum: ['general', 'work', 'personal', 'education', 'health'],
         default: 'general'
     },
+    dueDate: {
+        type: Date,
+        default: null
+    },
+    reminderDate: {
+        type: Date,
+        default: null
+    },
     owner: {
         type: Schema.Types.ObjectId, // reference to the User that is of type id
         ref: 'User',
