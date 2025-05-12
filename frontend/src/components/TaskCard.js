@@ -37,3 +37,5 @@ function TaskCard({task, onDelete, onToggleComplete, onEdit}) {
         </div>
     );
 }
+
+export default TaskCard;
