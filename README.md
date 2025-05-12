@@ -50,42 +50,12 @@ Easily create, track, and manage your tasks — anytime, anywhere.
 
 ## 📸 Screenshots
 
-To add screenshots to your README, follow these steps:
-
-1. **Create a screenshots directory in your project:**
-   ```bash
-   mkdir screenshots
-   ```
-
-2. **Take screenshots of your application** showing different features:
-   - Home/Dashboard page
-   - Task creation form
-   - Login/Registration screens
-   - Task filtering in action
-   - Mobile responsive view
-
-3. **Add screenshots to your README using Markdown:**
-
    ![Task Creation - Light](./screenshots/task-creation-light.png)
    ![Task Creation - Dark](./screenshots/task-creation-dark.png)
    ![Task View - Light](./screenshots/task-view-light.png)
    ![Task View - Dark](./screenshots/task-view-dark.png)
    ![Custom Calendar](./screenshots/custom-calendar.png)
    ![Notifications](./screenshots/notifications.png)
-
-
-4. **For better organization**, you can use tables or sections:
-   ```markdown
-   | Feature | Screenshot |
-   |---------|------------|
-   | Dashboard | ![Dashboard](./screenshots/dashboard.png) |
-   | Task Form | ![Task Form](./screenshots/task-form.png) |
-   ```
-
-> **Tip**: Keep screenshot files under 5MB and use PNG or JPG format for better compatibility.
-
-> **Alternative**: You can also upload screenshots to an image hosting service and use the direct links in your README.
-
 ---
 
 ## 🧑‍💻 Getting Started
