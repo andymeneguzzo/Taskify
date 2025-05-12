@@ -1,9 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import api from '../api/axios';
+// Core React imports
+import React, {useEffect, useState} from 'react'; // React hooks for state and side effects
+// Routing import
+import {useNavigate} from 'react-router-dom'; // Hook for programmatic navigation
+// API client import 
+import api from '../api/axios'; // Pre-configured axios instance for API calls
 
+// Component imports
 import TaskCard from '../components/TaskCard';
-import TaskForm from '../components/TaskForm';
+import TaskForm from '../components/TaskForm'; // kept for editing tasks
+import CreateTaskForm from '../components/CreateTaskForm';
+
 import './Dashboard.css'; // Import CSS file for styling
 
 function Dashboard() {
@@ -40,19 +46,9 @@ function Dashboard() {
         navigate('/login');
     };
 
-    // Handle adding a new task
-    const handleCreateTask = async (e) => {
-        e.preventDefault();
-        if(!newTask.title.trim()) return;
-
-        try {
-            const response = await api.post('/tasks', newTask);
-            setTasks([...tasks, response.data]);
-            setNewTask({title: '', description: ''});
-        } catch(err) {
-            setError('Failed to add task. Please try again');
-            console.error('Error adding task: ', err);
-        }
+    // Handle task created
+    const handleTaskCreated = (newTask) => {
+      setTasks([...tasks, newTask]);
     };
 
     // Handle editing a task
@@ -132,15 +128,19 @@ function Dashboard() {
         
         {error && <div className="error-message">{error}</div>}
         
-        {/* Task form section */}
+        {/* Task form section - either CreateTaskForm or EditTaskForm */}
+      {editingTask ? (
         <div className="task-form-section">
-          <h3>{editingTask ? 'Edit Task' : 'Create New Task'}</h3>
+          <h3>Edit Task</h3>
           <TaskForm 
             task={editingTask} 
-            onSubmit={editingTask ? handleUpdateTask : handleCreateTask}
+            onSubmit={handleUpdateTask}
             onCancel={handleCancelEdit}
           />
         </div>
+        ) : (
+        <CreateTaskForm onTaskCreated={handleTaskCreated} />
+      )}
         
         {/* Tasks list */}
         <div className="tasks-section">
