@@ -14,6 +14,20 @@
   --danger-color: #e53935;
   --warning-color: #ff9800;
   
+  /* Fonts */
+  --font-primary: 'Nunito', 'Poppins', sans-serif;
+  --font-heading: 'Quicksand', 'Montserrat', sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
+  --font-weight-extra: 700;
+  --font-size-small: 0.875rem;
+  --font-size-normal: 1rem;
+  --font-size-medium: 1.125rem;
+  --font-size-large: 1.25rem;
+  --font-size-xlarge: 1.5rem;
+  --font-size-xxlarge: 2rem;
+  
   /* Neumorphism shadows */
   --neu-shadow-small: 3px 3px 6px rgba(0, 0, 0, 0.15), -3px -3px 6px rgba(255, 255, 255, 0.8);
   --neu-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15), -5px -5px 10px rgba(255, 255, 255, 0.8);
@@ -42,11 +56,24 @@
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
-  font-family: 'Poppins', 'Roboto', sans-serif;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-normal);
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  line-height: 1.6;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: var(--font-size-xxlarge); }
+h2 { font-size: var(--font-size-xlarge); }
+h3 { font-size: var(--font-size-large); }
 
 /* 
   Neumorphic Container Styles

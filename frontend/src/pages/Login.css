@@ -12,7 +12,10 @@
   margin-bottom: var(--spacing-lg);
   text-align: center;
   color: var(--text-color);
-  font-weight: 600;
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xxlarge);
+  letter-spacing: -0.03em;
 }
 
 .login-container .form-group {
@@ -26,7 +29,8 @@
 .login-container label {
   display: block;
   margin-bottom: var(--spacing-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-small);
   color: var(--text-color);
 }
 

@@ -10,7 +10,9 @@
   margin-top: 0;
   margin-bottom: var(--spacing-lg);
   color: var(--text-color);
-  font-weight: 600;
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-large);
 }
 
 .create-task-error {
@@ -41,8 +43,10 @@
 .form-group label {
   display: block;
   margin-bottom: var(--spacing-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   color: var(--text-color);
+  font-size: var(--font-size-small);
+  letter-spacing: 0.02em;
 }
 
 .form-group input,

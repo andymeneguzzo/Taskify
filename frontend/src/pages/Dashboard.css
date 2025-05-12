@@ -14,7 +14,10 @@
   .dashboard-header h2 {
     margin: 0;
     color: var(--text-color);
-    font-weight: 600;
+    font-family: var(--font-heading);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-xxlarge);
+    letter-spacing: -0.03em;
   }
   
   .logout-btn {
@@ -68,12 +71,17 @@
   .tasks-header h3 {
     margin: 0;
     color: var(--text-color);
-    font-weight: 600;
+    font-family: var(--font-heading);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-large);
+    margin-top: 0;
+    margin-bottom: var(--spacing-md);
   }
   
   .tasks-count {
     color: var(--text-muted);
-    font-size: 14px;
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
   }
   
   .loading-text,
