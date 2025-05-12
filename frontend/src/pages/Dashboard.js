@@ -10,11 +10,19 @@ import TaskCard from '../components/TaskCard';
 // import TaskForm from '../components/TaskForm'; // not using it anymore
 import CreateTaskForm from '../components/CreateTaskForm';
 import EditTaskForm from '../components/EditTaskForm';
+import TaskFilters from '../components/TaskFilters';
 
 import './Dashboard.css'; // Import CSS file for styling
 
 function Dashboard() {
     const [tasks, setTasks] = useState([]);
+    const [filteredTasks, setFilteredTasks] = useState([]);
+    const [filters, setFilters] = useState({
+        search: '',
+        status: 'all',
+        category: 'all'
+    });
+
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     // const [newTask, setNewTask] = useState({ title: '', description: '' }); -> not being used now
@@ -26,6 +34,42 @@ function Dashboard() {
         fetchTasks();
     }, []);
 
+    // Apply filters whenever tasks or filters change
+    useEffect(() => {
+      applyFilters();
+    }, [tasks, filters]);
+
+    // Apply filters to tasks
+    const applyFilters = () => {
+      let result = [...tasks];
+      
+      // Apply search filter (case-insensitive)
+      if (filters.search.trim()) {
+        const searchTerm = filters.search.toLowerCase();
+        result = result.filter(task => 
+          task.title.toLowerCase().includes(searchTerm) || 
+          (task.description && task.description.toLowerCase().includes(searchTerm))
+        );
+      }
+      
+      // Apply status filter
+      if (filters.status !== 'all') {
+        result = result.filter(task => task.status === filters.status);
+      }
+      
+      // Apply category filter
+      if (filters.category !== 'all') {
+        result = result.filter(task => task.category === filters.category);
+      }
+      
+      setFilteredTasks(result);
+    };
+
+    // Handle filter changes
+    const handleFilterChange = (newFilters) => {
+      setFilters(newFilters);
+    };
+
     const fetchTasks = async () => {
         setIsLoading(true);
         setError(null);
@@ -33,6 +77,8 @@ function Dashboard() {
         try {
             const response = await api.get('/tasks');
             setTasks(response.data);
+            // Initially, filtered tasks are all tasks
+            setFilteredTasks(response.data);
         } catch (err) {
             setError('Failed to fetch tasks. Please try again');
             console.error('Error fetching tasks: ', err);
@@ -55,6 +101,12 @@ function Dashboard() {
     // Handle editing a task
     const handleEditTask = (task) => {
         setEditingTask({...task});
+
+        // Scroll to the edit form
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
     };
 
     // Update task
@@ -117,18 +169,32 @@ function Dashboard() {
         ) : (
           <CreateTaskForm onTaskCreated={handleTaskCreated} />
         )}
+
+        {/* Task filters */}
+        <TaskFilters onFilterChange={handleFilterChange} />
         
         {/* Tasks list */}
         <div className="tasks-section">
-          <h3>Task List</h3>
+          <div className="tasks-header">
+            <h3>Task List</h3>
+            <div className="tasks-count">
+              Showing {filteredTasks.length} of {tasks.length} tasks
+            </div>
+          </div>
           
           {isLoading ? (
             <p className="loading-text">Loading tasks...</p>
-          ) : tasks.length === 0 ? (
-            <p className="empty-text">No tasks found. Create your first task above!</p>
+          ) : filteredTasks.length === 0 ? (
+            <div className="empty-state">
+              {tasks.length === 0 ? (
+                <p className="empty-text">No tasks found. Create your first task above!</p>
+              ) : (
+                <p className="empty-text">No tasks match your filters. Try changing your search criteria.</p>
+              )}
+            </div>
           ) : (
             <div className="tasks-grid">
-              {tasks.map(task => (
+              {filteredTasks.map(task => (
                 <TaskCard
                   key={task._id}
                   task={task}
@@ -141,7 +207,7 @@ function Dashboard() {
           )}
         </div>
       </div>
-    );
+  );
 }
 
 export default Dashboard;

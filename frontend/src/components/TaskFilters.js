@@ -113,3 +113,5 @@ function TaskFilters({onFilterChange}) {
         </div>
     );
 }
+
+export default TaskFilters;
