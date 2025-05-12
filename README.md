@@ -3,8 +3,8 @@
 A full-stack Task Management application built with the **MERN stack** (MongoDB, Express.js, React, Node.js).  
 Easily create, track, and manage your tasks — anytime, anywhere.
 
-## 🌐 Live Demo
-🔗 [https://taskify-frontend-weld.vercel.app/](#) (Add your Netlify/Vercel link here)
+## 🌐 Live Demo - Frontend deployed in Vercel
+🔗 [https://taskify-frontend-weld.vercel.app/](#) 
 
 ---
 
