@@ -32,7 +32,10 @@ connectDB();
 // });
 
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://taskify-frontend-j88j0jevz-andys-projects-26ad8edd.vercel.app'],
+    origin: ['http://localhost:3000', 
+             'https://taskify-frontend-j88j0jevz-andys-projects-26ad8edd.vercel.app',
+             'https://taskify-frontend-weld.vercel.app',
+             'https://taskify-frontend-hpkob9c7k-andys-projects-26ad8edd.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
 }));
