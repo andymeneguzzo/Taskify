@@ -17,7 +17,7 @@ connectDB();
 // Replace the simple app.use(cors()) with a more detailed configuration
 // CORS middleware - place this BEFORE any route definitions
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', 'taskify-frontend-j88j0jevz-andys-projects-26ad8edd.vercel.app');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     
