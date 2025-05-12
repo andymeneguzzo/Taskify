@@ -1,3 +1,4 @@
+/* Main task card container styling */
 .task-card {
     background-color: white;
     border: 1px solid #ddd;
@@ -8,44 +9,50 @@
     transition: all 0.2s ease;
   }
   
-  .task-card:hover {
+/* Hover effects for task card */
+.task-card:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
   }
   
-  .task-card.completed {
-    border-left: 5px solid #4caf50;
+/* Status indicator styles (left border colors) */
+.task-card.completed {
+    border-left: 5px solid #4caf50; /* Green for completed */
   }
   
-  .task-card.pending {
-    border-left: 5px solid #ff9800;
+.task-card.pending {
+    border-left: 5px solid #ff9800; /* Orange for pending */
   }
   
-  .task-card.in-progress {
-    border-left: 5px solid #2196f3;
+.task-card.in-progress {
+    border-left: 5px solid #2196f3; /* Blue for in-progress */
   }
   
-  .task-title {
+/* Task title styling */
+.task-title {
     margin-top: 0;
     margin-bottom: 8px;
     font-size: 1.1rem;
   }
   
-  .task-description {
+/* Task description styling */
+.task-description {
     margin-top: 0;
     color: #666;
     font-size: 0.9rem;
     margin-bottom: 10px;
   }
   
-  .task-details {
+/* Container for status and category badges */
+.task-details {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
   }
   
-  .task-status,
-  .task-category {
+/* Base styling for both status and category badges */
+.task-status,
+.task-category {
     display: inline-block;
     font-size: 0.75rem;
     padding: 3px 8px;
@@ -53,54 +60,58 @@
     font-weight: 500;
   }
   
-  .status-completed {
+/* Status badge color variations */
+.status-completed {
     background-color: #e8f5e9;
     color: #2e7d32;
   }
   
-  .status-pending {
+.status-pending {
     background-color: #fff3e0;
     color: #e65100;
   }
   
-  .status-in-progress {
+.status-in-progress {
     background-color: #e3f2fd;
     color: #0d47a1;
   }
   
-  .category-general {
+/* Category badge color variations */
+.category-general {
     background-color: #f5f5f5;
     color: #616161;
   }
   
-  .category-work {
+.category-work {
     background-color: #e1f5fe;
     color: #0277bd;
   }
   
-  .category-personal {
+.category-personal {
     background-color: #f3e5f5;
     color: #7b1fa2;
   }
   
-  .category-education {
+.category-education {
     background-color: #e8eaf6;
     color: #303f9f;
   }
   
-  .category-health {
+.category-health {
     background-color: #e0f2f1;
     color: #00796b;
   }
   
-  .task-actions {
+/* Container for action buttons */
+.task-actions {
     display: flex;
     gap: 8px;
     margin-top: 15px;
     flex-wrap: wrap;
   }
   
-  .task-actions button {
+/* Base button styling */
+.task-actions button {
     padding: 6px 12px;
     border: none;
     border-radius: 4px;
@@ -109,29 +120,32 @@
     transition: background-color 0.2s;
   }
   
-  .toggle-btn {
+/* Toggle complete button styling */
+.toggle-btn {
     background-color: #2196f3;
     color: white;
   }
   
-  .toggle-btn:hover {
+.toggle-btn:hover {
     background-color: #0d8bf0;
   }
   
-  .edit-btn {
+/* Edit button styling */
+.edit-btn {
     background-color: #ff9800;
     color: white;
   }
   
-  .edit-btn:hover {
+.edit-btn:hover {
     background-color: #e68a00;
   }
   
-  .delete-btn {
+/* Delete button styling */
+.delete-btn {
     background-color: #f44336;
     color: white;
   }
   
-  .delete-btn:hover {
+.delete-btn:hover {
     background-color: #e53935;
   }
