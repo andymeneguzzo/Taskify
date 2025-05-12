@@ -162,3 +162,72 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
   opacity: 1;
 }
+
+/* Override focus styles for dark mode to remove white contour */
+.dark-theme .form-group input,
+.dark-theme .form-group textarea,
+.dark-theme .form-group select,
+.dark-theme .date-input {
+  /* Apply the exact same box-shadow as in light mode */
+  box-shadow: var(--neu-inset-shadow);
+}
+
+/* This ensures focus state also uses the correct shadow variable */
+.dark-theme .form-group input:focus,
+.dark-theme .form-group textarea:focus,
+.dark-theme .form-group select:focus,
+.dark-theme .date-input:focus {
+  /* Use the dark mode inset shadow variable directly */
+  box-shadow: var(--neu-inset-shadow);
+  outline: none;
+  border: none;
+}
+
+/* To ensure datetime inputs look correct in dark mode */
+.dark-theme input[type="datetime-local"] {
+  box-shadow: var(--neu-inset-shadow);
+  border: none;
+  outline: none;
+}
+
+.dark-theme input[type="datetime-local"]:focus {
+  box-shadow: var(--neu-inset-shadow);
+  border: none;
+  outline: none;
+}
+
+/* Reset all form-related elements in dark mode to remove white contour */
+.dark-theme .form-group input,
+.dark-theme .form-group textarea,
+.dark-theme .form-group select,
+.dark-theme input[type="text"],
+.dark-theme input[type="datetime-local"],
+.dark-theme textarea,
+.dark-theme select {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: none !important;
+  outline: none !important;
+  box-shadow: var(--neu-inset-shadow);
+}
+
+/* Override all focus states in dark mode */
+.dark-theme .form-group input:focus,
+.dark-theme .form-group textarea:focus,
+.dark-theme .form-group select:focus,
+.dark-theme input[type="text"]:focus,
+.dark-theme input[type="datetime-local"]:focus,
+.dark-theme textarea:focus,
+.dark-theme select:focus {
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.3), inset -2px -2px 5px rgba(50, 50, 50, 0.5) !important;
+  border: none !important;
+  outline: none !important;
+}
+
+/* Ensure dropdowns have the correct styling in dark mode */
+.dark-theme select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  background-size: 16px !important;
+}

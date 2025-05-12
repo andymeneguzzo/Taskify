@@ -203,6 +203,21 @@ h3 { font-size: var(--font-size-large); }
   box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.2), inset -3px -3px 6px rgba(255, 255, 255, 0.7);
 }
 
+/* Dark mode input focus styles - removes white contour */
+.dark-theme .form-group input:focus,
+.dark-theme .form-group textarea:focus,
+.dark-theme .form-group select:focus,
+.dark-theme .search-input:focus,
+.dark-theme .date-input:focus,
+.dark-theme input:focus,
+.dark-theme .neu-input:focus,
+.dark-theme [type="text"]:focus,
+.dark-theme [type="datetime-local"]:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.3), inset -3px -3px 6px rgba(255, 255, 255, 0.05) !important;
+}
+
 .neu-select {
   appearance: none;
   padding-right: 30px;
