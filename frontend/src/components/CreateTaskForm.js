@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import api from '../api/axios';
 import './CreateTaskForm.css';
+import TaskCalendar from './TaskCalendar';
 
 function CreateTaskForm({onTaskCreated}) {
     const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ function CreateTaskForm({onTaskCreated}) {
         reminderDate: ''
     });
 
+    const [showCalendar, setShowCalendar] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -32,6 +34,24 @@ function CreateTaskForm({onTaskCreated}) {
         
         // Clear error when user types
         if (error) setError('');
+    };
+
+    const handleDueDateChange = (date) => {
+        setFormData({
+            ...formData,
+            dueDate: date
+        });
+    };
+
+    const handleReminderDateChange = (date) => {
+        setFormData({
+            ...formData,
+            reminderDate: date
+        });
+    };
+
+    const toggleCalendar = () => {
+        setShowCalendar(!showCalendar);
     };
 
     const handleSubmit = async (e) => {
@@ -88,6 +108,9 @@ function CreateTaskForm({onTaskCreated}) {
                 dueDate: '',
                 reminderDate: ''
             });
+            
+            // Hide calendar
+            setShowCalendar(false);
 
             // Notify parent component about new task
             if(onTaskCreated) {
@@ -100,6 +123,13 @@ function CreateTaskForm({onTaskCreated}) {
         } finally {
             setLoading(false);
         }
+    };
+
+    // Format date for display in the form
+    const formatDateForDisplay = (dateString) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        return `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
     };
 
     /**
@@ -193,34 +223,42 @@ function CreateTaskForm({onTaskCreated}) {
               </div>
             </div>
             
-            {/* Date fields */}
-            <div className="form-row">
+            {/* Dates display */}
+            <div className="form-row dates-container">
               <div className="form-group">
-                <label htmlFor="dueDate">Due Date</label>
-                <input
-                  type="datetime-local"
-                  id="dueDate"
-                  name="dueDate"
-                  value={formData.dueDate}
-                  onChange={handleChange}
-                  disabled={loading}
-                  className="date-input"
-                />
+                <label>Due Date</label>
+                <div className="date-display" onClick={toggleCalendar}>
+                  {formData.dueDate ? (
+                    formatDateForDisplay(formData.dueDate)
+                  ) : (
+                    <span className="no-date">Set due date</span>
+                  )}
+                </div>
               </div>
               
               <div className="form-group">
-                <label htmlFor="reminderDate">Reminder</label>
-                <input
-                  type="datetime-local"
-                  id="reminderDate"
-                  name="reminderDate"
-                  value={formData.reminderDate}
-                  onChange={handleChange}
-                  disabled={loading}
-                  className="date-input"
-                />
+                <label>Reminder</label>
+                <div className="date-display" onClick={toggleCalendar}>
+                  {formData.reminderDate ? (
+                    formatDateForDisplay(formData.reminderDate)
+                  ) : (
+                    <span className="no-date">Set reminder</span>
+                  )}
+                </div>
               </div>
             </div>
+            
+            {/* Calendar Component */}
+            {showCalendar && (
+              <div className="calendar-container">
+                <TaskCalendar
+                  dueDate={formData.dueDate}
+                  reminderDate={formData.reminderDate}
+                  onDueDateChange={handleDueDateChange}
+                  onReminderDateChange={handleReminderDateChange}
+                />
+              </div>
+            )}
             
             <button 
               type="submit" 

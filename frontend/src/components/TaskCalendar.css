@@ -1,0 +1,224 @@
+.task-calendar {
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--neu-shadow);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  width: 100%;
+  max-width: 340px;
+}
+
+/* Calendar Tabs */
+.calendar-tabs {
+  display: flex;
+  margin-bottom: var(--spacing-md);
+}
+
+.calendar-tab {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  background-color: var(--bg-color);
+  border: none;
+  cursor: pointer;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--neu-shadow-small);
+  transition: all 0.2s ease;
+}
+
+.calendar-tab.active {
+  box-shadow: var(--neu-inset-shadow);
+  color: var(--primary-color);
+  font-weight: var(--font-weight-bold);
+}
+
+.calendar-tab:first-child {
+  margin-right: var(--spacing-sm);
+}
+
+/* Calendar Header */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.calendar-month {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-medium);
+}
+
+.calendar-nav-button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-color);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: var(--neu-shadow-small);
+  transition: all 0.2s ease;
+}
+
+.calendar-nav-button:hover {
+  transform: translateY(-2px);
+}
+
+.calendar-nav-button:active {
+  box-shadow: var(--neu-inset-shadow);
+}
+
+/* Calendar Grid */
+.calendar-grid {
+  margin-bottom: var(--spacing-md);
+}
+
+.calendar-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 2px;
+}
+
+.calendar-day-header {
+  text-align: center;
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-muted);
+  padding: 4px 0;
+}
+
+.calendar-day {
+  position: relative;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: var(--border-radius-sm);
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.calendar-day:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.calendar-day.selected {
+  box-shadow: var(--neu-inset-shadow);
+}
+
+.calendar-day.outside-month {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.calendar-day.today {
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-color);
+}
+
+.calendar-day.due-date {
+  color: var(--success-color);
+  font-weight: var(--font-weight-bold);
+}
+
+.calendar-day.reminder-date {
+  color: var(--warning-color);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Date indicators */
+.date-indicator {
+  position: absolute;
+  bottom: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.due-indicator {
+  background-color: var(--success-color);
+  right: 10px;
+}
+
+.reminder-indicator {
+  background-color: var(--warning-color);
+  left: 10px;
+}
+
+/* Time input */
+.calendar-time {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.calendar-time label {
+  margin-right: var(--spacing-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.time-input {
+  flex: 1;
+  padding: 8px 12px;
+  box-shadow: var(--neu-inset-shadow);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* Calendar Legend */
+.calendar-legend {
+  display: flex;
+  justify-content: space-around;
+  padding-top: var(--spacing-sm);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: var(--spacing-xs);
+}
+
+.due-color {
+  background-color: var(--success-color);
+}
+
+.reminder-color {
+  background-color: var(--warning-color);
+}
+
+/* Dark theme adjustments */
+.dark-theme .calendar-day.selected {
+  box-shadow: var(--neu-inset-shadow);
+}
+
+.dark-theme .calendar-day:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark-theme .calendar-nav-button:active {
+  box-shadow: var(--neu-inset-shadow);
+}
+
+.dark-theme .time-input {
+  box-shadow: var(--neu-inset-shadow);
+}
+
+/* Make sure the time picker icon is visible in dark mode */
+.dark-theme input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.8);
+}

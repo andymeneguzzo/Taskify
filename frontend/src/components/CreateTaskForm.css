@@ -231,3 +231,49 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
   background-position: right 10px center !important;
   background-size: 16px !important;
 }
+
+/* Date display */
+.dates-container {
+  margin-bottom: var(--spacing-md);
+}
+
+.date-display {
+  width: 100%;
+  padding: 12px 15px;
+  background-color: var(--bg-color);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--neu-inset-shadow);
+  font-size: 16px;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+}
+
+.date-display:hover {
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.2), inset -2px -2px 4px rgba(255, 255, 255, 0.7);
+}
+
+.no-date {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Calendar container */
+.calendar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--spacing-md);
+}
+
+/* Dark theme adjustments */
+.dark-theme .date-display {
+  box-shadow: var(--neu-inset-shadow);
+}
+
+.dark-theme .date-display:hover {
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.3), inset -2px -2px 5px rgba(50, 50, 50, 0.5);
+}
