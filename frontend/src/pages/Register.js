@@ -84,7 +84,7 @@ function Register() {
 
     return (
         <div className="register-container">
-          <h2>Register</h2>
+          <h2>Start with Taskify</h2>
           {error && <div className="error-message">{error}</div>}
           <form onSubmit={handleSubmit}>
             <div className="form-group">
