@@ -222,3 +222,56 @@
 .dark-theme input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(0.8);
 }
+
+.calendar-done-button {
+  display: block;
+  padding: 6px 12px;
+  margin: var(--spacing-md) auto 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--neu-shadow-small);
+  width: 80px;
+  text-align: center;
+}
+
+.calendar-done-button:hover {
+  transform: translateY(-2px);
+}
+
+.calendar-done-button:active {
+  box-shadow: var(--neu-inset-shadow);
+  transform: translateY(1px);
+}
+
+/* Form Done button - outside the calendar component */
+.form-done-button {
+  display: block;
+  padding: 6px 12px;
+  margin: var(--spacing-md) auto;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--neu-shadow-small);
+  width: 100px;
+  text-align: center;
+}
+
+.form-done-button:hover {
+  transform: translateY(-2px);
+}
+
+.form-done-button:active {
+  box-shadow: var(--neu-inset-shadow);
+  transform: translateY(1px);
+}

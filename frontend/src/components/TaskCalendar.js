@@ -19,11 +19,19 @@ const TaskCalendar = ({ dueDate, reminderDate, onDueDateChange, onReminderDateCh
     }
   }, [dueDate, reminderDate]);
 
-  const handlePrevMonth = () => {
+  const handlePrevMonth = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
   };
 
-  const handleNextMonth = () => {
+  const handleNextMonth = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
   };
 
@@ -143,18 +151,26 @@ const TaskCalendar = ({ dueDate, reminderDate, onDueDateChange, onReminderDateCh
     return date.toLocaleString('default', { month: 'long', year: 'numeric' });
   };
 
+  // Modify the tab switching function to prevent form submission
+  const handleTabChange = (e, tab) => {
+    // Prevent event propagation to avoid triggering form submission
+    e.preventDefault();
+    e.stopPropagation();
+    setActiveTab(tab);
+  };
+
   return (
     <div className="task-calendar">
       <div className="calendar-tabs">
         <button 
           className={`calendar-tab ${activeTab === 'due' ? 'active' : ''}`} 
-          onClick={() => setActiveTab('due')}
+          onClick={(e) => handleTabChange(e, 'due')}
         >
           Due Date
         </button>
         <button 
           className={`calendar-tab ${activeTab === 'reminder' ? 'active' : ''}`} 
-          onClick={() => setActiveTab('reminder')}
+          onClick={(e) => handleTabChange(e, 'reminder')}
         >
           Reminder Date
         </button>

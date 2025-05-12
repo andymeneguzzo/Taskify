@@ -51,7 +51,12 @@ function CreateTaskForm({onTaskCreated}) {
         });
     };
 
-    const toggleCalendar = () => {
+    const toggleCalendar = (e) => {
+        // Prevent the event from reaching any parent form elements
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         setShowCalendar(!showCalendar);
     };
 
@@ -227,7 +232,7 @@ function CreateTaskForm({onTaskCreated}) {
             <div className="form-row dates-container">
               <div className="form-group">
                 <label>Due Date</label>
-                <div className="date-display" onClick={toggleCalendar}>
+                <div className="date-display" onClick={(e) => toggleCalendar(e)}>
                   {formData.dueDate ? (
                     formatDateForDisplay(formData.dueDate)
                   ) : (
@@ -238,7 +243,7 @@ function CreateTaskForm({onTaskCreated}) {
               
               <div className="form-group">
                 <label>Reminder</label>
-                <div className="date-display" onClick={toggleCalendar}>
+                <div className="date-display" onClick={(e) => toggleCalendar(e)}>
                   {formData.reminderDate ? (
                     formatDateForDisplay(formData.reminderDate)
                   ) : (
@@ -248,16 +253,27 @@ function CreateTaskForm({onTaskCreated}) {
               </div>
             </div>
             
-            {/* Calendar Component */}
+            {/* Calendar Component - without form prevention */}
             {showCalendar && (
-              <div className="calendar-container">
-                <TaskCalendar
-                  dueDate={formData.dueDate}
-                  reminderDate={formData.reminderDate}
-                  onDueDateChange={handleDueDateChange}
-                  onReminderDateChange={handleReminderDateChange}
-                />
-              </div>
+              <>
+                <div className="calendar-container" onClick={(e) => e.stopPropagation()}>
+                  <TaskCalendar
+                    dueDate={formData.dueDate}
+                    reminderDate={formData.reminderDate}
+                    onDueDateChange={handleDueDateChange}
+                    onReminderDateChange={handleReminderDateChange}
+                  />
+                </div>
+                <div className="done-button-container">
+                  <button 
+                    type="button" 
+                    className="done-button" 
+                    onClick={(e) => toggleCalendar(e)}
+                  >
+                    Done
+                  </button>
+                </div>
+              </>
             )}
             
             <button 

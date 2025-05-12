@@ -277,3 +277,103 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
 .dark-theme .date-display:hover {
   box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.3), inset -2px -2px 5px rgba(50, 50, 50, 0.5);
 }
+
+/* Form Done button */
+.form-done-button {
+  display: block;
+  padding: 6px 12px;
+  margin: 0 auto var(--spacing-md);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  font-size: 14px;
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--neu-shadow-small);
+  width: 100px;
+  text-align: center;
+}
+
+.form-done-button:hover {
+  transform: translateY(-2px);
+}
+
+.form-done-button:active {
+  box-shadow: var(--neu-inset-shadow);
+  transform: translateY(1px);
+}
+
+/* Calendar wrapper to group calendar and button */
+.calendar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.calendar-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 0; /* Remove bottom margin as we control it in the wrapper */
+}
+
+/* Calendar Done button styling */
+.calendar-done-button {
+  display: block;
+  padding: 8px 16px;
+  margin-top: 8px; /* Small margin to separate from calendar */
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--neu-shadow-small);
+  width: 120px;
+  text-align: center;
+}
+
+.calendar-done-button:hover {
+  transform: translateY(-2px);
+}
+
+.calendar-done-button:active {
+  box-shadow: var(--neu-inset-shadow);
+  transform: translateY(1px);
+}
+
+.done-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.done-button {
+  padding: 8px 16px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--neu-shadow-small);
+  width: 120px;
+  text-align: center;
+}
+
+.done-button:hover {
+  transform: translateY(-2px);
+}
+
+.done-button:active {
+  box-shadow: var(--neu-inset-shadow);
+  transform: translateY(1px);
+}
