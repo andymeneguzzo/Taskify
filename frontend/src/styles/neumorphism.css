@@ -1,0 +1,195 @@
+/* 
+  CSS Variables for Neumorphic Design System
+  Defines all color, shadow, spacing and border radius variables used throughout the UI
+  Follows neumorphism design principles with soft shadows and subtle highlights
+*/
+:root {
+  /* Main colors */
+  --bg-color: #e0e5ec;
+  --text-color: #333;
+  --text-muted: #666;
+  --primary-color: #4d90fe;
+  --primary-dark: #3a7bd5;
+  --success-color: #43a047;
+  --danger-color: #e53935;
+  --warning-color: #ff9800;
+  
+  /* Neumorphism shadows */
+  --neu-shadow-small: 3px 3px 6px rgba(0, 0, 0, 0.15), -3px -3px 6px rgba(255, 255, 255, 0.8);
+  --neu-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15), -5px -5px 10px rgba(255, 255, 255, 0.8);
+  --neu-shadow-large: 10px 10px 20px rgba(0, 0, 0, 0.15), -10px -10px 20px rgba(255, 255, 255, 0.8);
+  
+  /* Inset shadows (pressed state) */
+  --neu-inset-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.15), inset -2px -2px 5px rgba(255, 255, 255, 0.8);
+  
+  /* Border radius */
+  --border-radius-sm: 8px;
+  --border-radius: 12px;
+  --border-radius-lg: 16px;
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+
+/* 
+  Base body styles 
+  Sets up the foundation for neumorphic design with background color and typography
+*/
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Poppins', 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* 
+  Neumorphic Container Styles
+  Creates raised 3D-like elements with soft shadows
+  - neu-container: Standard raised container
+  - neu-container-inset: Pressed/recessed container style
+*/
+.neu-container {
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--neu-shadow);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.neu-container-inset {
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--neu-inset-shadow);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* 
+  Neumorphic Button System
+  Includes base button styles and variants for different states and purposes
+  - Base button with hover/active states
+  - Color variants (primary, danger, warning, success)
+*/
+.neu-button {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--neu-shadow-small);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.neu-button:hover {
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1), -4px -4px 8px rgba(255, 255, 255, 0.9);
+}
+
+.neu-button:active {
+  box-shadow: var(--neu-inset-shadow);
+}
+
+.neu-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Primary button */
+.neu-button-primary {
+  background: linear-gradient(145deg, #55a9ff, #4489df);
+  color: white;
+}
+
+.neu-button-primary:hover {
+  background: linear-gradient(145deg, #4d99ff, #3f80d3);
+}
+
+/* Danger button */
+.neu-button-danger {
+  background: linear-gradient(145deg, #ff5252, #e53935);
+  color: white;
+}
+
+/* Warning button */
+.neu-button-warning {
+  background: linear-gradient(145deg, #ffaa33, #ff9800);
+  color: white;
+}
+
+/* Success button */
+.neu-button-success {
+  background: linear-gradient(145deg, #4caf50, #43a047);
+  color: white;
+}
+
+/* 
+  Form Input Elements
+  Styled to match neumorphic design with inset shadows
+  Includes:
+  - Standard text inputs
+  - Select dropdowns with custom arrow
+*/
+.neu-input {
+  width: 100%;
+  padding: 12px 15px;
+  background-color: var(--bg-color);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--neu-inset-shadow);
+  font-size: 16px;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.neu-input:focus {
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.2), inset -3px -3px 6px rgba(255, 255, 255, 0.7);
+}
+
+.neu-select {
+  appearance: none;
+  padding-right: 30px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+}
+
+/* 
+  Card Component
+  Raised container with hover effects for interactive elements
+*/
+.neu-card {
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--neu-shadow);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.neu-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--neu-shadow-large);
+}
+
+/* 
+  Status Pills
+  Small rounded badges for status indicators
+*/
+.neu-pill {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
