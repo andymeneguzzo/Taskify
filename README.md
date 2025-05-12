@@ -1,4 +1,4 @@
-# 📝 Task Manager App
+# 📝 Taskify - Task Management Application
 
 A full-stack Task Management application built with the **MERN stack** (MongoDB, Express.js, React, Node.js).  
 Easily create, track, and manage your tasks — anytime, anywhere.
@@ -10,44 +10,124 @@ Easily create, track, and manage your tasks — anytime, anywhere.
 
 ## 🚀 Features
 
-- ✅ User Registration & Authentication (JWT)
-- 🗃️ Create, Read, Update, Delete (CRUD) your tasks
-- 📌 Mark tasks as **complete** or **incomplete**
-- 🔍 Filter tasks by **status** (All, Complete, Incomplete)
-- 🏷️ Categorize tasks (Work, Personal, Study, etc.)
-- 📱 Fully responsive layout (mobile & desktop friendly)
+- ✅ User Registration & Authentication with JWT
+- 🔐 Secure password hashing with bcrypt
+- 🗃️ Complete CRUD operations for tasks (Create, Read, Update, Delete)
+- 📌 Task status management (complete/incomplete)
+- 🔍 Filter tasks by status (All, Complete, Incomplete)
+- 🏷️ Task categorization (Work, Personal, Study, etc.)
+- 📱 Fully responsive design for mobile and desktop
+- 🔄 Real-time updates with React state management
+- 🎨 Clean and intuitive user interface
+- 🔒 Protected routes for authenticated users
 
 ---
 
 ## ⚙️ Tech Stack
 
-### 🧠 Frontend (React)
-- React.js (CRA or Vite)
-- Axios
-- React Router
-- LocalStorage for auth token
+### 🧠 Frontend
+- **React.js** (v19.1.0) - UI library
+- **React Router** (v7.6.0) - For navigation and routing
+- **Axios** (v1.9.0) - HTTP client for API requests
+- **Context API** - For state management
+- **CSS** - For styling components
 
-### 🔐 Backend (Node.js & Express)
-- Express.js
-- MongoDB + Mongoose
-- JWT for authentication
-- Bcrypt for password hashing
-- CORS & dotenv
+### 🔐 Backend
+- **Node.js** - JavaScript runtime
+- **Express.js** (v5.1.0) - Web framework
+- **MongoDB** (v6.16.0) - NoSQL database
+- **Mongoose** (v8.14.2) - MongoDB object modeling
+- **JWT** (jsonwebtoken v9.0.2) - For authentication
+- **Bcrypt** (v5.1.1) - For password hashing
+- **CORS** - For cross-origin resource sharing
+- **dotenv** - For environment variables
 
-### 🗄️ Database
-- MongoDB (Cloud via MongoDB Atlas or Local)
+### 🧰 Development Tools
+- **Nodemon** - For hot-reloading during development
+- **React Testing Library** - For frontend testing
 
 ---
 
 ## 📸 Screenshots
 
-> *Include screenshots here once your frontend is done!*
+To add screenshots to your README, follow these steps:
+
+1. **Create a screenshots directory in your project:**
+   ```bash
+   mkdir screenshots
+   ```
+
+2. **Take screenshots of your application** showing different features:
+   - Home/Dashboard page
+   - Task creation form
+   - Login/Registration screens
+   - Task filtering in action
+   - Mobile responsive view
+
+3. **Add screenshots to your README using Markdown:**
+   ```markdown
+   ![Task Creation - Light](./screenshots/task-creation-light.png)
+   ![Task Creation - Dark](./screenshots/task-creation-dark.png)
+   ![Task View - Light](./screenshots/task-view-light.png)
+   ![Task View - Dark](./screenshots/task-view-dark.png)
+   ![Custom Calendar](./screenshots/custom-calendar.png)
+   ![Notifications](./screenshots/notifications.png)
+   ```
+
+4. **For better organization**, you can use tables or sections:
+   ```markdown
+   | Feature | Screenshot |
+   |---------|------------|
+   | Dashboard | ![Dashboard](./screenshots/dashboard.png) |
+   | Task Form | ![Task Form](./screenshots/task-form.png) |
+   ```
+
+> **Tip**: Keep screenshot files under 5MB and use PNG or JPG format for better compatibility.
+
+> **Alternative**: You can also upload screenshots to an image hosting service and use the direct links in your README.
 
 ---
 
 ## 🧑‍💻 Getting Started
 
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB (local or Atlas account)
+
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/andymeneguzzo/taskify.git
+git clone https://github.com/yourusername/taskify.git
 cd taskify
+```
+
+### 2. Set up backend
+```bash
+cd backend
+npm install
+# Create a .env file with your MongoDB URI and JWT secret
+# Example:
+# MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/taskify
+# JWT_SECRET=your_jwt_secret
+# PORT=5000
+npm run dev
+```
+
+### 3. Set up frontend
+```bash
+cd frontend
+npm install
+npm start
+```
+
+### 4. Access the application
+Open your browser and navigate to `http://localhost:3000`
+
+---
+
+## 🤝 Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+
+## 📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
