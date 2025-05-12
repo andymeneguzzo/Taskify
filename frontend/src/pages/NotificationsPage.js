@@ -214,3 +214,5 @@ function NotificationsPage() {
             </div>
         );
 }
+
+export default NotificationsPage;

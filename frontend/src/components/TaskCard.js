@@ -69,12 +69,12 @@ function TaskCard({task, onDelete, onToggleComplete, onEdit}) {
 
     // Check if due date is overdue
     const isOverdue = () => {
-      if (!dueDate) return false;
+      if (!dueDate || status === 'completed') return false;
       
       const now = new Date();
       const due = new Date(dueDate);
       
-      return due < now && status !== 'completed';
+      return due < now;
     };
 
     // Update the date check to be more explicit
@@ -82,7 +82,7 @@ function TaskCard({task, onDelete, onToggleComplete, onEdit}) {
     const hasReminderDate = reminderDate && reminderDate !== null && reminderDate !== undefined && reminderDate !== '';
 
     return (
-      <div className={`task-card ${status}`}>
+      <div className={`task-card ${status} ${isOverdue() ? 'overdue' : ''}`}>
         <div className="task-content">
           <h3 className="task-title">{title}</h3>
           {description && <p className="task-description">{description}</p>}

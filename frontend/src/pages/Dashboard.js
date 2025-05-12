@@ -12,6 +12,7 @@ import CreateTaskForm from '../components/CreateTaskForm';
 import EditTaskForm from '../components/EditTaskForm';
 import TaskFilters from '../components/TaskFilters';
 import ThemeToggle from '../components/ThemeToggle';
+import NotificationBell from '../components/NotificationBell';
 
 import './Dashboard.css'; // Import CSS file for styling
 
@@ -156,6 +157,7 @@ function Dashboard() {
         <div className="dashboard-header">
           <h2>Taskify</h2>
           <div className="dashboard-controls">
+            <NotificationBell />
             <ThemeToggle />
             <button className="logout-btn" onClick={handleLogout}>Logout</button>
           </div>
