@@ -105,7 +105,7 @@ function NotificationsPage() {
               <div className="notifications-header">
                 <h2>Notifications</h2>
                 <button className="back-btn" onClick={() => navigate('/dashboard')}>
-                  Back to Dashboard
+                  Back to home
                 </button>
               </div>
         
