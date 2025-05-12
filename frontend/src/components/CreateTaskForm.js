@@ -46,25 +46,38 @@ function CreateTaskForm({onTaskCreated}) {
         setLoading(true);
 
         try {
-            // Add this logging to see what's being sent to the API
-            console.log('Form data before submission:', formData);
+            // Log the form data
+            console.log('Raw form data:', {
+                dueDate: formData.dueDate,
+                reminderDate: formData.reminderDate
+            });
 
-            // Create a copy of the data to send
+            // Create data to send
             const taskData = { ...formData };
             
-            // Fix date formatting - convert to ISO strings
+            // Explicitly convert dates to ISO strings if they exist
             if (formData.dueDate) {
-                taskData.dueDate = new Date(formData.dueDate).toISOString();
+                console.log('Converting dueDate:', formData.dueDate);
+                const dueDate = new Date(formData.dueDate);
+                taskData.dueDate = dueDate.toISOString();
+                console.log('Converted dueDate:', taskData.dueDate);
             }
             
             if (formData.reminderDate) {
-                taskData.reminderDate = new Date(formData.reminderDate).toISOString();
+                console.log('Converting reminderDate:', formData.reminderDate);
+                const reminderDate = new Date(formData.reminderDate);
+                taskData.reminderDate = reminderDate.toISOString();
+                console.log('Converted reminderDate:', taskData.reminderDate);
             }
             
             console.log('Data being sent to API:', taskData);
 
             const response = await api.post('/tasks', taskData);
             console.log('Response from API:', response.data);
+            console.log('Response includes dates:', {
+                dueDate: response.data.dueDate,
+                reminderDate: response.data.reminderDate
+            });
 
             // clear form after successful submission
             setFormData({

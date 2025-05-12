@@ -5,6 +5,12 @@ function TaskCard({task, onDelete, onToggleComplete, onEdit}) {
     const {_id, title, description, status, category, dueDate, reminderDate} = task;
 
     console.log('Task data in card:', task);
+    console.log('Task dates (explicit check):', {
+      dueDate: task.dueDate,
+      reminderDate: task.reminderDate,
+      dueDate_type: task.dueDate ? typeof task.dueDate : 'not present',
+      reminderDate_type: task.reminderDate ? typeof task.reminderDate : 'not present'
+    });
 
     // category label mapping
     const categoryLabels = {
@@ -95,23 +101,25 @@ function TaskCard({task, onDelete, onToggleComplete, onEdit}) {
           </div>
           
           {/* Date information */}
-          {(dueDate || reminderDate) && (
-            <div className="task-dates">
-              {dueDate && (
-                <div className={`task-due-date ${isDueSoon() ? 'due-soon' : ''} ${isOverdue() ? 'overdue' : ''}`}>
-                  <span className="date-label">Due:</span>
-                  <span className="date-value">{formatDate(dueDate)}</span>
-                </div>
-              )}
-              
-              {reminderDate && (
-                <div className="task-reminder-date">
-                  <span className="date-label">Reminder:</span>
-                  <span className="date-value">{formatDate(reminderDate)}</span>
-                </div>
-              )}
-            </div>
-          )}
+          <div className="task-dates">
+            {task.dueDate ? (
+              <div className={`task-due-date ${isDueSoon() ? 'due-soon' : ''} ${isOverdue() ? 'overdue' : ''}`}>
+                <span className="date-label">Due:</span>
+                <span className="date-value">{formatDate(dueDate) || 'Invalid date format'}</span>
+              </div>
+            ) : null}
+            
+            {task.reminderDate ? (
+              <div className="task-reminder-date">
+                <span className="date-label">Reminder:</span>
+                <span className="date-value">{formatDate(reminderDate) || 'Invalid date format'}</span>
+              </div>
+            ) : null}
+            
+            {!task.dueDate && !task.reminderDate && (
+              <div className="no-dates">No dates set</div>
+            )}
+          </div>
         </div>
         
         <div className="task-actions">

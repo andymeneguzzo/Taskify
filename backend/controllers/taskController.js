@@ -6,9 +6,26 @@ const Task = require('../models/Task');
 
 const getTasks = async (req, res) => {
     try {
-        const tasks = await Task.find({owner: req.user._id});
-        console.log('Tasks retrieved:', tasks);
-        res.status(200).json(tasks);
+        const tasks = await Task.find({owner: req.user._id}).lean();
+        
+        // Process dates for each task
+        const processedTasks = tasks.map(task => {
+            const processedTask = { ...task };
+            
+            // Ensure date fields are serialized properly
+            if (task.dueDate) {
+                processedTask.dueDate = task.dueDate.toISOString();
+            }
+            
+            if (task.reminderDate) {
+                processedTask.reminderDate = task.reminderDate.toISOString();
+            }
+            
+            return processedTask;
+        });
+        
+        console.log('Tasks retrieved and processed:', processedTasks);
+        res.status(200).json(processedTasks);
     } catch(error) {
         console.error('Error fetching tasks:', error);
         res.status(500).json({message: error.message});
@@ -36,24 +53,30 @@ const createTask = async (req, res) => {
             description,
             status,
             category,
-            owner: req.user._id
+            owner: req.user._id,
+            dueDate: dueDate ? new Date(dueDate) : null,
+            reminderDate: reminderDate ? new Date(reminderDate) : null
         };
-        
-        // Only add dates if they exist and are valid
-        if (dueDate) {
-            taskData.dueDate = new Date(dueDate);
-        }
-        
-        if (reminderDate) {
-            taskData.reminderDate = new Date(reminderDate);
-        }
         
         console.log('Creating task with data:', taskData);
         
         const task = await Task.create(taskData);
-        console.log('Created task:', task);
         
-        res.status(201).json(task); // 201 is the status code for created
+        // Convert the Mongoose document to a plain object
+        const taskObject = task.toObject();
+        
+        // Ensure date fields are serialized properly
+        if (taskObject.dueDate) {
+            taskObject.dueDate = taskObject.dueDate.toISOString();
+        }
+        
+        if (taskObject.reminderDate) {
+            taskObject.reminderDate = taskObject.reminderDate.toISOString();
+        }
+        
+        console.log('Created task:', taskObject);
+        
+        res.status(201).json(taskObject); // 201 is the status code for created
     } catch(error) {
         console.error('Error creating task:', error);
         res.status(500).json({message: error.message}); // 500 is the status code for internal server error
@@ -77,11 +100,30 @@ const updateTask = async (req, res) => {
             return res.status(401).json({message: 'User not authorized'}); // 401 is the status code for unauthorized
         }
 
+        // Process date fields before update
+        const updateData = { ...req.body };
+        if (updateData.dueDate) {
+            updateData.dueDate = new Date(updateData.dueDate);
+        }
+        
+        if (updateData.reminderDate) {
+            updateData.reminderDate = new Date(updateData.reminderDate);
+        }
+
         const updatedTask = await Task.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            updateData,
             {new: true}
-        );
+        ).lean();
+        
+        // Ensure date fields are serialized properly
+        if (updatedTask.dueDate) {
+            updatedTask.dueDate = updatedTask.dueDate.toISOString();
+        }
+        
+        if (updatedTask.reminderDate) {
+            updatedTask.reminderDate = updatedTask.reminderDate.toISOString();
+        }
 
         res.status(200).json(updatedTask);
     } catch(error) {

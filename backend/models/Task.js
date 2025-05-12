@@ -35,7 +35,9 @@ const taskSchema = new Schema({
         required: true // need to set an owner for the task
     }
 }, {
-    timestamps: true // add createdAt and updatedAt fields
+    timestamps: true,
+    toJSON: { virtuals: true }, // Enable virtuals when converting to JSON
+    toObject: { virtuals: true } // Enable virtuals when converting to objects
 });
 
 // Create and export Task model
