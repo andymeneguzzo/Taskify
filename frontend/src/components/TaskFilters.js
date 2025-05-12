@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import './TaskFilters.css';
+import CustomDropdown from './CustomDropdown';
 
 function TaskFilters({onFilterChange}) {
     const [filters, setFilters] = useState({
@@ -42,6 +43,24 @@ function TaskFilters({onFilterChange}) {
         onFilterChange(resetFilters);
     };
 
+    // Status filter options
+    const statusOptions = [
+        { value: 'all', label: 'All Statuses' },
+        { value: 'pending', label: 'Pending' },
+        { value: 'in-progress', label: 'In Progress' },
+        { value: 'completed', label: 'Completed' }
+    ];
+
+    // Category filter options
+    const categoryOptions = [
+        { value: 'all', label: 'All Categories' },
+        { value: 'general', label: 'General' },
+        { value: 'work', label: 'Work' },
+        { value: 'personal', label: 'Personal' },
+        { value: 'education', label: 'Education' },
+        { value: 'health', label: 'Health' }
+    ];
+
     /**
      * Renders the task filtering interface with:
      * - A search input field for text-based filtering
@@ -72,35 +91,25 @@ function TaskFilters({onFilterChange}) {
           
           <div className="filter-controls">
             <div className="filter-group">
-              <label htmlFor="status-filter">Status:</label>
-              <select
+              <CustomDropdown
                 id="status-filter"
                 name="status"
+                label="Status"
                 value={filters.status}
                 onChange={handleInputChange}
-              >
-                <option value="all">All Statuses</option>
-                <option value="pending">Pending</option>
-                <option value="in-progress">In Progress</option>
-                <option value="completed">Completed</option>
-              </select>
+                options={statusOptions}
+              />
             </div>
             
             <div className="filter-group">
-              <label htmlFor="category-filter">Category:</label>
-              <select
+              <CustomDropdown
                 id="category-filter"
                 name="category"
+                label="Category"
                 value={filters.category}
                 onChange={handleInputChange}
-              >
-                <option value="all">All Categories</option>
-                <option value="general">General</option>
-                <option value="work">Work</option>
-                <option value="personal">Personal</option>
-                <option value="education">Education</option>
-                <option value="health">Health</option>
-              </select>
+                options={categoryOptions}
+              />
             </div>
             
             <button 

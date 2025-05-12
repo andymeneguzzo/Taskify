@@ -46,11 +46,37 @@
   align-items: center;
 }
 
-/* Individual filter group (label + select) */
+/* Individual filter group (label + dropdown) */
 .filter-group {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
+  min-width: 180px;
+}
+
+/* The filter-group within task-filters needs to handle the dropdown label differently */
+.filter-group .custom-dropdown-container {
+  margin-bottom: 0;
+}
+
+/* Adjust label position for filters dropdown */
+.task-filters .custom-dropdown-container label {
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Fix width of the custom dropdowns in filters */
+.task-filters .custom-dropdown {
+  width: 100%;
+}
+
+/* Adjust dropdown in filter context to be more compact */
+.task-filters .selected-option {
+  padding: 8px 12px;
+  min-height: 38px;
+  font-size: 14px;
+}
+
+/* Make the dropdown list in the filters a bit more compact */
+.task-filters .option-item {
+  padding: 8px 12px;
+  font-size: 14px;
 }
 
 /* Label styling for filter groups */
@@ -109,17 +135,21 @@
   transform: translateY(1px);
 }
 
-/* Responsive styles for mobile devices */
+/* Responsive adjustments */
 @media (max-width: 768px) {
+  .filter-group {
+    width: 100%;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .filter-group .custom-dropdown-container {
+    width: 100%;
+  }
+  
   .filter-controls {
     flex-direction: column;
     align-items: stretch;
     gap: var(--spacing-md);
-  }
-  
-  .filter-group {
-    flex-direction: column;
-    align-items: flex-start;
   }
   
   .filter-group select {
