@@ -1,0 +1,190 @@
+/* Custom Dropdown Container */
+.custom-dropdown-container {
+  position: relative;
+  margin-bottom: var(--spacing-md);
+  width: 100%;
+}
+
+.custom-dropdown-container label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color);
+  font-size: var(--font-size-small);
+  letter-spacing: 0.02em;
+  opacity: 0.9;
+}
+
+.required-marker {
+  color: var(--danger-color);
+  margin-left: 3px;
+}
+
+/* Custom Dropdown */
+.custom-dropdown {
+  position: relative;
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--neu-inset-shadow);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: all 0.3s ease;
+}
+
+.custom-dropdown:hover {
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.18), inset -2px -2px 5px rgba(255, 255, 255, 0.8);
+}
+
+.custom-dropdown:focus {
+  outline: none;
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.2), inset -3px -3px 6px rgba(255, 255, 255, 0.7);
+}
+
+.custom-dropdown.open {
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.2), inset -3px -3px 6px rgba(255, 255, 255, 0.7);
+}
+
+.custom-dropdown.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: var(--neu-inset-shadow);
+  pointer-events: none;
+}
+
+/* Selected Option Display */
+.selected-option {
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 45px;
+  color: var(--text-color);
+  font-size: 16px;
+}
+
+/* Dropdown Arrow */
+.dropdown-arrow {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--text-color);
+  border-bottom: 2px solid var(--text-color);
+  transform: rotate(45deg);
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+  margin-right: 5px;
+}
+
+.custom-dropdown.open .dropdown-arrow {
+  transform: rotate(-135deg);
+  margin-bottom: -5px;
+}
+
+.dark-theme .dropdown-arrow {
+  border-right: 2px solid var(--text-muted);
+  border-bottom: 2px solid var(--text-muted);
+}
+
+/* Options List */
+.options-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 10px;
+  padding: 10px 0;
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--neu-shadow);
+  z-index: 10;
+  max-height: 220px;
+  overflow-y: auto;
+  list-style: none;
+  
+  /* Animation */
+  animation: slideDown 0.2s ease forwards;
+  transform-origin: top center;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: scaleY(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+/* Option Item */
+.option-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-color);
+  font-size: 16px;
+}
+
+.option-item:hover, .option-item.highlighted {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark-theme .option-item:hover, 
+.dark-theme .option-item.highlighted {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.option-item.selected {
+  color: var(--primary-color);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Scrollbar styling */
+.options-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.options-list::-webkit-scrollbar-track {
+  background: var(--bg-color);
+  border-radius: 8px;
+}
+
+.options-list::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  opacity: 0.5;
+  border-radius: 8px;
+}
+
+.options-list::-webkit-scrollbar-thumb:hover {
+  background: var(--text-color);
+  opacity: 0.7;
+}
+
+/* Dark theme customizations */
+.dark-theme .custom-dropdown:hover {
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3), inset -2px -2px 5px rgba(50, 50, 50, 0.5);
+}
+
+.dark-theme .custom-dropdown:focus,
+.dark-theme .custom-dropdown.open {
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.3), inset -3px -3px 6px rgba(50, 50, 50, 0.5);
+}
+
+.dark-theme .options-list {
+  background-color: var(--bg-color);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3), -5px -5px 10px rgba(255, 255, 255, 0.05);
+}
+
+/* Fix for scrollbar in dark mode */
+.dark-theme .options-list::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+.dark-theme .options-list::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+}
+
+.dark-theme .options-list::-webkit-scrollbar-thumb:hover {
+  background: var(--text-color);
+}

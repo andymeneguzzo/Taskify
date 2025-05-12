@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import api from '../api/axios';
 import './CreateTaskForm.css';
 import TaskCalendar from './TaskCalendar';
+import CustomDropdown from './CustomDropdown';
 
 function CreateTaskForm({onTaskCreated}) {
     const [formData, setFormData] = useState({
@@ -191,35 +192,34 @@ function CreateTaskForm({onTaskCreated}) {
             
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="status">Status</label>
-                <select
+                <CustomDropdown
                   id="status"
                   name="status"
+                  label="Status"
                   value={formData.status}
                   onChange={handleChange}
                   disabled={loading}
-                >
-                  <option value="pending">Pending</option>
-                  <option value="in-progress">In Progress</option>
-                  <option value="completed">Completed</option>
-                </select>
+                  options={[
+                    { value: 'pending', label: 'Pending' },
+                    { value: 'in-progress', label: 'In Progress' },
+                    { value: 'completed', label: 'Completed' }
+                  ]}
+                />
               </div>
               
               <div className="form-group">
-                <label htmlFor="category">Category</label>
-                <select
+                <CustomDropdown
                   id="category"
                   name="category"
+                  label="Category"
                   value={formData.category}
                   onChange={handleChange}
                   disabled={loading}
-                >
-                  {categories.map(category => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
+                  options={categories.map(category => ({
+                    value: category.id,
+                    label: category.name
+                  }))}
+                />
               </div>
             </div>
             

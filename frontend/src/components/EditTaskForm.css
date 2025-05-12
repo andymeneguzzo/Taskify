@@ -91,17 +91,18 @@
 }
 
 /* Button container styling */
-.form-actions {
+.form-buttons {
   display: flex;
+  justify-content: space-between;
   gap: var(--spacing-md);
-  margin-top: var(--spacing-sm);
+  margin-top: var(--spacing-md);
 }
 
 /* Update button styling */
-.update-task-button {
+.save-button {
   flex: 1;
   padding: 12px;
-  background: linear-gradient(145deg, #ffaa33, #ff9800);
+  background: linear-gradient(145deg, #ff9800, #f57c00);
   color: white;
   border: none;
   border-radius: var(--border-radius-sm);
@@ -109,26 +110,30 @@
   font-weight: 500;
   cursor: pointer;
   box-shadow: var(--neu-shadow-small);
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
-.update-task-button:hover {
-  background: linear-gradient(145deg, #ff9900, #f57c00);
+.save-button:hover {
+  background: linear-gradient(145deg, #fb8c00, #ef6c00);
+  transform: translateY(-2px);
+  box-shadow: var(--neu-shadow);
 }
 
-.update-task-button:active {
+.save-button:active {
+  transform: translateY(1px);
   box-shadow: var(--neu-inset-shadow);
 }
 
-.update-task-button:disabled {
+.save-button:disabled {
   background: linear-gradient(145deg, #9e9e9e, #757575);
   cursor: not-allowed;
 }
 
 /* Cancel button styling */
 .cancel-button {
-  padding: 12px 24px;
-  background-color: var(--bg-color);
+  flex: 1;
+  padding: 12px;
+  background: linear-gradient(145deg, #e0e0e0, #bdbdbd);
   color: var(--text-color);
   border: none;
   border-radius: var(--border-radius-sm);
@@ -136,20 +141,42 @@
   font-weight: 500;
   cursor: pointer;
   box-shadow: var(--neu-shadow-small);
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .cancel-button:hover {
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1), -4px -4px 8px rgba(255, 255, 255, 0.9);
+  background: linear-gradient(145deg, #d5d5d5, #b5b5b5);
+  transform: translateY(-2px);
+  box-shadow: var(--neu-shadow);
 }
 
 .cancel-button:active {
+  transform: translateY(1px);
   box-shadow: var(--neu-inset-shadow);
 }
 
 .cancel-button:disabled {
-  opacity: 0.6;
+  background: linear-gradient(145deg, #9e9e9e, #757575);
+  opacity: 0.7;
   cursor: not-allowed;
+}
+
+/* Dark theme button adjustments */
+.dark-theme .save-button {
+  background: linear-gradient(145deg, #ff9800, #e65100);
+}
+
+.dark-theme .save-button:hover {
+  background: linear-gradient(145deg, #fb8c00, #d84315);
+}
+
+.dark-theme .cancel-button {
+  background: linear-gradient(145deg, #455a64, #37474f);
+  color: #e0e0e0;
+}
+
+.dark-theme .cancel-button:hover {
+  background: linear-gradient(145deg, #546e7a, #455a64);
 }
 
 /* Responsive layout for mobile devices */
@@ -157,4 +184,50 @@
   .form-row {
     grid-template-columns: 1fr; /* Stack fields vertically on small screens */
   }
+}
+
+/* Date display */
+.dates-container {
+  margin-bottom: var(--spacing-md);
+}
+
+.date-display {
+  width: 100%;
+  padding: 12px 15px;
+  background-color: var(--bg-color);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--neu-inset-shadow);
+  font-size: 16px;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+}
+
+.date-display:hover {
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.2), inset -2px -2px 4px rgba(255, 255, 255, 0.7);
+}
+
+.no-date {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Calendar container */
+.calendar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--spacing-md);
+}
+
+/* Dark theme adjustments */
+.dark-theme .date-display {
+  box-shadow: var(--neu-inset-shadow);
+}
+
+.dark-theme .date-display:hover {
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.3), inset -2px -2px 5px rgba(50, 50, 50, 0.5);
 }
