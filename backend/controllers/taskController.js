@@ -19,7 +19,7 @@ const getTasks = async (req, res) => {
 
 const createTask = async (req, res) => {
     try {
-        const {title, status} = req.body;
+        const {title, description, status, category} = req.body;
 
         if(!title) {
             return res.status(400).json({message: 'Please add a title'}); // 400 is the status code for bad request
@@ -27,7 +27,9 @@ const createTask = async (req, res) => {
 
         const task = await Task.create({
             title,
+            description,
             status,
+            category,
             owner: req.user._id
         });
 

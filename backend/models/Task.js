@@ -16,6 +16,11 @@ const taskSchema = new Schema({
         enum: ['pending', 'in-progress', 'completed'],
         default: 'pending'
     },
+    category: {
+        type: String,
+        enum: ['general', 'work', 'personal', 'education', 'health'],
+        default: 'general'
+    },
     owner: {
         type: Schema.Types.ObjectId, // reference to the User that is of type id
         ref: 'User',
