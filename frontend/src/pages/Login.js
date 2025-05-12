@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import api from '../api/axios';
 function Login() {
@@ -7,6 +7,13 @@ function Login() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    // Check if user is already logged in
+    useEffect(() => {
+      if (localStorage.getItem('token')) {
+          navigate('/dashboard');
+      }
+    }, [navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

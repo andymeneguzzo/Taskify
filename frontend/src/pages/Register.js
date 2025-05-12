@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import api from '../api/axios';
 
@@ -27,6 +27,13 @@ function Register() {
     
     // Navigation hook - provides programmatic navigation to other routes
     const navigate = useNavigate();
+
+    // Add this useEffect hook to check if user is already logged in
+    useEffect(() => {
+      if (localStorage.getItem('token')) {
+          navigate('/dashboard');
+      }
+  }, [navigate]);
 
 
     const handleSubmit = async (e) => {

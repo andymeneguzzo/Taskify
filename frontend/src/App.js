@@ -3,31 +3,18 @@ import './App.css';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
-  // This is a simple check - you would normally verify tokens or use a proper auth state
-  const isAuthenticated = () => {
-    return localStorage.getItem('token') !== null;
-  };
-
-  // Protected route component
-  const ProtectedRoute = ({ children }) => {
-    if (!isAuthenticated()) {
-      // Redirect to login if not authenticated
-      return <Navigate to="/login" />;
-    }
-    return children;
-  };
-
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
-          {/* Public routes accessible to all users */}
+          {/* Public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           
-          {/* Protected route - only accessible when authenticated */}
+          {/* Protected routes */}
           <Route 
             path="/dashboard" 
             element={
@@ -37,8 +24,18 @@ function App() {
             } 
           />
           
-          {/* Default route redirects to login page */}
-          <Route path="/" element={<Navigate to="/login" />} />
+          {/* Redirect root to dashboard or login based on auth state */}
+          <Route 
+            path="/" 
+            element={
+              localStorage.getItem('token') 
+                ? <Navigate to="/dashboard" replace />
+                : <Navigate to="/login" replace />
+            } 
+          />
+          
+          {/* Catch all - redirect to login */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </div>
     </BrowserRouter>
