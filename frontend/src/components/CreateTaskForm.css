@@ -20,12 +20,18 @@
   border-radius: var(--border-radius-sm);
   margin-bottom: var(--spacing-md);
   font-size: 14px;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .create-task-form {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .form-group {
@@ -90,15 +96,18 @@
   font-weight: 500;
   cursor: pointer;
   box-shadow: var(--neu-shadow-small);
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   margin-top: var(--spacing-sm);
 }
 
 .create-task-button:hover {
   background: linear-gradient(145deg, #43a047, #388e3c);
+  transform: translateY(-2px);
+  box-shadow: var(--neu-shadow);
 }
 
 .create-task-button:active {
+  transform: translateY(1px);
   box-shadow: var(--neu-inset-shadow);
 }
 

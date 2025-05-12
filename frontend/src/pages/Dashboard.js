@@ -195,13 +195,14 @@ function Dashboard() {
           ) : (
             <div className="tasks-grid">
               {filteredTasks.map(task => (
-                <TaskCard
-                  key={task._id}
-                  task={task}
-                  onDelete={handleDeleteTask}
-                  onToggleComplete={handleToggleComplete}
-                  onEdit={handleEditTask}
-                />
+                <div key={task._id} className="task-item-container">
+                  <TaskCard
+                    task={task}
+                    onDelete={handleDeleteTask}
+                    onToggleComplete={handleToggleComplete}
+                    onEdit={handleEditTask}
+                  />
+                </div>
               ))}
             </div>
           )}

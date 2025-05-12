@@ -18,6 +18,11 @@
 
 .register-container .form-group {
   margin-bottom: var(--spacing-lg);
+  /* Center the form group */
+  width: 100%;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .register-container label {
@@ -46,6 +51,7 @@
 
 .register-container button {
   width: 100%;
+  max-width: 320px;
   padding: 12px;
   background: linear-gradient(145deg, #55a9ff, #4489df);
   color: white;
@@ -55,14 +61,19 @@
   font-weight: 500;
   cursor: pointer;
   box-shadow: var(--neu-shadow-small);
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 0 auto;
 }
 
 .register-container button:hover {
   background: linear-gradient(145deg, #4d99ff, #3f80d3);
+  transform: translateY(-2px);
+  box-shadow: var(--neu-shadow);
 }
 
 .register-container button:active {
+  transform: translateY(1px);
   box-shadow: var(--neu-inset-shadow);
 }
 

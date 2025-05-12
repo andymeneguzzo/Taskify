@@ -27,14 +27,17 @@
     font-weight: 500;
     cursor: pointer;
     box-shadow: var(--neu-shadow-small);
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
   }
   
   .logout-btn:hover {
     background: linear-gradient(145deg, #f44336, #d32f2f);
+    transform: translateY(-2px);
+    box-shadow: var(--neu-shadow);
   }
   
   .logout-btn:active {
+    transform: translateY(1px);
     box-shadow: var(--neu-inset-shadow);
   }
   
@@ -94,7 +97,14 @@
   .tasks-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
+    gap: 40px;
+    margin-top: var(--spacing-lg);
+    row-gap: 40px;
+  }
+  
+  .task-item-container {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
   }
   
   @media (max-width: 768px) {

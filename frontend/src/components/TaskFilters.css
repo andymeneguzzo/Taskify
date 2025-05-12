@@ -10,6 +10,9 @@
 /* Container for search input section */
 .filter-search {
   margin-bottom: var(--spacing-lg);
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Styling for search input field with search icon */
@@ -91,17 +94,19 @@
   font-size: 14px;
   cursor: pointer;
   box-shadow: var(--neu-shadow-small);
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 /* Hover state for clear filters button */
 .clear-filters-btn:hover {
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1), -4px -4px 8px rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
 }
 
 /* Active state for clear filters button */
 .clear-filters-btn:active {
   box-shadow: var(--neu-inset-shadow);
+  transform: translateY(1px);
 }
 
 /* Responsive styles for mobile devices */
