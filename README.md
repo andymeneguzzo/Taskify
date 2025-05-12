@@ -65,14 +65,14 @@ To add screenshots to your README, follow these steps:
    - Mobile responsive view
 
 3. **Add screenshots to your README using Markdown:**
-   ```markdown
+
    ![Task Creation - Light](./screenshots/task-creation-light.png)
    ![Task Creation - Dark](./screenshots/task-creation-dark.png)
    ![Task View - Light](./screenshots/task-view-light.png)
    ![Task View - Dark](./screenshots/task-view-dark.png)
    ![Custom Calendar](./screenshots/custom-calendar.png)
    ![Notifications](./screenshots/notifications.png)
-   ```
+
 
 4. **For better organization**, you can use tables or sections:
    ```markdown
