@@ -7,6 +7,10 @@ const taskSchema = new Schema({
         required: [true, 'Title is required'],
         trim: true,
     },
+    description: {
+        type: String,
+        trim: true,
+    },
     status: {
         type: String,
         enum: ['pending', 'in progress', 'completed'],

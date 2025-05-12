@@ -1,4 +1,6 @@
 # all files that will be ignored
+stufftofix.txt
+
 
 # Dependencies
 node_modules/
