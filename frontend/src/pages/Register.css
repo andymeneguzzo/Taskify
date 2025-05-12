@@ -1,0 +1,83 @@
+/* Same styles as Login.css with potentially different spacing */
+.register-container {
+  max-width: 450px;
+  margin: 50px auto;
+  padding: var(--spacing-xl);
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--neu-shadow);
+}
+
+.register-container h2 {
+  margin-top: 0;
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.register-container .form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.register-container label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.register-container input {
+  width: 100%;
+  padding: 12px 15px;
+  background-color: var(--bg-color);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--neu-inset-shadow);
+  font-size: 16px;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.register-container input:focus {
+  outline: none;
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.2), inset -3px -3px 6px rgba(255, 255, 255, 0.7);
+}
+
+.register-container button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(145deg, #55a9ff, #4489df);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--neu-shadow-small);
+  transition: all 0.2s ease;
+}
+
+.register-container button:hover {
+  background: linear-gradient(145deg, #4d99ff, #3f80d3);
+}
+
+.register-container button:active {
+  box-shadow: var(--neu-inset-shadow);
+}
+
+.register-container p {
+  margin-top: var(--spacing-lg);
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.register-container a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-container a:hover {
+  text-decoration: underline;
+}

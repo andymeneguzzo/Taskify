@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import api from '../api/axios';
 
+import './Register.css';
+
 function Register() {
     // useState is a React Hook that lets you add state to functional components
     // Each line declares a state variable and its setter function with an initial value
