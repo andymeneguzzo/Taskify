@@ -1,0 +1,134 @@
+/* Main container styling for the edit task form */
+.edit-task-form-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
+  border-left: 4px solid #ff9800; /* Orange accent border */
+}
+
+/* Header styling inside the form container */
+.edit-task-form-container h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+/* Error message styling */
+.edit-task-error {
+  background-color: #ffebee; /* Light red background */
+  color: #c62828; /* Dark red text */
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+/* Form layout and spacing */
+.edit-task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Space between form groups */
+}
+
+/* Form field group styling */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Space between label and input */
+}
+
+/* Label styling for form fields */
+.form-group label {
+  font-weight: 500;
+  color: #444;
+  font-size: 0.9rem;
+}
+
+/* Input, textarea and select field styling */
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s; /* Smooth transition for focus */
+}
+
+/* Focus state for form fields */
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #ff9800; /* Orange border on focus */
+  box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.1); /* Subtle glow */
+}
+
+/* Two-column layout for status and category fields */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+/* Button container styling */
+.form-actions {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+  margin-top: 5px;
+}
+
+/* Update button styling */
+.update-task-button {
+  background-color: #ff9800; /* Orange */
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  flex: 1; /* Take available space */
+}
+
+.update-task-button:hover {
+  background-color: #f57c00; /* Darker orange on hover */
+}
+
+.update-task-button:disabled {
+  background-color: #9e9e9e; /* Gray when disabled */
+  cursor: not-allowed;
+}
+
+/* Cancel button styling */
+.cancel-button {
+  background-color: #e0e0e0; /* Light gray */
+  color: #424242;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.cancel-button:hover {
+  background-color: #bdbdbd; /* Darker gray on hover */
+}
+
+.cancel-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive layout for mobile devices */
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr; /* Stack fields vertically on small screens */
+  }
+}
