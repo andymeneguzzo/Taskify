@@ -126,7 +126,7 @@ function Dashboard() {
     return (
       <div className="dashboard-container">
         <div className="dashboard-header">
-          <h2>Your Tasks</h2>
+          <h2>Taskify</h2>
           <button className="logout-btn" onClick={handleLogout}>Logout</button>
         </div>
         
