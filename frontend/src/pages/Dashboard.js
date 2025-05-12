@@ -7,8 +7,9 @@ import api from '../api/axios'; // Pre-configured axios instance for API calls
 
 // Component imports
 import TaskCard from '../components/TaskCard';
-import TaskForm from '../components/TaskForm'; // kept for editing tasks
+// import TaskForm from '../components/TaskForm'; // not using it anymore
 import CreateTaskForm from '../components/CreateTaskForm';
+import EditTaskForm from '../components/EditTaskForm';
 
 import './Dashboard.css'; // Import CSS file for styling
 
@@ -56,35 +57,13 @@ function Dashboard() {
         setEditingTask({...task});
     };
 
-    // Save edited task
-    const handleUpdateTask = async () => {
-        if (!editingTask || !editingTask.title.trim()) return;
-        
-        try {
-          // Send PUT request to update the task on the server
-          // - Uses the task's _id in the URL to identify which task to update
-          // - Sends the updated task data (editingTask) in the request body
-          const response = await api.put(`/tasks/${editingTask._id}`, editingTask);
-          
-          // Update the local tasks state with the server's response
-          // - Maps through existing tasks array
-          // - Replaces the matching task with the updated version from server
-          // - Keeps all other tasks unchanged
-          setTasks(tasks.map(task => 
-            task._id === editingTask._id ? response.data : task
-          ));
-          
-          // Reset editing state by setting editingTask to null
-          // This closes the edit form/modal
-          setEditingTask(null);
-        } catch (err) {
-          // Handle any errors that occur during the update
-          // - Shows user-friendly error message
-          // - Logs detailed error to console for debugging
-          setError('Failed to update task. Please try again.');
-          console.error('Error updating task:', err);
-        }
-    };
+    // Update task
+  const handleTaskUpdated = (updatedTask) => {
+    setTasks(tasks.map(task => 
+      task._id === updatedTask._id ? updatedTask : task
+    ));
+    setEditingTask(null);
+  };
 
     // Cancel editing
     const handleCancelEdit = () => {
@@ -129,18 +108,15 @@ function Dashboard() {
         {error && <div className="error-message">{error}</div>}
         
         {/* Task form section - either CreateTaskForm or EditTaskForm */}
-      {editingTask ? (
-        <div className="task-form-section">
-          <h3>Edit Task</h3>
-          <TaskForm 
+        {editingTask ? (
+          <EditTaskForm 
             task={editingTask} 
-            onSubmit={handleUpdateTask}
+            onTaskUpdated={handleTaskUpdated}
             onCancel={handleCancelEdit}
           />
-        </div>
         ) : (
-        <CreateTaskForm onTaskCreated={handleTaskCreated} />
-      )}
+          <CreateTaskForm onTaskCreated={handleTaskCreated} />
+        )}
         
         {/* Tasks list */}
         <div className="tasks-section">
