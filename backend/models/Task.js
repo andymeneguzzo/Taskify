@@ -29,6 +29,10 @@ const taskSchema = new Schema({
         type: Date,
         default: null
     },
+    notified: {
+        type: Boolean,
+        default: false
+    },
     owner: {
         type: Schema.Types.ObjectId, // reference to the User that is of type id
         ref: 'User',
