@@ -46,7 +46,7 @@ function Register() {
         
         try {
           // Make API POST request to register endpoint with user data
-          const response = await api.post('/users/register', {
+          const response = await api.post('/users', {
             name,     // User's full name
             email,    // User's email address
             password  // User's chosen password

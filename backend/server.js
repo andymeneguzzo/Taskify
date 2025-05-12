@@ -14,7 +14,21 @@ const app = express();
 connectDB();
 
 // setup middleware
-app.use(cors());
+// Replace the simple app.use(cors()) with a more detailed configuration
+// CORS middleware - place this BEFORE any route definitions
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+      return res.status(200).end();
+    }
+    
+    next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
@@ -28,7 +42,7 @@ app.use('/api/users', require('./routes/userRoutes')); // send /api/users reques
 app.use('/api/tasks', require('./routes/taskRoutes')); // same but for tasks
 
 // Define port
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Start server
 app.listen(PORT, () => {

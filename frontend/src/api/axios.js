@@ -11,7 +11,7 @@ import axios from 'axios';
  * - timeout: Sets request timeout to 10 seconds (10000ms)
  */
 const api = axios.create({
-    baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
+    baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5001/api',
     headers: {
         'Content-Type': 'application/json',
     },
