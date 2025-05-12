@@ -16,7 +16,7 @@ function Dashboard() {
     const [tasks, setTasks] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [newTask, setNewTask] = useState({ title: '', description: '' });
+    // const [newTask, setNewTask] = useState({ title: '', description: '' }); -> not being used now
     const [editingTask, setEditingTask] = useState(null);
     const navigate = useNavigate();
 
