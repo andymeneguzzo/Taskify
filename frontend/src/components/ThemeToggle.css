@@ -1,0 +1,40 @@
+.theme-toggle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  outline: none;
+  position: relative;
+  color: var(--text-color);
+}
+
+.theme-toggle-btn.light {
+  background-color: var(--bg-color);
+  box-shadow: var(--neu-shadow-small);
+}
+
+.theme-toggle-btn.light:hover {
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1), -4px -4px 8px rgba(255, 255, 255, 0.9);
+}
+
+.theme-toggle-btn.light:active {
+  box-shadow: var(--neu-inset-shadow);
+}
+
+.theme-toggle-btn.dark {
+  background-color: var(--bg-color);
+  box-shadow: var(--neu-shadow-small);
+}
+
+.theme-toggle-btn.dark:hover {
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25), -4px -4px 8px rgba(255, 255, 255, 0.1);
+}
+
+.theme-toggle-btn.dark:active {
+  box-shadow: var(--neu-inset-shadow);
+}

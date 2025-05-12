@@ -11,6 +11,7 @@ import TaskCard from '../components/TaskCard';
 import CreateTaskForm from '../components/CreateTaskForm';
 import EditTaskForm from '../components/EditTaskForm';
 import TaskFilters from '../components/TaskFilters';
+import ThemeToggle from '../components/ThemeToggle';
 
 import './Dashboard.css'; // Import CSS file for styling
 
@@ -154,7 +155,10 @@ function Dashboard() {
       <div className="dashboard-container">
         <div className="dashboard-header">
           <h2>Taskify</h2>
-          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+          <div className="dashboard-controls">
+            <ThemeToggle />
+            <button className="logout-btn" onClick={handleLogout}>Logout</button>
+          </div>
         </div>
         
         {error && <div className="error-message">{error}</div>}

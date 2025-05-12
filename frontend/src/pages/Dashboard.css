@@ -8,7 +8,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: 30px;
   }
   
   .dashboard-header h2 {
@@ -125,4 +125,11 @@
       align-items: flex-start;
       gap: var(--spacing-sm);
     }
+  }
+  
+  /* Add these styles to position the theme toggle */
+  .dashboard-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
   }

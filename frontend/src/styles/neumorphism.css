@@ -49,6 +49,27 @@
   --spacing-xl: 32px;
 }
 
+/* Dark theme variables */
+.dark-theme {
+  /* Main colors - dark mode */
+  --bg-color: #2d3748;
+  --text-color: #e2e8f0;
+  --text-muted: #a0aec0;
+  --primary-color: #63b3ed;
+  --primary-dark: #4299e1;
+  --success-color: #68d391;
+  --danger-color: #fc8181;
+  --warning-color: #f6ad55;
+  
+  /* Neumorphism shadows - dark mode */
+  --neu-shadow-small: 3px 3px 6px rgba(0, 0, 0, 0.25), -3px -3px 6px rgba(255, 255, 255, 0.1);
+  --neu-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25), -5px -5px 10px rgba(255, 255, 255, 0.1);
+  --neu-shadow-large: 10px 10px 20px rgba(0, 0, 0, 0.25), -10px -10px 20px rgba(255, 255, 255, 0.1);
+  
+  /* Inset shadows (pressed state) - dark mode */
+  --neu-inset-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.25), inset -2px -2px 5px rgba(255, 255, 255, 0.1);
+}
+
 /* 
   Base body styles 
   Sets up the foundation for neumorphic design with background color and typography
