@@ -19,6 +19,7 @@ router.route('/')
 // Update and delete a task by ID
 router.route('/:id')
     .put(updateTask)
+    .patch(updateTask) // patch method is used to update a task
     .delete(deleteTask);
 
 module.exports = router;
