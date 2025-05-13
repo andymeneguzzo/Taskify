@@ -115,7 +115,7 @@ function TopicForm({ topic, onSubmit, onCancel }) {
           ...formData.subtopics,
           {
             title: newSubtopic.trim(),
-            completed: false,
+            completed: false
           },
         ],
       });
@@ -233,11 +233,12 @@ function TopicForm({ topic, onSubmit, onCancel }) {
         formDataToSend.append('description', formData.description);
       }
       
-      // Add subtopics as JSON string - ensure no temporary IDs
+      // Clean subtopics by removing _id fields before sending
       const cleanedSubtopics = formData.subtopics.map(subtopic => ({
         title: subtopic.title,
         completed: subtopic.completed || false
       }));
+      
       formDataToSend.append('subtopics', JSON.stringify(cleanedSubtopics));
       
       // Add file if present
@@ -282,41 +283,43 @@ function TopicForm({ topic, onSubmit, onCancel }) {
     } catch (error) {
       console.error('Error submitting topic:', error);
       
-      // Create a local representation of the topic for immediate display
-      const newTopic = {
-        _id: `temp-${Date.now()}`,
-        title: formData.title,
-        description: formData.description || '',
-        subtopics: formData.subtopics.map(subtopic => ({
-          _id: `temp-subtopic-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          title: subtopic.title,
-          completed: subtopic.completed || false
-        })),
-        isTemporary: true
-      };
-      
-      // Call onSubmit with our local representation
-      if (onSubmit) {
-        onSubmit(newTopic);
-      }
-      
-      // Reset form since we're showing the topic anyway
-      if (!isEditing) {
-        setFormData({
-          title: '',
-          description: '',
-          subtopics: [],
+      // Handle success-despite-error case for temporary topics
+      if (error.response?.status === 500) {
+        // Create a local version of the topic for immediate display
+        const tempTopic = {
+          _id: `temp-${Date.now()}`,
+          title: formData.title,
+          description: formData.description || '',
+          subtopics: formData.subtopics.map(subtopic => ({
+            title: subtopic.title,
+            completed: subtopic.completed || false
+          })),
+          isTemporary: true // Flag to identify this is temporary
+        };
+        
+        // Call onSubmit with our temporary topic
+        if (onSubmit) {
+          onSubmit(tempTopic);
+        }
+        
+        // Reset form anyway
+        if (!isEditing) {
+          setFormData({
+            title: '',
+            description: '',
+            subtopics: [],
+          });
+          setMainAttachment(null);
+          setMainAttachmentName('');
+          setNewSubtopic('');
+        }
+      } else {
+        // Show error message for other kinds of errors
+        setErrors({
+          ...errors,
+          form: error.response?.data?.message || 'An error occurred while saving the topic.',
         });
-        setMainAttachment(null);
-        setMainAttachmentName('');
-        setNewSubtopic('');
       }
-      
-      // Still show error message for debugging
-      setErrors({
-        ...errors,
-        form: error.response?.data?.message || 'An error occurred while saving the topic. It will appear after refreshing.',
-      });
     } finally {
       setLoading(false);
     }
@@ -401,7 +404,7 @@ function TopicForm({ topic, onSubmit, onCancel }) {
             <ul className="subtopics-list">
               {formData.subtopics.map((subtopic, index) => (
                 <li 
-                  key={subtopic._id || `temp-item-${index}`}
+                  key={`temp-item-${index}`}
                   className="subtopic-item"
                   draggable={true}
                   onDragStart={(e) => handleDragStart(e, index)}

@@ -117,12 +117,73 @@ export const TopicProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     
+    // Extract the data we need for optimistic UI update
+    let tempTopic = null;
+    
+    if (topicData instanceof FormData) {
+      const title = topicData.get('title');
+      const description = topicData.get('description') || '';
+      const subtopicsString = topicData.get('subtopics') || '[]';
+      let subtopics = [];
+      
+      try {
+        subtopics = JSON.parse(subtopicsString);
+        // Clean the subtopics of any temporary IDs
+        subtopics = subtopics.map(subtopic => ({
+          title: subtopic.title,
+          completed: subtopic.completed || false
+        }));
+      } catch (err) {
+        console.error('Error parsing subtopics:', err);
+      }
+      
+      // Create a temporary topic for immediate display
+      tempTopic = {
+        _id: `temp-${Date.now()}`,
+        title,
+        description,
+        subtopics,
+        isTemporary: true
+      };
+      
+      // Immediately update the UI with the temp topic
+      setTopics(prevTopics => [...prevTopics, tempTopic]);
+    }
+    
     try {
       let response;
       
       // Check if we're sending a file (FormData) or just JSON
       if (topicData instanceof FormData) {
-        response = await api.post('/topics', topicData, {
+        // Clone the FormData to create a clean version
+        const cleanFormData = new FormData();
+        
+        // Add the basic fields
+        cleanFormData.append('title', topicData.get('title'));
+        if (topicData.get('description')) {
+          cleanFormData.append('description', topicData.get('description'));
+        }
+        
+        // Clean the subtopics JSON by removing any _id fields
+        const subtopicsString = topicData.get('subtopics') || '[]';
+        try {
+          const subtopics = JSON.parse(subtopicsString);
+          // Remove any _id fields
+          const cleanSubtopics = subtopics.map(subtopic => ({
+            title: subtopic.title,
+            completed: subtopic.completed || false
+          }));
+          cleanFormData.append('subtopics', JSON.stringify(cleanSubtopics));
+        } catch (e) {
+          cleanFormData.append('subtopics', '[]');
+        }
+        
+        // Add file if present
+        if (topicData.get('attachment')) {
+          cleanFormData.append('attachment', topicData.get('attachment'));
+        }
+        
+        response = await api.post('/topics', cleanFormData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -131,39 +192,31 @@ export const TopicProvider = ({ children }) => {
         response = await api.post('/topics', topicData);
       }
       
-      // Update state with new topic
-      setTopics(prevTopics => [...prevTopics, response.data]);
+      // If we had a temporary topic, replace it with the real one
+      if (tempTopic) {
+        setTopics(prevTopics => 
+          prevTopics.map(topic => 
+            topic._id === tempTopic._id ? response.data : topic
+          )
+        );
+      } else {
+        // Otherwise just add the new topic
+        setTopics(prevTopics => [...prevTopics, response.data]);
+      }
       
       return response.data;
     } catch (err) {
       console.error('Error adding topic:', err);
-      setError('Failed to add topic');
+      setError('Failed to add topic. The topic may have been created but couldn\'t be displayed. Try refreshing.');
       
-      // Extract topic data from the form
-      let newTopic;
-      if (topicData instanceof FormData) {
-        // For FormData, extract the title and other fields
-        const title = topicData.get('title');
-        const description = topicData.get('description') || '';
-        const subtopicsJson = topicData.get('subtopics') || '[]';
-        const subtopics = JSON.parse(subtopicsJson);
-        
-        // Create a temporary topic with generated id
-        newTopic = {
-          _id: `temp-${Date.now()}`, // Temporary ID
-          title,
-          description,
-          subtopics,
-          isTemporary: true // Flag to identify this as a temp item
-        };
-        
-        // Add the temporary topic to the state
-        setTopics(prevTopics => [...prevTopics, newTopic]);
-        
-        return newTopic;
-      }
+      // Even if server returns an error, we leave the temporary topic in the UI
+      // and initiate a refresh of topics after a short delay
+      setTimeout(() => {
+        fetchTopics();
+      }, 2000);
       
-      throw err;
+      // Return the temporary topic as a fallback
+      return tempTopic;
     } finally {
       setLoading(false);
     }
