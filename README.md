@@ -10,6 +10,7 @@ Easily create, track, and manage your tasks — anytime, anywhere.
 
 ## 🚀 Features
 
+### Task Management
 - ✅ User Registration & Authentication with JWT
 - 🔐 Secure password hashing with bcrypt
 - 🗃️ Complete CRUD operations for tasks (Create, Read, Update, Delete)
@@ -21,6 +22,15 @@ Easily create, track, and manage your tasks — anytime, anywhere.
 - 🎨 Clean and intuitive user interface
 - 🔒 Protected routes for authenticated users
 
+### Studify - Study Planning & Tracking
+- 📚 Create and organize study topics with subtopics
+- ✓ Check off completed subtopics to track your progress
+- 📊 Visual progress tracking with completion percentage
+- 📎 Attach PDF files to both topics and subtopics for easy reference
+- 🔄 Drag-and-drop interface to reorder subtopics
+- 📱 Fully responsive study planning for all devices
+- 🗂️ Organized study material management for students
+
 ---
 
 ## ⚙️ Tech Stack
@@ -31,6 +41,7 @@ Easily create, track, and manage your tasks — anytime, anywhere.
 - **Axios** (v1.9.0) - HTTP client for API requests
 - **Context API** - For state management
 - **CSS** - For styling components
+- **HTML5 Drag and Drop API** - For reordering study topics
 
 ### 🔐 Backend
 - **Node.js** - JavaScript runtime
@@ -41,6 +52,7 @@ Easily create, track, and manage your tasks — anytime, anywhere.
 - **Bcrypt** (v5.1.1) - For password hashing
 - **CORS** - For cross-origin resource sharing
 - **dotenv** - For environment variables
+- **Multer** - For file uploads (PDF attachments)
 
 ### 🧰 Development Tools
 - **Nodemon** - For hot-reloading during development
@@ -56,6 +68,7 @@ Easily create, track, and manage your tasks — anytime, anywhere.
    ![Task View - Dark](./screenshots/task-view-dark.png)
    ![Custom Calendar](./screenshots/custom-calendar.png)
    ![Notifications](./screenshots/notifications.png)
+   ![Studify Topic Management](./screenshots/studify-topics.png)
 ---
 
 ## 🧑‍💻 Getting Started
