@@ -35,13 +35,44 @@ export const TopicProvider = ({ children }) => {
     setError(null);
     
     try {
-      const response = await api.get('/topics');
-      setTopics(response.data);
+      // Check if we are in development mode and use mock data directly
+      if (process.env.NODE_ENV === 'development' || process.env.REACT_APP_USE_MOCK_DATA === 'true') {
+        // Use mock data instead of API call
+        const mockTopics = [
+          {
+            _id: '1',
+            title: 'JavaScript Fundamentals',
+            description: 'Core concepts of JavaScript language',
+            subtopics: [
+              { _id: '1-1', title: 'Variables and Data Types', completed: true },
+              { _id: '1-2', title: 'Functions and Scope', completed: true },
+              { _id: '1-3', title: 'Asynchronous Programming', completed: false }
+            ]
+          },
+          {
+            _id: '2',
+            title: 'React Hooks',
+            description: 'Modern React state management',
+            subtopics: [
+              { _id: '2-1', title: 'useState', completed: true },
+              { _id: '2-2', title: 'useEffect', completed: false },
+              { _id: '2-3', title: 'useContext', completed: false },
+              { _id: '2-4', title: 'useReducer', completed: false }
+            ]
+          }
+        ];
+        
+        setTopics(mockTopics);
+      } else {
+        // Only attempt API call if not in development mode
+        const response = await api.get('/topics');
+        setTopics(response.data);
+      }
     } catch (err) {
       console.error('Error fetching topics:', err);
       setError('Failed to fetch topics');
       
-      // While backend is under development, use mock data instead
+      // Fallback to mock data if API call fails
       const mockTopics = [
         {
           _id: '1',
