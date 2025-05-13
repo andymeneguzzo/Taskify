@@ -365,7 +365,7 @@ function TopicForm({ topic, onSubmit, onCancel }) {
             <ul className="subtopics-list">
               {formData.subtopics.map((subtopic, index) => (
                 <li 
-                  key={subtopic._id || `item-${index}`}
+                  key={subtopic._id || `temp-item-${index}`}
                   className="subtopic-item"
                   draggable={true}
                   onDragStart={(e) => handleDragStart(e, index)}
