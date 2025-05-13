@@ -112,151 +112,153 @@ function TopicCard({
   };
 
   return (
-    <div className="topic-card neu-container">
-      <div className="topic-card-actions">
-        <button className="edit-topic-btn" onClick={onEdit}>Edit</button>
-        <button className="delete-topic-btn" onClick={onDelete}>Delete</button>
-      </div>
-      
-      <div className="topic-header">
-        <h3 className="topic-title">{title}</h3>
-        <div className="topic-progress">
-          <div className="progress-bar">
-            <div 
-              className="progress-fill" 
-              style={{ width: `${completionPercentage}%` }}
-            ></div>
-          </div>
-          <span className="progress-text">{completionPercentage}%</span>
+    <div className="topic-card">
+      <div className="topic-content">
+        <div className="topic-card-actions">
+          <button className="edit-topic-btn" onClick={onEdit}>Edit</button>
+          <button className="delete-topic-btn" onClick={onDelete}>Delete</button>
         </div>
-      </div>
-
-      {description && <p className="topic-description">{description}</p>}
-
-      {/* Error message */}
-      {error && <div className="upload-error">{error}</div>}
-
-      {/* Main attachment section */}
-      <div className="topic-attachment">
-        {attachmentUrl ? (
-          <div className="attachment-preview">
-            <a 
-              href={attachmentUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="attachment-link"
-            >
-              {isBase64URL(attachmentUrl) ? 'View PDF Attachment' : 'View Attachment'}
-            </a>
-          </div>
-        ) : (
-          <div className="attachment-upload">
-            <label className="upload-label">
-              <input 
-                type="file" 
-                accept="application/pdf"
-                onChange={handleAttachMainFile} 
-                disabled={loading}
-                style={{ display: 'none' }}
-              />
-              <span className="attach-btn">
-                {loading ? 'Uploading...' : 'Attach File'}
-              </span>
-            </label>
-          </div>
-        )}
-      </div>
-
-      {/* Subtopics section */}
-      <div className="subtopics-section">
-        <h4 className="subtopics-header">Subtopics</h4>
         
-        {subtopics.length > 0 ? (
-          <ul className="subtopics-list">
-            {subtopics.map(subtopic => (
-              <li key={subtopic._id} className={`subtopic-item ${subtopic.completed ? 'completed' : ''}`}>
-                <div className="subtopic-content">
-                  <label className="subtopic-label">
-                    <input 
-                      type="checkbox" 
-                      checked={subtopic.completed || false}
-                      onChange={() => handleSubtopicToggle(subtopic._id)}
-                      disabled={loading}
-                    />
-                    <span className="subtopic-title">{subtopic.title}</span>
-                  </label>
-                </div>
-                
-                <div className="subtopic-actions">
-                  {subtopic.attachmentUrl ? (
-                    <a 
-                      href={subtopic.attachmentUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="attachment-link small"
-                    >
-                      View
-                    </a>
-                  ) : (
-                    <label className="upload-label small">
-                      <input 
-                        type="file"
-                        accept="application/pdf"
-                        onChange={(e) => handleAttachSubtopicFile(subtopic._id, e)} 
-                        disabled={loading}
-                        style={{ display: 'none' }}
-                      />
-                      <span className="attach-btn small">
-                        {loading ? '...' : 'Attach'}
-                      </span>
-                    </label>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="empty-subtopics">No subtopics yet</p>
-        )}
-
-        {/* Add subtopic form */}
-        {showAddSubtopic ? (
-          <form onSubmit={handleAddSubtopic} className="add-subtopic-form">
-            <input
-              type="text"
-              value={newSubtopicTitle}
-              onChange={(e) => setNewSubtopicTitle(e.target.value)}
-              placeholder="Subtopic title"
-              disabled={loading}
-              autoFocus
-            />
-            <div className="form-actions">
-              <button 
-                type="submit" 
-                className="add-btn"
-                disabled={loading || !newSubtopicTitle.trim()}
-              >
-                Add
-              </button>
-              <button 
-                type="button" 
-                className="cancel-btn"
-                onClick={() => setShowAddSubtopic(false)}
-                disabled={loading}
-              >
-                Cancel
-              </button>
+        <div className="topic-header">
+          <h3 className="topic-title">{title}</h3>
+          <div className="topic-progress">
+            <div className="progress-bar">
+              <div 
+                className="progress-fill" 
+                style={{ width: `${completionPercentage}%` }}
+              ></div>
             </div>
-          </form>
-        ) : (
-          <button 
-            className="add-subtopic-btn"
-            onClick={() => setShowAddSubtopic(true)}
-            disabled={loading}
-          >
-            Add Subtopic
-          </button>
-        )}
+            <span className="progress-text">{completionPercentage}%</span>
+          </div>
+        </div>
+
+        {description && <p className="topic-description">{description}</p>}
+
+        {/* Error message */}
+        {error && <div className="upload-error">{error}</div>}
+
+        {/* Main attachment section */}
+        <div className="topic-attachment">
+          {attachmentUrl ? (
+            <div className="attachment-preview">
+              <a 
+                href={attachmentUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="attachment-link"
+              >
+                {isBase64URL(attachmentUrl) ? 'View PDF Attachment' : 'View Attachment'}
+              </a>
+            </div>
+          ) : (
+            <div className="attachment-upload">
+              <label className="upload-label">
+                <input 
+                  type="file" 
+                  accept="application/pdf"
+                  onChange={handleAttachMainFile} 
+                  disabled={loading}
+                  style={{ display: 'none' }}
+                />
+                <span className="attach-btn">
+                  {loading ? 'Uploading...' : 'Attach File'}
+                </span>
+              </label>
+            </div>
+          )}
+        </div>
+
+        {/* Subtopics section */}
+        <div className="subtopics-section">
+          <h4 className="subtopics-header">Subtopics</h4>
+          
+          {subtopics.length > 0 ? (
+            <ul className="subtopics-list">
+              {subtopics.map(subtopic => (
+                <li key={subtopic._id} className={`subtopic-item ${subtopic.completed ? 'completed' : ''}`}>
+                  <div className="subtopic-content">
+                    <label className="subtopic-label">
+                      <input 
+                        type="checkbox" 
+                        checked={subtopic.completed || false}
+                        onChange={() => handleSubtopicToggle(subtopic._id)}
+                        disabled={loading}
+                      />
+                      <span className="subtopic-title">{subtopic.title}</span>
+                    </label>
+                  </div>
+                  
+                  <div className="subtopic-actions">
+                    {subtopic.attachmentUrl ? (
+                      <a 
+                        href={subtopic.attachmentUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="attachment-link small"
+                      >
+                        View
+                      </a>
+                    ) : (
+                      <label className="upload-label small">
+                        <input 
+                          type="file"
+                          accept="application/pdf"
+                          onChange={(e) => handleAttachSubtopicFile(subtopic._id, e)} 
+                          disabled={loading}
+                          style={{ display: 'none' }}
+                        />
+                        <span className="attach-btn small">
+                          {loading ? '...' : 'Attach'}
+                        </span>
+                      </label>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="empty-subtopics">No subtopics yet</p>
+          )}
+
+          {/* Add subtopic form */}
+          {showAddSubtopic ? (
+            <form onSubmit={handleAddSubtopic} className="add-subtopic-form">
+              <input
+                type="text"
+                value={newSubtopicTitle}
+                onChange={(e) => setNewSubtopicTitle(e.target.value)}
+                placeholder="Subtopic title"
+                disabled={loading}
+                autoFocus
+              />
+              <div className="form-actions">
+                <button 
+                  type="submit" 
+                  className="add-btn"
+                  disabled={loading || !newSubtopicTitle.trim()}
+                >
+                  Add
+                </button>
+                <button 
+                  type="button" 
+                  className="cancel-btn"
+                  onClick={() => setShowAddSubtopic(false)}
+                  disabled={loading}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          ) : (
+            <button 
+              className="add-subtopic-btn"
+              onClick={() => setShowAddSubtopic(true)}
+              disabled={loading}
+            >
+              Add Subtopic
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
