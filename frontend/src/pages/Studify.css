@@ -355,6 +355,8 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
 }
 
 .modal-content {
@@ -365,6 +367,8 @@
   width: 90%;
   max-width: 500px;
   position: relative;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
 }
 
 .modal-content h3 {
@@ -401,14 +405,17 @@
   }
   
   .studify-header {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap: var(--spacing-md);
   }
   
   .studify-controls {
-    width: 100%;
-    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
   
   .topics-header {

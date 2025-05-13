@@ -30,6 +30,9 @@ function TopicForm({ topic, onSubmit, onCancel }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newSubtopic, setNewSubtopic] = useState('');
 
+  // Add state for drag operation
+  const [draggedIndex, setDraggedIndex] = useState(null);
+
   // Initialize form with existing topic data if provided
   useEffect(() => {
     if (topic) {
@@ -113,6 +116,7 @@ function TopicForm({ topic, onSubmit, onCancel }) {
           {
             title: newSubtopic.trim(),
             completed: false,
+            _id: `temp-${Date.now()}`, // Add temporary ID for new subtopics
           },
         ],
       });
@@ -130,6 +134,68 @@ function TopicForm({ topic, onSubmit, onCancel }) {
       ...formData,
       subtopics: updatedSubtopics,
     });
+  };
+
+  /**
+   * Handle drag start
+   */
+  const handleDragStart = (e, index) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+    // Set some data (required for Firefox)
+    e.dataTransfer.setData('text/plain', index);
+    // Add a class to the dragged item
+    e.target.classList.add('dragging');
+  };
+
+  /**
+   * Handle drag over
+   */
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    return false;
+  };
+
+  /**
+   * Handle drop
+   */
+  const handleDrop = (e, dropIndex) => {
+    e.preventDefault();
+    
+    // If the item is dropped in the same position, do nothing
+    if (draggedIndex === dropIndex) {
+      return;
+    }
+    
+    // Create a copy of the subtopics array
+    const newSubtopics = [...formData.subtopics];
+    
+    // Remove the dragged item from its original position
+    const draggedItem = newSubtopics[draggedIndex];
+    newSubtopics.splice(draggedIndex, 1);
+    
+    // Insert the dragged item at its new position
+    newSubtopics.splice(dropIndex, 0, draggedItem);
+    
+    // Update the state with the new order
+    setFormData({
+      ...formData,
+      subtopics: newSubtopics,
+    });
+    
+    // Reset the dragged index
+    setDraggedIndex(null);
+    
+    return false;
+  };
+
+  /**
+   * Handle drag end
+   */
+  const handleDragEnd = (e) => {
+    e.target.classList.remove('dragging');
+    setDraggedIndex(null);
   };
 
   /**
@@ -253,7 +319,7 @@ function TopicForm({ topic, onSubmit, onCancel }) {
             value={formData.description}
             onChange={handleChange}
             placeholder="Enter topic description (optional)"
-            rows="3"
+            rows="5"
             disabled={loading}
           />
         </div>
@@ -291,15 +357,26 @@ function TopicForm({ topic, onSubmit, onCancel }) {
           )}
         </div>
         
-        {/* Subtopics section */}
+        {/* Subtopics section with native drag and drop */}
         <div className="form-group">
           <label>Subtopics</label>
           
-          {/* List of current subtopics */}
+          {/* List of current subtopics with native drag and drop */}
           {formData.subtopics.length > 0 && (
             <ul className="subtopics-list">
               {formData.subtopics.map((subtopic, index) => (
-                <li key={index} className="subtopic-item">
+                <li 
+                  key={subtopic._id || `item-${index}`}
+                  className="subtopic-item"
+                  draggable={true}
+                  onDragStart={(e) => handleDragStart(e, index)}
+                  onDragOver={(e) => handleDragOver(e, index)}
+                  onDrop={(e) => handleDrop(e, index)}
+                  onDragEnd={handleDragEnd}
+                >
+                  <div className="subtopic-drag-handle">
+                    <span className="drag-icon">≡</span>
+                  </div>
                   <span className="subtopic-title">{subtopic.title}</span>
                   <button
                     type="button"
@@ -314,7 +391,7 @@ function TopicForm({ topic, onSubmit, onCancel }) {
             </ul>
           )}
           
-          {/* Add new subtopic */}
+          {/* Add new subtopic - updated for better styling */}
           <div className="add-subtopic-container">
             <input
               type="text"
