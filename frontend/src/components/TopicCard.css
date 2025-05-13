@@ -41,9 +41,14 @@
 
 /* Topic Header with depth effect */
 .topic-header {
+  display: flex;
+  flex-direction: column;
   position: relative;
   margin-bottom: var(--spacing-md);
-  padding-bottom: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--neu-shadow-small);
 }
 
 .topic-header::after {
@@ -56,14 +61,27 @@
   background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
 }
 
+/* New container for title and buttons */
+.topic-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Title shouldn't get cut off */
 .topic-title {
-  margin: 0 0 var(--spacing-sm) 0;
+  margin: 0;
   color: var(--text-color);
   font-family: var(--font-heading);
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-large);
   letter-spacing: -0.01em;
   text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+  flex: 1;
+  padding-right: var(--spacing-md);
+  word-break: break-word; /* Allow long titles to break */
 }
 
 .dark-theme .topic-title {
@@ -489,9 +507,9 @@
 /* Add these styles to TopicCard.css */
 .topic-card-actions {
   display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-md);
+  gap: 8px;
+  flex-shrink: 0; /* Prevent buttons from shrinking */
+  align-items: center;
 }
 
 .edit-topic-btn,
@@ -678,4 +696,113 @@
 .dark-theme .topic-card.completed .topic-description,
 .dark-theme .topic-card.completed .topic-progress-text {
   color: #e2e8f0;
+}
+
+/* Add these styles to support the new progress visualization features */
+
+/* Progress toggle button */
+.toggle-progress-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-color);
+  color: var(--text-muted);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--neu-shadow-small);
+  margin-left: 8px;
+}
+
+.toggle-progress-btn:hover {
+  transform: translateY(-2px);
+  color: var(--primary-color);
+  box-shadow: var(--neu-shadow-medium);
+}
+
+.toggle-progress-btn:active {
+  transform: translateY(0);
+  box-shadow: var(--neu-inset-shadow);
+}
+
+/* Progress wrapper to contain both visualization types */
+.topic-progress-wrapper {
+  margin-top: var(--spacing-sm);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Enhanced progress container */
+.topic-progress-container {
+  width: 100%;
+  margin-top: 2px;
+}
+
+/* Circular progress container */
+.topic-circular-progress {
+  display: flex;
+  justify-content: center;
+  margin: var(--spacing-sm) 0;
+  transition: all 0.3s ease;
+}
+
+/* Smooth transition for view changes */
+.topic-progress-container,
+.topic-circular-progress {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .topic-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .topic-title {
+    margin-bottom: var(--spacing-sm);
+    padding-right: 0;
+    width: 100%;
+  }
+  
+  .topic-card-actions {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .topic-card-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* Dark theme support */
+.dark-theme .toggle-progress-btn {
+  color: var(--text-muted);
+  background-color: var(--bg-color);
+  box-shadow: var(--neu-shadow-small);
+}
+
+.dark-theme .toggle-progress-btn:hover {
+  color: var(--primary-color);
+  box-shadow: var(--neu-shadow-medium);
+}
+
+.dark-theme .toggle-progress-btn:active {
+  box-shadow: var(--neu-inset-shadow);
+}
+
+.dark-theme .topic-header {
+  background-color: var(--bg-color);
+  box-shadow: var(--neu-shadow-small);
 }

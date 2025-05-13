@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './TopicCard.css';
+import CircularProgress from './CircularProgress';
+import ProgressBar from './ProgressBar';
 
 /**
  * TopicCard Component
@@ -29,6 +31,7 @@ function TopicCard({
   const [showAddSubtopic, setShowAddSubtopic] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [progressView, setProgressView] = useState('horizontal'); // 'horizontal' or 'circular'
 
   // Calculate completion percentage
   const completedCount = subtopics.filter(sub => sub.completed).length;
@@ -36,6 +39,19 @@ function TopicCard({
   const completionPercentage = totalSubtopics > 0 
     ? Math.round((completedCount / totalSubtopics) * 100) 
     : 0;
+
+  // Get progress color based on completion
+  const getProgressColor = () => {
+    if (completionPercentage === 100) return '#4caf50'; // Green for completed
+    if (completionPercentage >= 70) return '#8bc34a'; // Light green for good progress
+    if (completionPercentage >= 30) return '#ff9800'; // Orange for some progress
+    return '#f44336'; // Red for little progress
+  };
+
+  // Toggle progress view
+  const toggleProgressView = () => {
+    setProgressView(prev => prev === 'horizontal' ? 'circular' : 'horizontal');
+  };
 
   // Handle checkbox toggle for subtopics
   const handleSubtopicToggle = (subtopicId) => {
@@ -114,19 +130,58 @@ function TopicCard({
   return (
     <div className={`topic-card ${completionPercentage === 100 ? 'completed' : ''}`}>
       <div className="topic-content">
-        <div className="topic-card-actions">
-          <button className="edit-topic-btn" onClick={onEdit}>Edit</button>
-          <button className="delete-topic-btn" onClick={onDelete}>Delete</button>
-        </div>
-        
         <div className="topic-header">
-          <h3 className="topic-title">{title}</h3>
-          <div className="topic-progress-container">
-            <div 
-              className={`topic-progress-bar ${completionPercentage === 100 ? 'completed' : ''}`}
-              style={{ width: `${completionPercentage}%` }}
-            ></div>
-            <span className="topic-progress-text">{completionPercentage}%</span>
+          <div className="topic-header-content">
+            <h3 className="topic-title">{title}</h3>
+            
+            <div className="topic-card-actions">
+              <button className="edit-topic-btn" onClick={onEdit}>Edit</button>
+              <button className="delete-topic-btn" onClick={onDelete}>Delete</button>
+              <button 
+                className="toggle-progress-btn" 
+                onClick={toggleProgressView}
+                aria-label={`Switch to ${progressView === 'horizontal' ? 'circular' : 'horizontal'} progress view`}
+              >
+                {/* Icon for toggle - alternates between horizontal and circular icons */}
+                {progressView === 'horizontal' ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 6v6l4 2"></path>
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                )}
+              </button>
+            </div>
+          </div>
+          
+          <div className="topic-progress-wrapper">
+            {progressView === 'horizontal' ? (
+              <div className="topic-progress-container">
+                <ProgressBar 
+                  percentage={completionPercentage} 
+                  size="medium"
+                  barColor={getProgressColor()}
+                  animated={true}
+                  showPercentage={true}
+                  className="topic-progress-enhanced"
+                />
+              </div>
+            ) : (
+              <div className="topic-circular-progress">
+                <CircularProgress 
+                  percentage={completionPercentage} 
+                  size="medium"
+                  strokeColor={getProgressColor()}
+                  backgroundColor="var(--bg-secondary)"
+                  showText={true}
+                  animated={true}
+                />
+              </div>
+            )}
           </div>
         </div>
 
@@ -253,6 +308,10 @@ function TopicCard({
               onClick={() => setShowAddSubtopic(true)}
               disabled={loading}
             >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
               Add Subtopic
             </button>
           )}
