@@ -116,7 +116,6 @@ function TopicForm({ topic, onSubmit, onCancel }) {
           {
             title: newSubtopic.trim(),
             completed: false,
-            _id: `temp-${Date.now()}`, // Add temporary ID for new subtopics
           },
         ],
       });
