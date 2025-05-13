@@ -1,8 +1,9 @@
 import React from 'react';
 import './TaskCard.css';
+import CircularProgress from './CircularProgress';
 
 function TaskCard({task, onDelete, onToggleComplete, onEdit}) {
-    const {_id, title, description, status, category, dueDate, reminderDate} = task;
+    const {_id, title, description, status, category, dueDate, reminderDate, subtasks = []} = task;
 
     console.log('Task data in card:', task);
     console.log('Task dates (explicit check):', {
@@ -11,6 +12,25 @@ function TaskCard({task, onDelete, onToggleComplete, onEdit}) {
       dueDate_type: task.dueDate ? typeof task.dueDate : 'not present',
       reminderDate_type: task.reminderDate ? typeof task.reminderDate : 'not present'
     });
+
+    // Calculate task progress percentage
+    // If there are no subtasks, use status as progress indicator
+    const calculateProgress = () => {
+      // If task is completed, return 100%
+      if (status === 'completed') return 100;
+      
+      // If task is in progress and no subtasks, return 50%
+      if (status === 'in-progress' && (!subtasks || subtasks.length === 0)) return 50;
+      
+      // If task has subtasks, calculate based on completed subtasks
+      if (subtasks && subtasks.length > 0) {
+        const completedSubtasks = subtasks.filter(subtask => subtask.completed).length;
+        return Math.round((completedSubtasks / subtasks.length) * 100);
+      }
+      
+      // Default to 0% for pending tasks with no subtasks
+      return 0;
+    };
 
     // category label mapping
     const categoryLabels = {
@@ -81,10 +101,28 @@ function TaskCard({task, onDelete, onToggleComplete, onEdit}) {
     const hasDueDate = dueDate && dueDate !== null && dueDate !== undefined && dueDate !== '';
     const hasReminderDate = reminderDate && reminderDate !== null && reminderDate !== undefined && reminderDate !== '';
 
+    // Get progress percentage
+    const progressPercentage = calculateProgress();
+
     return (
       <div className={`task-card ${status} ${isOverdue() ? 'overdue' : ''}`}>
-        <div className="task-content">
+        <div className="task-header">
           <h3 className="task-title">{title}</h3>
+          <div className="task-progress">
+            <CircularProgress 
+              percentage={progressPercentage}
+              size="small"
+              showText={false}
+              strokeColor={
+                status === 'completed' ? '#4caf50' :
+                status === 'in-progress' ? '#2196f3' : 
+                '#ff9800'
+              }
+            />
+          </div>
+        </div>
+        
+        <div className="task-content">
           {description && <p className="task-description">{description}</p>}
           
           <div className="task-details">

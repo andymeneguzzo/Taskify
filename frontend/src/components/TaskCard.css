@@ -262,3 +262,72 @@
 .dark-theme .task-card.overdue {
   background: linear-gradient(145deg, var(--bg-color), #8e244225);
 }
+
+/* Adding task header styles for the CircularProgress component */
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.task-title {
+  margin: 0;
+  flex: 1;
+  color: var(--text-color);
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-medium);
+}
+
+.task-progress {
+  margin-left: var(--spacing-md);
+  flex-shrink: 0;
+}
+
+/* Modify task-content to adjust for the new header */
+.task-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Adjust task description margin */
+.task-description {
+  margin-top: 0;
+  margin-bottom: var(--spacing-md);
+  color: var(--text-muted);
+  font-size: var(--font-size-small);
+  line-height: 1.5;
+  font-weight: var(--font-weight-normal);
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .task-header {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  
+  .task-progress {
+    transform: scale(0.9);
+    margin-left: var(--spacing-sm);
+    margin-top: -5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .task-header {
+    flex-direction: row;
+  }
+  
+  .task-progress {
+    transform: scale(0.8);
+    margin-left: var(--spacing-xs);
+    margin-top: -8px;
+  }
+  
+  .task-title {
+    font-size: calc(var(--font-size-medium) - 2px);
+  }
+}
