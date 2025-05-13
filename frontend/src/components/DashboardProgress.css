@@ -1,0 +1,110 @@
+.dashboard-progress-container {
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--neu-shadow);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.dashboard-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.dashboard-progress-header h3 {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-large);
+}
+
+.progress-summary {
+  color: var(--text-muted);
+  font-size: var(--font-size-small);
+}
+
+.progress-percentage {
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-color);
+}
+
+.dashboard-progress-metrics {
+  margin-top: var(--spacing-md);
+}
+
+.dashboard-progress-bar {
+  margin-bottom: var(--spacing-lg);
+}
+
+.dashboard-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.dashboard-stat-card {
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-md);
+  box-shadow: var(--neu-shadow-small);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--neu-shadow-medium);
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: var(--font-size-small);
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color);
+}
+
+.stat-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .dashboard-progress-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .progress-summary {
+    margin-top: var(--spacing-xs);
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-stats-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+}

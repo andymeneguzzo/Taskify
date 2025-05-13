@@ -1,0 +1,103 @@
+.category-progress-container {
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--neu-shadow);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.category-progress-header {
+  margin-bottom: var(--spacing-md);
+}
+
+.category-progress-header h3 {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-large);
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.category-item {
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-md);
+  box-shadow: var(--neu-shadow-small);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--neu-shadow-medium);
+}
+
+.category-item.empty {
+  opacity: 0.7;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.category-name-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.category-color-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.category-name {
+  margin: 0;
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color);
+}
+
+.category-metrics {
+  font-size: var(--font-size-small);
+  color: var(--text-muted);
+}
+
+.category-tasks-count {
+  font-weight: var(--font-weight-medium);
+}
+
+.category-progress-bar {
+  margin-top: var(--spacing-sm);
+}
+
+.empty-categories-message {
+  color: var(--text-muted);
+  text-align: center;
+  padding: var(--spacing-md);
+  background-color: var(--bg-color);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--neu-inset-shadow);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .category-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+  
+  .category-metrics {
+    margin-left: 20px;
+  }
+}

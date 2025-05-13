@@ -165,3 +165,16 @@
       margin-top: 10px;
     }
   }
+
+  .dashboard-metrics-section {
+    margin-bottom: var(--spacing-xl);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+  
+  @media (min-width: 992px) {
+    .dashboard-metrics-section {
+      grid-template-columns: 1fr 1fr;
+    }
+  }

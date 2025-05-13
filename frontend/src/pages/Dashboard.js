@@ -16,6 +16,8 @@ import TaskFilters from '../components/TaskFilters';
 import ThemeToggle from '../components/ThemeToggle';
 import NotificationBell from '../components/NotificationBell';
 import StudifyButton from '../components/StudifyButton';
+import DashboardProgress from '../components/DashboardProgress';
+import CategoryProgress from '../components/CategoryProgress';
 
 import './Dashboard.css'; // Import CSS file for styling
 
@@ -182,6 +184,14 @@ function Dashboard() {
           />
         ) : (
           <CreateTaskForm onTaskCreated={handleTaskCreated} />
+        )}
+
+        {/* Dashboard Progress Section */}
+        {!isLoading && tasks.length > 0 && (
+          <div className="dashboard-metrics-section">
+            <DashboardProgress tasks={tasks} />
+            <CategoryProgress tasks={tasks} />
+          </div>
         )}
 
         {/* Task filters */}
