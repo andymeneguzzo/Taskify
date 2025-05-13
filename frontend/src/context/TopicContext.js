@@ -16,6 +16,7 @@ export const TopicContext = createContext();
  * - Deleting topics
  * - Managing subtopics (toggling completion, adding new ones)
  * - File attachment handling
+ * - Sorting topics by completion percentage
  * 
  * State is loaded on component mount and provides methods for state manipulation
  * to all child components that consume this context.
@@ -27,6 +28,9 @@ export const TopicProvider = ({ children }) => {
   // Loading and error states
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Sorting state (default to no sorting)
+  const [sortBy, setSortBy] = useState('default');
 
   const { showToast } = useToast();
 
@@ -110,6 +114,47 @@ export const TopicProvider = ({ children }) => {
   useEffect(() => {
     fetchTopics();
   }, [fetchTopics]);
+
+  /**
+   * Set the current sorting method
+   * @param {string} sortMethod - The method to sort by ('default', 'completion-asc', 'completion-desc')
+   */
+  const setSorting = (sortMethod) => {
+    setSortBy(sortMethod);
+  };
+
+  /**
+   * Calculate completion percentage for a topic
+   * @param {Object} topic - The topic to calculate completion for
+   * @returns {number} The completion percentage
+   */
+  const calculateCompletionPercentage = (topic) => {
+    if (!topic.subtopics || topic.subtopics.length === 0) return 0;
+    
+    const completedCount = topic.subtopics.filter(sub => sub.completed).length;
+    return Math.round((completedCount / topic.subtopics.length) * 100);
+  };
+
+  /**
+   * Get sorted topics based on current sort method
+   * @returns {Array} Sorted topics array
+   */
+  const getSortedTopics = useCallback(() => {
+    const topicsCopy = [...topics];
+    
+    switch (sortBy) {
+      case 'completion-asc':
+        return topicsCopy.sort((a, b) => {
+          return calculateCompletionPercentage(a) - calculateCompletionPercentage(b);
+        });
+      case 'completion-desc':
+        return topicsCopy.sort((a, b) => {
+          return calculateCompletionPercentage(b) - calculateCompletionPercentage(a);
+        });
+      default:
+        return topicsCopy;
+    }
+  }, [topics, sortBy]);
 
   /**
    * Add a new topic
@@ -408,16 +453,19 @@ export const TopicProvider = ({ children }) => {
 
   // Create value object with all state and methods
   const contextValue = {
-    topics,
+    topics: getSortedTopics(),
     loading,
     error,
+    sortBy,
+    setSorting,
     fetchTopics,
     addTopic,
     updateTopic,
     deleteTopic,
     toggleSubtopic,
     addSubtopic,
-    attachFile
+    attachFile,
+    calculateCompletionPercentage
   };
 
   return (

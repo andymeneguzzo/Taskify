@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './TopicCard.css';
 import CircularProgress from './CircularProgress';
 import ProgressBar from './ProgressBar';
+import Confetti from './Confetti';
 
 /**
  * TopicCard Component
@@ -16,6 +17,7 @@ import ProgressBar from './ProgressBar';
  * @param {Function} onEdit - Function to edit the topic
  * @param {Function} onDelete - Function to delete the topic
  * @param {Function} onUpdate - Function to update the topic (used for direct updates)
+ * @param {number} completionPercentage - Pre-calculated completion percentage (optional)
  */
 function TopicCard({ 
   topic, 
@@ -24,7 +26,8 @@ function TopicCard({
   onAttachFile, 
   onEdit, 
   onDelete, 
-  onUpdate 
+  onUpdate,
+  completionPercentage: propCompletionPercentage
 }) {
   const { _id, title, description, subtopics = [], attachmentUrl } = topic;
   const [newSubtopicTitle, setNewSubtopicTitle] = useState('');
@@ -32,13 +35,36 @@ function TopicCard({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [progressView, setProgressView] = useState('horizontal'); // 'horizontal' or 'circular'
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [previousPercentage, setPreviousPercentage] = useState(0);
 
-  // Calculate completion percentage
+  // Calculate completion percentage if not provided as prop
   const completedCount = subtopics.filter(sub => sub.completed).length;
   const totalSubtopics = subtopics.length;
-  const completionPercentage = totalSubtopics > 0 
+  const calculatedPercentage = totalSubtopics > 0 
     ? Math.round((completedCount / totalSubtopics) * 100) 
     : 0;
+    
+  // Use the provided percentage if available, otherwise use calculated
+  const completionPercentage = propCompletionPercentage !== undefined 
+    ? propCompletionPercentage 
+    : calculatedPercentage;
+
+  // Check for topic completion to trigger celebration
+  useEffect(() => {
+    if (completionPercentage === 100 && previousPercentage !== 100 && previousPercentage !== 0) {
+      setShowConfetti(true);
+      
+      // Hide confetti after animation duration
+      const timer = setTimeout(() => {
+        setShowConfetti(false);
+      }, 3000);
+      
+      return () => clearTimeout(timer);
+    }
+    
+    setPreviousPercentage(completionPercentage);
+  }, [completionPercentage, previousPercentage]);
 
   // Get progress color based on completion
   const getProgressColor = () => {
@@ -48,91 +74,109 @@ function TopicCard({
     return '#f44336'; // Red for little progress
   };
 
-  // Toggle progress view
+  // Toggle between horizontal and circular progress
   const toggleProgressView = () => {
     setProgressView(prev => prev === 'horizontal' ? 'circular' : 'horizontal');
   };
 
-  // Handle checkbox toggle for subtopics
+  // Handle subtopic completion toggle
   const handleSubtopicToggle = (subtopicId) => {
-    if (onToggleSubtopic) {
-      onToggleSubtopic(_id, subtopicId);
-    }
+    setLoading(true);
+    setError('');
+    
+    onToggleSubtopic(_id, subtopicId)
+      .catch(err => setError('Failed to update subtopic'))
+      .finally(() => setLoading(false));
   };
 
-  // Handle adding a new subtopic
+  // Handle adding new subtopic
   const handleAddSubtopic = (e) => {
     e.preventDefault();
-    if (newSubtopicTitle.trim() && onAddSubtopic) {
-      onAddSubtopic(_id, newSubtopicTitle.trim());
-      setNewSubtopicTitle('');
-      setShowAddSubtopic(false);
-    }
+    setLoading(true);
+    setError('');
+    
+    onAddSubtopic(_id, newSubtopicTitle)
+      .then(() => {
+        setNewSubtopicTitle('');
+        setShowAddSubtopic(false);
+      })
+      .catch(err => setError('Failed to add subtopic'))
+      .finally(() => setLoading(false));
   };
 
-  // Handle file attachment for main topic
+  // Handle attaching file to main topic
   const handleAttachMainFile = (e) => {
     const file = e.target.files[0];
     if (!file) return;
     
-    // Validate file type
+    // Check if file is too large (> 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError('File is too large (max 5MB)');
+      return;
+    }
+    
+    // Check if file is PDF
     if (file.type !== 'application/pdf') {
-      setError('Only PDF files are allowed');
+      setError('Only PDF files are supported');
       return;
     }
     
     setLoading(true);
     setError('');
     
-    try {
-      if (onAttachFile) {
-        onAttachFile(_id, null, file);
-      }
-    } catch (err) {
-      console.error('Error uploading file:', err);
-      setError('Failed to upload file');
-    } finally {
-      setLoading(false);
-    }
+    onAttachFile(_id, null, file)
+      .catch(err => setError('Failed to attach file'))
+      .finally(() => setLoading(false));
   };
 
-  // Handle file attachment for subtopic
+  // Handle attaching file to a subtopic
   const handleAttachSubtopicFile = (subtopicId, e) => {
     const file = e.target.files[0];
     if (!file) return;
     
-    // Validate file type
+    // Check if file is too large (> 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError('File is too large (max 5MB)');
+      return;
+    }
+    
+    // Check if file is PDF
     if (file.type !== 'application/pdf') {
-      setError('Only PDF files are allowed');
+      setError('Only PDF files are supported');
       return;
     }
     
     setLoading(true);
     setError('');
     
-    try {
-      if (onAttachFile) {
-        onAttachFile(_id, subtopicId, file);
-      }
-    } catch (err) {
-      console.error('Error uploading file:', err);
-      setError('Failed to upload file');
-    } finally {
-      setLoading(false);
-    }
+    onAttachFile(_id, subtopicId, file)
+      .catch(err => setError('Failed to attach file'))
+      .finally(() => setLoading(false));
   };
 
-  // Determine if URL is a base64 data URL or external URL
+  // Check if a URL is a base64 data string
   const isBase64URL = (url) => {
     return url && url.startsWith('data:');
   };
 
   return (
     <div className={`topic-card ${completionPercentage === 100 ? 'completed' : ''}`}>
+      {/* Show confetti celebration on completion */}
+      {showConfetti && <Confetti active={true} />}
+      
       <div className="topic-content">
         <div className="topic-header">
           <div className="topic-header-content">
-            <h3 className="topic-title">{title}</h3>
+            <div className="topic-title-container">
+              <h3 className="topic-title">{title}</h3>
+              {/* Add progress indicator badge next to title */}
+              <div 
+                className="progress-badge"
+                style={{ backgroundColor: getProgressColor() }}
+              >
+                {completionPercentage}%
+              </div>
+            </div>
             
             <div className="topic-card-actions">
               <button className="edit-topic-btn" onClick={onEdit}>Edit</button>

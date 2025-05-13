@@ -806,3 +806,51 @@
   background-color: var(--bg-color);
   box-shadow: var(--neu-shadow-small);
 }
+
+/* Add progress badge styles */
+.topic-title-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.progress-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  box-shadow: var(--neu-shadow-small);
+  min-width: 36px;
+  text-align: center;
+}
+
+/* Completed topic card styles */
+.topic-card.completed {
+  border: 2px solid #4caf50;
+  box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
+  transition: all 0.5s ease;
+}
+
+.topic-card.completed .topic-title {
+  color: #4caf50;
+}
+
+/* Animation for completed topic */
+@keyframes celebrationPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(76, 175, 80, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+  }
+}
+
+.topic-card.completed {
+  animation: celebrationPulse 2s ease-in-out;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ThemeToggle from '../components/ThemeToggle';
 import NotificationBell from '../components/NotificationBell';
@@ -18,12 +18,15 @@ function Studify() {
     topics, 
     loading, 
     error, 
+    sortBy,
+    setSorting,
     addTopic, 
     updateTopic, 
     deleteTopic, 
     toggleSubtopic, 
     addSubtopic, 
-    attachFile 
+    attachFile,
+    calculateCompletionPercentage 
   } = useTopics();
 
   // Handle form submission (for both create and edit)
@@ -65,7 +68,7 @@ function Studify() {
     }
   };
 
-  // Handle toggling subtopic completion
+  // Handle toggle subtopic completion
   const handleToggleSubtopic = async (topicId, subtopicId) => {
     try {
       await toggleSubtopic(topicId, subtopicId);
@@ -75,7 +78,7 @@ function Studify() {
     }
   };
 
-  // Handle adding a new subtopic
+  // Handle add new subtopic
   const handleAddSubtopic = async (topicId, subtopicTitle) => {
     try {
       await addSubtopic(topicId, subtopicTitle);
@@ -85,7 +88,7 @@ function Studify() {
     }
   };
 
-  // Handle file attachments
+  // Handle file attachment
   const handleAttachFile = async (topicId, subtopicId, file) => {
     try {
       await attachFile(topicId, subtopicId, file);
@@ -93,6 +96,11 @@ function Studify() {
       console.error('Error attaching file:', err);
       // Error is already handled in the context
     }
+  };
+
+  // Handle sort change
+  const handleSortChange = (e) => {
+    setSorting(e.target.value);
   };
 
   // Handle logout
@@ -117,7 +125,22 @@ function Studify() {
       
       <div className="topics-section">
         <div className="topics-header">
-          <h3>My Study Topics</h3>
+          <div className="topics-header-left">
+            <h3>My Study Topics</h3>
+            <div className="sort-control">
+              <label htmlFor="sort-select">Sort by:</label>
+              <select 
+                id="sort-select" 
+                value={sortBy}
+                onChange={handleSortChange}
+                className="sort-select"
+              >
+                <option value="default">Default</option>
+                <option value="completion-asc">Progress (Low to High)</option>
+                <option value="completion-desc">Progress (High to Low)</option>
+              </select>
+            </div>
+          </div>
           <button 
             className="add-topic-btn" 
             onClick={() => setShowAddTopic(true)}
@@ -144,6 +167,7 @@ function Studify() {
                 onEdit={() => handleEditTopic(topic)}
                 onDelete={() => handleDeleteTopic(topic._id)}
                 onUpdate={(updatedTopic) => updateTopic(topic._id, updatedTopic)}
+                completionPercentage={calculateCompletionPercentage(topic)}
               />
             ))}
           </div>
