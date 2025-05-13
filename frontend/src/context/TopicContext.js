@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import api from '../api/axios';
+import { useToast } from './ToastContext';
 
 // Create the Topic Context
 export const TopicContext = createContext();
@@ -26,6 +27,8 @@ export const TopicProvider = ({ children }) => {
   // Loading and error states
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const { showToast } = useToast();
 
   /**
    * Fetch all topics from the API
@@ -115,7 +118,6 @@ export const TopicProvider = ({ children }) => {
    */
   const addTopic = async (topicData) => {
     setLoading(true);
-    setError(null);
     
     // Extract the data we need for optimistic UI update
     let tempTopic = null;
@@ -204,16 +206,17 @@ export const TopicProvider = ({ children }) => {
         setTopics(prevTopics => [...prevTopics, response.data]);
       }
       
+      showToast('Topic created successfully! It will be fully loaded in a moment.', 'success');
+      
       return response.data;
     } catch (err) {
       console.error('Error adding topic:', err);
-      setError('Failed to add topic. The topic may have been created but couldn\'t be displayed. Try refreshing.');
       
       // Even if server returns an error, we leave the temporary topic in the UI
       // and initiate a refresh of topics after a short delay
       setTimeout(() => {
         fetchTopics();
-      }, 2000);
+      }, 1000);
       
       // Return the temporary topic as a fallback
       return tempTopic;
