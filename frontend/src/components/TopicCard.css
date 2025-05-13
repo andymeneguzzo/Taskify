@@ -587,11 +587,55 @@
   transition: width 0.3s ease, background 0.3s ease;
 }
 
-/* Celebratory styling for completed topics */
+/* Celebratory styling for completed topics - Light Mode */
 .topic-progress-bar.completed {
   background: linear-gradient(145deg, #10b981, #059669);
   box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
   animation: pulse 2s infinite;
+}
+
+/* For the neuomorphic container when 100% complete - Light Mode */
+.topic-card.completed {
+  background: linear-gradient(145deg, #f0fff4, #dcfce7);
+  border: 1px solid rgba(16, 185, 129, 0.1);
+}
+
+/* Dark Mode Styles */
+@media (prefers-color-scheme: dark) {
+  .topic-progress-bar.completed {
+    background: linear-gradient(145deg, #10b981, #059669);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.7);
+    animation: pulseDark 2s infinite;
+  }
+  
+  .topic-card.completed {
+    background: linear-gradient(145deg, #0d3321, #134a2e);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+  
+  /* Darker text for better contrast */
+  .topic-card.completed .topic-title,
+  .topic-card.completed .topic-description,
+  .topic-card.completed .topic-progress-text {
+    color: #e2e8f0;
+  }
+  
+  /* Subtopic styles in dark mode */
+  .topic-card.completed .subtopic-item {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+  
+  /* Alternative approach with CSS variables for theme detection */
+  :root[data-theme="dark"] .topic-card.completed {
+    background: linear-gradient(145deg, #0d3321, #134a2e);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+  
+  :root[data-theme="dark"] .topic-progress-bar.completed {
+    background: linear-gradient(145deg, #10b981, #059669);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.7);
+  }
 }
 
 @keyframes pulse {
@@ -606,8 +650,32 @@
   }
 }
 
-/* For the neuomorphic container when 100% complete */
-.topic-card.completed {
-  background: linear-gradient(145deg, #f0fff4, #dcfce7);
-  border: 1px solid rgba(16, 185, 129, 0.1);
+@keyframes pulseDark {
+  0% {
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(16, 185, 129, 1);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
+  }
+}
+
+/* For a class-based dark mode approach */
+.dark-theme .topic-card.completed {
+  background: linear-gradient(145deg, #0d3321, #134a2e);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.dark-theme .topic-progress-bar.completed {
+  background: linear-gradient(145deg, #10b981, #059669);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.7);
+  animation: pulseDark 2s infinite;
+}
+
+.dark-theme .topic-card.completed .topic-title,
+.dark-theme .topic-card.completed .topic-description,
+.dark-theme .topic-card.completed .topic-progress-text {
+  color: #e2e8f0;
 }
