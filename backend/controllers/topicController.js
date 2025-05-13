@@ -1,4 +1,14 @@
 const Topic = require('../models/Topic');
+const fs = require('fs');
+const path = require('path');
+// Import only if using Cloudinary
+// const { cloudinary } = require('../config/cloudinary');
+
+// Function to convert file to base64
+const fileToBase64 = (filePath) => {
+  const fileData = fs.readFileSync(filePath);
+  return `data:application/pdf;base64,${fileData.toString('base64')}`;
+};
 
 // @desc Create a new topic
 // @route POST /api/topics
@@ -25,10 +35,26 @@ const createTopic = async (req, res) => {
   try {
     console.log('Received topic data:', req.body);
     
-    const { title, description, subtopics, attachmentUrl } = req.body;
+    const { title, description } = req.body;
+    // Parse subtopics if they're sent as JSON string
+    const subtopics = req.body.subtopics ? JSON.parse(req.body.subtopics) : [];
 
     if (!title) {
       return res.status(400).json({ message: 'Please add a title' });
+    }
+
+    let attachmentUrl = '';
+    
+    // Handle file upload if present
+    if (req.file) {
+      // Option 1: Base64 encoding
+      attachmentUrl = fileToBase64(req.file.path);
+      
+      // Clean up file after encoding
+      fs.unlinkSync(req.file.path);
+      
+      // Option 2: If using Cloudinary (comment out Option 1 and uncomment this)
+      // attachmentUrl = req.file.path; // Cloudinary URL
     }
 
     const topicData = {
@@ -109,6 +135,23 @@ const updateTopic = async (req, res) => {
     // Check if the topic belongs to the user
     if (topic.user.toString() !== req.user._id.toString()) {
       return res.status(401).json({ message: 'User not authorized' });
+    }
+
+    // Handle file upload if present
+    if (req.file) {
+      // Option 1: Base64 encoding
+      req.body.attachmentUrl = fileToBase64(req.file.path);
+      
+      // Clean up file after encoding
+      fs.unlinkSync(req.file.path);
+      
+      // Option 2: If using Cloudinary (comment out Option 1 and uncomment this)
+      // req.body.attachmentUrl = req.file.path; // Cloudinary URL
+    }
+
+    // Handle subtopics if they're sent as JSON string
+    if (req.body.subtopics) {
+      req.body.subtopics = JSON.parse(req.body.subtopics);
     }
 
     const updatedTopic = await Topic.findByIdAndUpdate(
@@ -217,10 +260,55 @@ const toggleSubtopicCompletion = async (req, res) => {
   }
 };
 
+// @desc Add attachment to subtopic
+// @route POST /api/topics/:id/subtopics/:subtopicId/attachment
+// @access Private
+const addSubtopicAttachment = async (req, res) => {
+  try {
+    const topic = await Topic.findById(req.params.id);
+
+    if (!topic) {
+      return res.status(404).json({ message: 'Topic not found' });
+    }
+
+    // Check if the topic belongs to the user
+    if (topic.user.toString() !== req.user._id.toString()) {
+      return res.status(401).json({ message: 'User not authorized' });
+    }
+
+    // Find the subtopic
+    const subtopic = topic.subtopics.id(req.params.subtopicId);
+    if (!subtopic) {
+      return res.status(404).json({ message: 'Subtopic not found' });
+    }
+
+    // Handle file upload
+    if (req.file) {
+      // Option 1: Base64 encoding
+      subtopic.attachmentUrl = fileToBase64(req.file.path);
+      
+      // Clean up file after encoding
+      fs.unlinkSync(req.file.path);
+      
+      // Option 2: If using Cloudinary (comment out Option 1 and uncomment this)
+      // subtopic.attachmentUrl = req.file.path; // Cloudinary URL
+    } else {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    await topic.save();
+    res.status(200).json(topic);
+  } catch (error) {
+    console.error('Error adding subtopic attachment:', error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createTopic,
   getUserTopics,
   updateTopic,
   deleteTopic,
-  toggleSubtopicCompletion
+  toggleSubtopicCompletion,
+  addSubtopicAttachment
 };

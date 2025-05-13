@@ -18,7 +18,6 @@ function TopicForm({ topic, onSubmit, onCancel }) {
     title: '',
     description: '',
     subtopics: [],
-    // We'll handle file uploads separately from the form data
   });
 
   // State for file uploads
@@ -42,9 +41,13 @@ function TopicForm({ topic, onSubmit, onCancel }) {
       
       // Set attachment name if it exists
       if (topic.attachmentUrl) {
-        // Extract filename from URL
-        const filename = topic.attachmentUrl.split('/').pop();
-        setMainAttachmentName(filename);
+        // Extract filename from URL or set generic name for base64
+        if (topic.attachmentUrl.startsWith('data:')) {
+          setMainAttachmentName('Current PDF Attachment');
+        } else {
+          const filename = topic.attachmentUrl.split('/').pop();
+          setMainAttachmentName(filename);
+        }
       }
       
       setIsEditing(true);
@@ -156,7 +159,7 @@ function TopicForm({ topic, onSubmit, onCancel }) {
     setLoading(true);
     
     try {
-      let response;
+      // Create FormData object for file upload
       const formDataToSend = new FormData();
       
       // Add text fields to FormData
@@ -165,13 +168,15 @@ function TopicForm({ topic, onSubmit, onCancel }) {
         formDataToSend.append('description', formData.description);
       }
       
-      // Add subtopics as JSON
+      // Add subtopics as JSON string
       formDataToSend.append('subtopics', JSON.stringify(formData.subtopics));
       
       // Add file if present
       if (mainAttachment) {
         formDataToSend.append('attachment', mainAttachment);
       }
+      
+      let response;
       
       // Use the appropriate HTTP method based on whether we're creating or updating
       if (isEditing && topic?._id) {
@@ -270,6 +275,20 @@ function TopicForm({ topic, onSubmit, onCancel }) {
             </label>
             {errors.file && <span className="error-message">{errors.file}</span>}
           </div>
+          
+          {/* Show existing attachment if available */}
+          {isEditing && topic?.attachmentUrl && !mainAttachment && (
+            <div className="current-attachment">
+              <a 
+                href={topic.attachmentUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="view-attachment-link"
+              >
+                View Current Attachment
+              </a>
+            </div>
+          )}
         </div>
         
         {/* Subtopics section */}

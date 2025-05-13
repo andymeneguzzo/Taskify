@@ -5,9 +5,13 @@ const {
   getUserTopics,
   updateTopic,
   deleteTopic,
-  toggleSubtopicCompletion
+  toggleSubtopicCompletion,
+  addSubtopicAttachment
 } = require('../controllers/topicController');
 const { protect } = require('../middleware/authMiddleware');
+const upload = require('../middleware/uploadMiddleware');
+// Use this if you want Cloudinary
+// const { uploadToCloudinary } = require('../config/cloudinary');
 
 /**
  * Topic Routes
@@ -30,15 +34,33 @@ router.use(protect); // Apply auth middleware to all topic routes
 // Base topic routes
 router.route('/')
   .get(getUserTopics)    // GET /api/topics - Get user's topics
-  .post(createTopic);    // POST /api/topics - Create new topic
+  .post(upload.single('attachment'), createTopic);
+  // If using Cloudinary:
+  // .post(uploadToCloudinary.single('attachment'), createTopic);
 
 // Topic CRUD operations by ID  
 router.route('/:id')
-  .put(updateTopic)     // PUT /api/topics/:id - Full update
-  .patch(updateTopic)   // PATCH /api/topics/:id - Partial update
-  .delete(deleteTopic); // DELETE /api/topics/:id - Delete topic
+  .put(upload.single('attachment'), updateTopic)
+  .patch(upload.single('attachment'), updateTopic)
+  .delete(deleteTopic);
+  // If using Cloudinary:
+  // .put(uploadToCloudinary.single('attachment'), updateTopic)
+  // .patch(uploadToCloudinary.single('attachment'), updateTopic)
 
 // Subtopic specific operation
 router.patch('/:id/subtopics/:subtopicId', toggleSubtopicCompletion); // PATCH /api/topics/:id/subtopics/:subtopicId - Toggle subtopic completion
+
+// Subtopic attachment
+router.post(
+  '/:id/subtopics/:subtopicId/attachment',
+  upload.single('attachment'),
+  addSubtopicAttachment
+);
+// If using Cloudinary:
+// router.post(
+//   '/:id/subtopics/:subtopicId/attachment',
+//   uploadToCloudinary.single('attachment'),
+//   addSubtopicAttachment
+// );
 
 module.exports = router;

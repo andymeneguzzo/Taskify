@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './TopicCard.css';
+import api from '../api/axios';
 
 /**
  * TopicCard Component
@@ -10,12 +11,14 @@ import './TopicCard.css';
  * @param {Object} topic - The topic object containing title, description, etc.
  * @param {Function} onToggleSubtopic - Function to toggle subtopic completion
  * @param {Function} onAddSubtopic - Function to add a new subtopic
- * @param {Function} onAttachFile - Function to attach file to topic or subtopic
+ * @param {Function} onUpdate - Function to update the topic or subtopic
  */
-function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onAttachFile }) {
+function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onUpdate }) {
   const { _id, title, description, subtopics = [], attachmentUrl } = topic;
   const [newSubtopicTitle, setNewSubtopicTitle] = useState('');
   const [showAddSubtopic, setShowAddSubtopic] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   // Calculate completion percentage
   const completedCount = subtopics.filter(sub => sub.completed).length;
@@ -42,17 +45,78 @@ function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onAttachFile }) {
   };
 
   // Handle file attachment for main topic
-  const handleAttachMainFile = (e) => {
-    if (onAttachFile) {
-      onAttachFile(_id, null, e.target.files[0]);
+  const handleAttachMainFile = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // Validate file type
+    if (file.type !== 'application/pdf') {
+      setError('Only PDF files are allowed');
+      return;
+    }
+    
+    setLoading(true);
+    setError('');
+    
+    try {
+      const formData = new FormData();
+      formData.append('attachment', file);
+      
+      const response = await api.patch(`/topics/${_id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      
+      if (onUpdate) {
+        onUpdate(response.data);
+      }
+    } catch (err) {
+      console.error('Error uploading file:', err);
+      setError('Failed to upload file');
+    } finally {
+      setLoading(false);
     }
   };
 
   // Handle file attachment for subtopic
-  const handleAttachSubtopicFile = (subtopicId, e) => {
-    if (onAttachFile) {
-      onAttachFile(_id, subtopicId, e.target.files[0]);
+  const handleAttachSubtopicFile = async (subtopicId, e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // Validate file type
+    if (file.type !== 'application/pdf') {
+      setError('Only PDF files are allowed');
+      return;
     }
+    
+    setLoading(true);
+    setError('');
+    
+    try {
+      const formData = new FormData();
+      formData.append('attachment', file);
+      
+      const response = await api.post(`/topics/${_id}/subtopics/${subtopicId}/attachment`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      
+      if (onUpdate) {
+        onUpdate(response.data);
+      }
+    } catch (err) {
+      console.error('Error uploading file:', err);
+      setError('Failed to upload file');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Determine if URL is a base64 data URL or external URL
+  const isBase64URL = (url) => {
+    return url && url.startsWith('data:');
   };
 
   return (
@@ -72,12 +136,20 @@ function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onAttachFile }) {
 
       {description && <p className="topic-description">{description}</p>}
 
+      {/* Error message */}
+      {error && <div className="upload-error">{error}</div>}
+
       {/* Main attachment section */}
       <div className="topic-attachment">
         {attachmentUrl ? (
           <div className="attachment-preview">
-            <a href={attachmentUrl} target="_blank" rel="noopener noreferrer" className="attachment-link">
-              View Attachment
+            <a 
+              href={attachmentUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="attachment-link"
+            >
+              {isBase64URL(attachmentUrl) ? 'View PDF Attachment' : 'View Attachment'}
             </a>
           </div>
         ) : (
@@ -85,10 +157,14 @@ function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onAttachFile }) {
             <label className="upload-label">
               <input 
                 type="file" 
+                accept="application/pdf"
                 onChange={handleAttachMainFile} 
+                disabled={loading}
                 style={{ display: 'none' }}
               />
-              <span className="attach-btn">Attach File</span>
+              <span className="attach-btn">
+                {loading ? 'Uploading...' : 'Attach File'}
+              </span>
             </label>
           </div>
         )}
@@ -108,6 +184,7 @@ function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onAttachFile }) {
                       type="checkbox" 
                       checked={subtopic.completed}
                       onChange={() => handleSubtopicToggle(subtopic._id)}
+                      disabled={loading}
                     />
                     <span className="subtopic-title">{subtopic.title}</span>
                   </label>
@@ -126,11 +203,15 @@ function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onAttachFile }) {
                   ) : (
                     <label className="upload-label small">
                       <input 
-                        type="file" 
+                        type="file"
+                        accept="application/pdf"
                         onChange={(e) => handleAttachSubtopicFile(subtopic._id, e)} 
+                        disabled={loading}
                         style={{ display: 'none' }}
                       />
-                      <span className="attach-btn small">Attach</span>
+                      <span className="attach-btn small">
+                        {loading ? '...' : 'Attach'}
+                      </span>
                     </label>
                   )}
                 </div>
@@ -149,14 +230,22 @@ function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onAttachFile }) {
               value={newSubtopicTitle}
               onChange={(e) => setNewSubtopicTitle(e.target.value)}
               placeholder="Subtopic title"
+              disabled={loading}
               autoFocus
             />
             <div className="form-actions">
-              <button type="submit" className="add-btn">Add</button>
+              <button 
+                type="submit" 
+                className="add-btn"
+                disabled={loading || !newSubtopicTitle.trim()}
+              >
+                Add
+              </button>
               <button 
                 type="button" 
                 className="cancel-btn"
                 onClick={() => setShowAddSubtopic(false)}
+                disabled={loading}
               >
                 Cancel
               </button>
@@ -166,6 +255,7 @@ function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onAttachFile }) {
           <button 
             className="add-subtopic-btn"
             onClick={() => setShowAddSubtopic(true)}
+            disabled={loading}
           >
             Add Subtopic
           </button>
