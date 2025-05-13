@@ -133,3 +133,21 @@
     align-items: center;
     gap: 15px;
   }
+  
+  .icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+  
+  .icon-btn:hover {
+    background-color: var(--bg-secondary);
+    transform: translateY(-2px);
+  }

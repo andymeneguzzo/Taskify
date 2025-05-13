@@ -37,6 +37,16 @@ function App() {
               } 
             />
             
+            {/* Studify route */}
+            <Route 
+              path="/studify" 
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              } 
+            />
+            
             {/* Redirect root to dashboard or login based on auth state */}
             <Route 
               path="/" 
