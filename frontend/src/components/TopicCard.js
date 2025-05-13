@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './TopicCard.css';
-import api from '../api/axios';
 
 /**
  * TopicCard Component
@@ -11,9 +10,20 @@ import api from '../api/axios';
  * @param {Object} topic - The topic object containing title, description, etc.
  * @param {Function} onToggleSubtopic - Function to toggle subtopic completion
  * @param {Function} onAddSubtopic - Function to add a new subtopic
- * @param {Function} onUpdate - Function to update the topic or subtopic
+ * @param {Function} onAttachFile - Function to attach file to topic or subtopic
+ * @param {Function} onEdit - Function to edit the topic
+ * @param {Function} onDelete - Function to delete the topic
+ * @param {Function} onUpdate - Function to update the topic (used for direct updates)
  */
-function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onUpdate }) {
+function TopicCard({ 
+  topic, 
+  onToggleSubtopic, 
+  onAddSubtopic, 
+  onAttachFile, 
+  onEdit, 
+  onDelete, 
+  onUpdate 
+}) {
   const { _id, title, description, subtopics = [], attachmentUrl } = topic;
   const [newSubtopicTitle, setNewSubtopicTitle] = useState('');
   const [showAddSubtopic, setShowAddSubtopic] = useState(false);
@@ -45,7 +55,7 @@ function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onUpdate }) {
   };
 
   // Handle file attachment for main topic
-  const handleAttachMainFile = async (e) => {
+  const handleAttachMainFile = (e) => {
     const file = e.target.files[0];
     if (!file) return;
     
@@ -59,17 +69,8 @@ function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onUpdate }) {
     setError('');
     
     try {
-      const formData = new FormData();
-      formData.append('attachment', file);
-      
-      const response = await api.patch(`/topics/${_id}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      
-      if (onUpdate) {
-        onUpdate(response.data);
+      if (onAttachFile) {
+        onAttachFile(_id, null, file);
       }
     } catch (err) {
       console.error('Error uploading file:', err);
@@ -80,7 +81,7 @@ function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onUpdate }) {
   };
 
   // Handle file attachment for subtopic
-  const handleAttachSubtopicFile = async (subtopicId, e) => {
+  const handleAttachSubtopicFile = (subtopicId, e) => {
     const file = e.target.files[0];
     if (!file) return;
     
@@ -94,17 +95,8 @@ function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onUpdate }) {
     setError('');
     
     try {
-      const formData = new FormData();
-      formData.append('attachment', file);
-      
-      const response = await api.post(`/topics/${_id}/subtopics/${subtopicId}/attachment`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      
-      if (onUpdate) {
-        onUpdate(response.data);
+      if (onAttachFile) {
+        onAttachFile(_id, subtopicId, file);
       }
     } catch (err) {
       console.error('Error uploading file:', err);
@@ -121,6 +113,11 @@ function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onUpdate }) {
 
   return (
     <div className="topic-card neu-container">
+      <div className="topic-card-actions">
+        <button className="edit-topic-btn" onClick={onEdit}>Edit</button>
+        <button className="delete-topic-btn" onClick={onDelete}>Delete</button>
+      </div>
+      
       <div className="topic-header">
         <h3 className="topic-title">{title}</h3>
         <div className="topic-progress">
@@ -182,7 +179,7 @@ function TopicCard({ topic, onToggleSubtopic, onAddSubtopic, onUpdate }) {
                   <label className="subtopic-label">
                     <input 
                       type="checkbox" 
-                      checked={subtopic.completed}
+                      checked={subtopic.completed || false}
                       onChange={() => handleSubtopicToggle(subtopic._id)}
                       disabled={loading}
                     />

@@ -285,7 +285,8 @@ export const TopicProvider = ({ children }) => {
           formData,
           {
             headers: {
-              'Content-Type': 'multipart/form-data'
+              'Content-Type': 'multipart/form-data',
+              'X-Content-Type-Options': 'nosniff'
             }
           }
         );
@@ -296,7 +297,8 @@ export const TopicProvider = ({ children }) => {
           formData,
           {
             headers: {
-              'Content-Type': 'multipart/form-data'
+              'Content-Type': 'multipart/form-data',
+              'X-Content-Type-Options': 'nosniff'
             }
           }
         );

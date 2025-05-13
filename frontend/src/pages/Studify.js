@@ -8,6 +8,7 @@ import { useTopics } from '../context/TopicContext';
 import './Studify.css';
 
 function Studify() {
+  // Local UI state
   const [showAddTopic, setShowAddTopic] = useState(false);
   const [editingTopic, setEditingTopic] = useState(null);
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ function Studify() {
       }
     } catch (err) {
       console.error('Error submitting topic:', err);
+      // Error is already handled in the context
     }
   };
 
@@ -58,7 +60,38 @@ function Studify() {
         await deleteTopic(topicId);
       } catch (err) {
         console.error('Error deleting topic:', err);
+        // Error is already handled in the context
       }
+    }
+  };
+
+  // Handle toggling subtopic completion
+  const handleToggleSubtopic = async (topicId, subtopicId) => {
+    try {
+      await toggleSubtopic(topicId, subtopicId);
+    } catch (err) {
+      console.error('Error toggling subtopic:', err);
+      // Error is already handled in the context
+    }
+  };
+
+  // Handle adding a new subtopic
+  const handleAddSubtopic = async (topicId, subtopicTitle) => {
+    try {
+      await addSubtopic(topicId, subtopicTitle);
+    } catch (err) {
+      console.error('Error adding subtopic:', err);
+      // Error is already handled in the context
+    }
+  };
+
+  // Handle file attachments
+  const handleAttachFile = async (topicId, subtopicId, file) => {
+    try {
+      await attachFile(topicId, subtopicId, file);
+    } catch (err) {
+      console.error('Error attaching file:', err);
+      // Error is already handled in the context
     }
   };
 
@@ -105,12 +138,12 @@ function Studify() {
               <TopicCard
                 key={topic._id}
                 topic={topic}
-                onToggleSubtopic={toggleSubtopic}
-                onAddSubtopic={addSubtopic}
-                onAttachFile={attachFile}
+                onToggleSubtopic={handleToggleSubtopic}
+                onAddSubtopic={handleAddSubtopic}
+                onAttachFile={handleAttachFile}
                 onEdit={() => handleEditTopic(topic)}
                 onDelete={() => handleDeleteTopic(topic._id)}
-                onUpdate={updateTopic}
+                onUpdate={(updatedTopic) => updateTopic(topic._id, updatedTopic)}
               />
             ))}
           </div>
