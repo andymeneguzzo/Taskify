@@ -386,6 +386,15 @@
   cursor: pointer;
 }
 
+.modal-info {
+  color: var(--text-muted);
+  margin-top: 20px;
+  text-align: center;
+  padding: 15px;
+  background-color: var(--bg-secondary);
+  border-radius: var(--border-radius-sm);
+}
+
 @media (max-width: 768px) {
   .topics-grid {
     grid-template-columns: 1fr;
