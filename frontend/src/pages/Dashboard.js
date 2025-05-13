@@ -4,6 +4,8 @@ import React, {useEffect, useState} from 'react'; // React hooks for state and s
 import {useNavigate} from 'react-router-dom'; // Hook for programmatic navigation
 // API client import 
 import api from '../api/axios'; // Pre-configured axios instance for API calls
+// Toast context import
+import { useToast } from '../context/ToastContext';
 
 // Component imports
 import TaskCard from '../components/TaskCard';
@@ -31,6 +33,8 @@ function Dashboard() {
     // const [newTask, setNewTask] = useState({ title: '', description: '' }); -> not being used now
     const [editingTask, setEditingTask] = useState(null);
     const navigate = useNavigate();
+    // Add the toast hook
+    const { showToast } = useToast();
 
     // Fetch tasks on component mount
     useEffect(() => {
@@ -99,6 +103,8 @@ function Dashboard() {
     // Handle task created
     const handleTaskCreated = (newTask) => {
       setTasks([...tasks, newTask]);
+      // Show success toast
+      showToast('Task created successfully!', 'success');
     };
 
     // Handle editing a task

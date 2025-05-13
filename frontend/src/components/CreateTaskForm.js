@@ -3,6 +3,7 @@ import api from '../api/axios';
 import './CreateTaskForm.css';
 import TaskCalendar from './TaskCalendar';
 import CustomDropdown from './CustomDropdown';
+import { useToast } from '../context/ToastContext';
 
 function CreateTaskForm({onTaskCreated}) {
     const [formData, setFormData] = useState({
@@ -17,6 +18,8 @@ function CreateTaskForm({onTaskCreated}) {
     const [showCalendar, setShowCalendar] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
+    const { showToast } = useToast();
 
     const categories = [
         { id: 'general', name: 'General' },
@@ -123,9 +126,15 @@ function CreateTaskForm({onTaskCreated}) {
                 onTaskCreated(response.data);
             }
 
+            // Show success toast
+            showToast('Task created successfully!', 'success');
+
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to create task. Please try again.');
             console.error('Error creating task:', err);
+            
+            // Show error toast
+            showToast(err.response?.data?.message || 'Failed to create task', 'error');
         } finally {
             setLoading(false);
         }

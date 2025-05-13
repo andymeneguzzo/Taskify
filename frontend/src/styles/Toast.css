@@ -56,3 +56,34 @@
     opacity: 1;
   }
 }
+
+/* Task-specific success toast */
+.toast-container.success.task {
+  background: linear-gradient(145deg, #e6ffe6, #ccffcc);
+  color: #008800;
+  border: 1px solid #ccffcc;
+}
+
+/* For dark mode */
+@media (prefers-color-scheme: dark) {
+  .toast-container.success {
+    background: linear-gradient(145deg, #0d3321, #134a2e);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+  
+  .toast-container.success .toast-message {
+    color: #4ade80;
+  }
+}
+
+/* For class-based dark theme */
+.dark-theme .toast-container.success {
+  background: linear-gradient(145deg, #0d3321, #134a2e);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.dark-theme .toast-container.success .toast-message {
+  color: #4ade80;
+}
