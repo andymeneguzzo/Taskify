@@ -3,6 +3,7 @@ import './App.css';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import Studify from './pages/Studify';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ThemeProvider } from './context/ThemeContext';
 import NotificationsPage from './pages/NotificationsPage';
@@ -42,7 +43,7 @@ function App() {
               path="/studify" 
               element={
                 <ProtectedRoute>
-                  <Dashboard />
+                  <Studify />
                 </ProtectedRoute>
               } 
             />
