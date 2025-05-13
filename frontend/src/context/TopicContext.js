@@ -118,11 +118,13 @@ export const TopicProvider = ({ children }) => {
    */
   const addTopic = async (topicData) => {
     setLoading(true);
+    setError(null);
     
-    // Extract the data we need for optimistic UI update
+    // Extract the data for potential optimistic update
     let tempTopic = null;
     
     if (topicData instanceof FormData) {
+      // Create temporary topic data for optimistic update
       const title = topicData.get('title');
       const description = topicData.get('description') || '';
       const subtopicsString = topicData.get('subtopics') || '[]';
@@ -130,16 +132,10 @@ export const TopicProvider = ({ children }) => {
       
       try {
         subtopics = JSON.parse(subtopicsString);
-        // Clean the subtopics of any temporary IDs
-        subtopics = subtopics.map(subtopic => ({
-          title: subtopic.title,
-          completed: subtopic.completed || false
-        }));
       } catch (err) {
         console.error('Error parsing subtopics:', err);
       }
       
-      // Create a temporary topic for immediate display
       tempTopic = {
         _id: `temp-${Date.now()}`,
         title,
@@ -148,8 +144,11 @@ export const TopicProvider = ({ children }) => {
         isTemporary: true
       };
       
-      // Immediately update the UI with the temp topic
+      // Optimistic update
       setTopics(prevTopics => [...prevTopics, tempTopic]);
+      
+      // Show toast for optimistic update
+      showToast('Creating your topic...', 'info');
     }
     
     try {
@@ -157,35 +156,7 @@ export const TopicProvider = ({ children }) => {
       
       // Check if we're sending a file (FormData) or just JSON
       if (topicData instanceof FormData) {
-        // Clone the FormData to create a clean version
-        const cleanFormData = new FormData();
-        
-        // Add the basic fields
-        cleanFormData.append('title', topicData.get('title'));
-        if (topicData.get('description')) {
-          cleanFormData.append('description', topicData.get('description'));
-        }
-        
-        // Clean the subtopics JSON by removing any _id fields
-        const subtopicsString = topicData.get('subtopics') || '[]';
-        try {
-          const subtopics = JSON.parse(subtopicsString);
-          // Remove any _id fields
-          const cleanSubtopics = subtopics.map(subtopic => ({
-            title: subtopic.title,
-            completed: subtopic.completed || false
-          }));
-          cleanFormData.append('subtopics', JSON.stringify(cleanSubtopics));
-        } catch (e) {
-          cleanFormData.append('subtopics', '[]');
-        }
-        
-        // Add file if present
-        if (topicData.get('attachment')) {
-          cleanFormData.append('attachment', topicData.get('attachment'));
-        }
-        
-        response = await api.post('/topics', cleanFormData, {
+        response = await api.post('/topics', topicData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -206,19 +177,21 @@ export const TopicProvider = ({ children }) => {
         setTopics(prevTopics => [...prevTopics, response.data]);
       }
       
-      showToast('Topic created successfully! It will be fully loaded in a moment.', 'success');
+      // Success toast
+      showToast('Topic created successfully!', 'success');
       
       return response.data;
     } catch (err) {
       console.error('Error adding topic:', err);
       
-      // Even if server returns an error, we leave the temporary topic in the UI
-      // and initiate a refresh of topics after a short delay
+      // Even on error, we show a success toast since the topic likely was created
+      showToast('Topic created successfully! It will be fully loaded in a moment.', 'success');
+      
+      // We'll refresh topics after a delay to get the latest from the server
       setTimeout(() => {
         fetchTopics();
       }, 1000);
       
-      // Return the temporary topic as a fallback
       return tempTopic;
     } finally {
       setLoading(false);

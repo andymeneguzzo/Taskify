@@ -112,7 +112,7 @@ function TopicCard({
   };
 
   return (
-    <div className="topic-card">
+    <div className={`topic-card ${completionPercentage === 100 ? 'completed' : ''}`}>
       <div className="topic-content">
         <div className="topic-card-actions">
           <button className="edit-topic-btn" onClick={onEdit}>Edit</button>
@@ -121,14 +121,12 @@ function TopicCard({
         
         <div className="topic-header">
           <h3 className="topic-title">{title}</h3>
-          <div className="topic-progress">
-            <div className="progress-bar">
-              <div 
-                className="progress-fill" 
-                style={{ width: `${completionPercentage}%` }}
-              ></div>
-            </div>
-            <span className="progress-text">{completionPercentage}%</span>
+          <div className="topic-progress-container">
+            <div 
+              className={`topic-progress-bar ${completionPercentage === 100 ? 'completed' : ''}`}
+              style={{ width: `${completionPercentage}%` }}
+            ></div>
+            <span className="topic-progress-text">{completionPercentage}%</span>
           </div>
         </div>
 
