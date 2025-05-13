@@ -1,92 +1,68 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../api/axios';
 import ThemeToggle from '../components/ThemeToggle';
 import NotificationBell from '../components/NotificationBell';
+import TopicCard from '../components/TopicCard';
+import TopicForm from '../components/TopicForm';
+import { useTopics } from '../context/TopicContext';
 import './Studify.css';
 
 function Studify() {
-  const [topics, setTopics] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [showAddTopic, setShowAddTopic] = useState(false);
+  const [editingTopic, setEditingTopic] = useState(null);
   const navigate = useNavigate();
+  
+  // Get topics and methods from context
+  const { 
+    topics, 
+    loading, 
+    error, 
+    addTopic, 
+    updateTopic, 
+    deleteTopic, 
+    toggleSubtopic, 
+    addSubtopic, 
+    attachFile 
+  } = useTopics();
 
-  useEffect(() => {
-    // Comment this out until backend is deployed
-    // fetchTopics();
-    
-    // Use mock data for now
-    const mockTopics = [
-      {
-        _id: '1',
-        title: 'JavaScript Fundamentals',
-        description: 'Core concepts of JavaScript language',
-        subtopics: [
-          { _id: '1-1', title: 'Variables and Data Types', completed: true },
-          { _id: '1-2', title: 'Functions and Scope', completed: true },
-          { _id: '1-3', title: 'Asynchronous Programming', completed: false }
-        ]
-      },
-      {
-        _id: '2',
-        title: 'React Hooks',
-        description: 'Modern React state management',
-        subtopics: [
-          { _id: '2-1', title: 'useState', completed: true },
-          { _id: '2-2', title: 'useEffect', completed: false },
-          { _id: '2-3', title: 'useContext', completed: false },
-          { _id: '2-4', title: 'useReducer', completed: false }
-        ]
-      }
-    ];
-    
-    setTopics(mockTopics);
-  }, []);
-
-  const fetchTopics = async () => {
-    setIsLoading(true);
-    setError(null);
-
+  // Handle form submission (for both create and edit)
+  const handleSubmitTopic = async (topicData) => {
     try {
-      const response = await api.get('/topics');
-      setTopics(response.data);
+      if (editingTopic) {
+        await updateTopic(editingTopic._id, topicData);
+        setEditingTopic(null);
+      } else {
+        await addTopic(topicData);
+        setShowAddTopic(false);
+      }
     } catch (err) {
-      console.error('Error fetching topics: ', err);
-      // Don't show error to user for now since we know the endpoint doesn't exist yet
-      // setError('Failed to fetch topics. Please try again');
-      
-      // Use mock data instead
-      const mockTopics = [
-        {
-          _id: '1',
-          title: 'JavaScript Fundamentals',
-          description: 'Core concepts of JavaScript language',
-          subtopics: [
-            { _id: '1-1', title: 'Variables and Data Types', completed: true },
-            { _id: '1-2', title: 'Functions and Scope', completed: true },
-            { _id: '1-3', title: 'Asynchronous Programming', completed: false }
-          ]
-        },
-        {
-          _id: '2',
-          title: 'React Hooks',
-          description: 'Modern React state management',
-          subtopics: [
-            { _id: '2-1', title: 'useState', completed: true },
-            { _id: '2-2', title: 'useEffect', completed: false },
-            { _id: '2-3', title: 'useContext', completed: false },
-            { _id: '2-4', title: 'useReducer', completed: false }
-          ]
-        }
-      ];
-      
-      setTopics(mockTopics);
-    } finally {
-      setIsLoading(false);
+      console.error('Error submitting topic:', err);
     }
   };
 
+  // Handle cancel form
+  const handleCancelForm = () => {
+    setShowAddTopic(false);
+    setEditingTopic(null);
+  };
+
+  // Handle edit topic
+  const handleEditTopic = (topic) => {
+    setEditingTopic(topic);
+  };
+
+  // Handle delete topic
+  const handleDeleteTopic = async (topicId) => {
+    if (window.confirm('Are you sure you want to delete this topic?')) {
+      try {
+        await deleteTopic(topicId);
+      } catch (err) {
+        console.error('Error deleting topic:', err);
+      }
+    }
+  };
+
+  // Handle logout
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login');
@@ -95,7 +71,7 @@ function Studify() {
   return (
     <div className="studify-container">
       <div className="studify-header">
-        <h2>Studify 🎓 - coming soon...</h2>
+        <h2>Studify 🎓</h2>
         <div className="studify-controls">
           <NotificationBell />
           <ThemeToggle />
@@ -117,7 +93,7 @@ function Studify() {
           </button>
         </div>
         
-        {isLoading ? (
+        {loading ? (
           <p className="loading-text">Loading topics...</p>
         ) : topics.length === 0 ? (
           <div className="empty-state">
@@ -126,38 +102,31 @@ function Studify() {
         ) : (
           <div className="topics-grid">
             {topics.map(topic => (
-              <div key={topic._id} className="topic-card">
-                <h4>{topic.title}</h4>
-                <p>{topic.description}</p>
-                
-                <div className="topic-progress">
-                  <span>Progress:</span>
-                  <div className="progress-bar">
-                    <div 
-                      className="progress-fill" 
-                      style={{ width: `${topic.subtopics.filter(st => st.completed).length / (topic.subtopics.length || 1) * 100}%` }}
-                    ></div>
-                  </div>
-                  <span className="progress-text">
-                    {topic.subtopics.filter(st => st.completed).length}/{topic.subtopics.length}
-                  </span>
-                </div>
-                
-                <button className="view-topic-btn">View Details</button>
-              </div>
+              <TopicCard
+                key={topic._id}
+                topic={topic}
+                onToggleSubtopic={toggleSubtopic}
+                onAddSubtopic={addSubtopic}
+                onAttachFile={attachFile}
+                onEdit={() => handleEditTopic(topic)}
+                onDelete={() => handleDeleteTopic(topic._id)}
+                onUpdate={updateTopic}
+              />
             ))}
           </div>
         )}
       </div>
       
-      {/* This will be expanded later to include a modal for adding topics */}
-      {showAddTopic && (
+      {/* Modal for adding or editing a topic */}
+      {(showAddTopic || editingTopic) && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h3>Add New Topic</h3>
-            <button className="modal-close" onClick={() => setShowAddTopic(false)}>×</button>
-            {/* Form content will go here */}
-            <p className="modal-info">Topic creation will be available once backend is deployed</p>
+            <button className="modal-close" onClick={handleCancelForm}>×</button>
+            <TopicForm
+              topic={editingTopic}
+              onSubmit={handleSubmitTopic}
+              onCancel={handleCancelForm}
+            />
           </div>
         </div>
       )}

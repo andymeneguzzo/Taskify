@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Studify from './pages/Studify';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ThemeProvider } from './context/ThemeContext';
+import { TopicProvider } from './context/TopicContext';
 import NotificationsPage from './pages/NotificationsPage';
 
 function App() {
@@ -43,7 +44,9 @@ function App() {
               path="/studify" 
               element={
                 <ProtectedRoute>
-                  <Studify />
+                  <TopicProvider>
+                    <Studify />
+                  </TopicProvider>
                 </ProtectedRoute>
               } 
             />
