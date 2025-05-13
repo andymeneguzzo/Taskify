@@ -8,6 +8,7 @@
   overflow: hidden;
   position: relative;
   border: none;
+  padding-top: 10px;
 }
 
 .topic-card::before {
@@ -49,6 +50,7 @@
   background-color: var(--bg-color);
   border-radius: var(--border-radius-sm);
   box-shadow: var(--neu-shadow-small);
+  margin-top: 15px;
 }
 
 .topic-header::after {
@@ -67,10 +69,41 @@
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  margin-bottom: var(--spacing-sm);
 }
 
-/* Title shouldn't get cut off */
+/* Position the progress badge above clock */
+.topic-title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 1;
+}
+
+.topic-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+/* Style the progress badge */
+.progress-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  box-shadow: var(--neu-shadow-small);
+  text-align: center;
+  position: absolute;
+  top: 15px;
+  right: 60px;
+  z-index: 1;
+}
+
+/* Topic Title */
 .topic-title {
   margin: 0;
   color: var(--text-color);
@@ -715,6 +748,8 @@
   transition: all 0.2s ease;
   box-shadow: var(--neu-shadow-small);
   margin-left: 8px;
+  position: relative;
+  z-index: 0;
 }
 
 .toggle-progress-btn:hover {
@@ -805,26 +840,6 @@
 .dark-theme .topic-header {
   background-color: var(--bg-color);
   box-shadow: var(--neu-shadow-small);
-}
-
-/* Add progress badge styles */
-.topic-title-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-}
-
-.progress-badge {
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: bold;
-  color: white;
-  box-shadow: var(--neu-shadow-small);
-  min-width: 36px;
-  text-align: center;
 }
 
 /* Completed topic card styles */

@@ -6,6 +6,7 @@ import TopicCard from '../components/TopicCard';
 import TopicForm from '../components/TopicForm';
 import { useTopics } from '../context/TopicContext';
 import './Studify.css';
+import CustomDropdown from '../components/CustomDropdown';
 
 function Studify() {
   // Local UI state
@@ -129,16 +130,17 @@ function Studify() {
             <h3>My Study Topics</h3>
             <div className="sort-control">
               <label htmlFor="sort-select">Sort by:</label>
-              <select 
-                id="sort-select" 
+              <CustomDropdown
+                options={[
+                  { value: 'default', label: 'Default' },
+                  { value: 'completion-asc', label: 'Progress (Low to High)' },
+                  { value: 'completion-desc', label: 'Progress (High to Low)' }
+                ]}
                 value={sortBy}
                 onChange={handleSortChange}
-                className="sort-select"
-              >
-                <option value="default">Default</option>
-                <option value="completion-asc">Progress (Low to High)</option>
-                <option value="completion-desc">Progress (High to Low)</option>
-              </select>
+                name="sortBy"
+                id="sort-select"
+              />
             </div>
           </div>
           <button 

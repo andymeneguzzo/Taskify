@@ -169,13 +169,6 @@ function TopicCard({
           <div className="topic-header-content">
             <div className="topic-title-container">
               <h3 className="topic-title">{title}</h3>
-              {/* Add progress indicator badge next to title */}
-              <div 
-                className="progress-badge"
-                style={{ backgroundColor: getProgressColor() }}
-              >
-                {completionPercentage}%
-              </div>
             </div>
             
             <div className="topic-card-actions">
