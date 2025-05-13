@@ -12,6 +12,10 @@
   border-radius: 6px;
   background-color: var(--bg-secondary, #e9ecef);
   box-shadow: var(--neu-shadow-small, inset 2px 2px 5px rgba(0, 0, 0, 0.1));
+  transition: 
+    background-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 /* Progress Bar Sizes */
@@ -35,6 +39,10 @@
   border-radius: 6px;
   position: relative;
   transition: width 0.4s ease-in-out;
+  transition: 
+    background-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 /* Animation */
@@ -74,6 +82,10 @@
   color: var(--text-color, #212529);
   min-width: 36px;
   text-align: right;
+  transition: 
+    background-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 /* Animations */
@@ -105,4 +117,49 @@
 
 .dark-theme .progress-bar-percentage {
   color: var(--text-color, #e9ecef);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .progress-bar-large {
+    height: 14px; /* Slightly smaller on tablets */
+  }
+  
+  .progress-bar-percentage {
+    font-size: 0.75rem;
+    min-width: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .progress-bar-large {
+    height: 12px; /* Even smaller on mobile */
+  }
+  
+  .progress-bar-medium {
+    height: 10px;
+  }
+  
+  .progress-bar-small {
+    height: 6px;
+  }
+  
+  .progress-bar-wrapper {
+    gap: 6px;
+  }
+  
+  .progress-bar-percentage {
+    font-size: 0.7rem;
+    min-width: 26px;
+  }
+}
+
+/* Smooth theme transitions */
+.progress-bar-container,
+.progress-bar-fill,
+.progress-bar-percentage {
+  transition: 
+    background-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
 }

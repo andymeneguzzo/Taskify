@@ -147,3 +147,64 @@
   ),
   0 0 15px rgba(74, 111, 165, 0.4);
 }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .circular-progress-large {
+    width: 140px;
+    height: 140px;
+  }
+  
+  .circular-progress-text-large {
+    font-size: 1.75rem;
+  }
+  
+  .circular-progress-container {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .circular-progress-large {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .circular-progress-medium {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .circular-progress-small {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .circular-progress-text-large {
+    font-size: 1.5rem;
+  }
+  
+  .circular-progress-text-medium {
+    font-size: 1.25rem;
+  }
+  
+  .circular-progress-text-small {
+    font-size: 0.875rem;
+  }
+  
+  .circular-progress-container {
+    padding: 8px;
+  }
+}
+
+/* Smooth theme transitions */
+.circular-progress-container,
+.circular-progress-track,
+.circular-progress-indicator,
+.circular-progress-text {
+  transition: 
+    background-color 0.3s ease,
+    color 0.3s ease,
+    stroke 0.3s ease,
+    box-shadow 0.3s ease;
+}
