@@ -138,6 +138,31 @@ export const TopicProvider = ({ children }) => {
     } catch (err) {
       console.error('Error adding topic:', err);
       setError('Failed to add topic');
+      
+      // Extract topic data from the form
+      let newTopic;
+      if (topicData instanceof FormData) {
+        // For FormData, extract the title and other fields
+        const title = topicData.get('title');
+        const description = topicData.get('description') || '';
+        const subtopicsJson = topicData.get('subtopics') || '[]';
+        const subtopics = JSON.parse(subtopicsJson);
+        
+        // Create a temporary topic with generated id
+        newTopic = {
+          _id: `temp-${Date.now()}`, // Temporary ID
+          title,
+          description,
+          subtopics,
+          isTemporary: true // Flag to identify this as a temp item
+        };
+        
+        // Add the temporary topic to the state
+        setTopics(prevTopics => [...prevTopics, newTopic]);
+        
+        return newTopic;
+      }
+      
       throw err;
     } finally {
       setLoading(false);

@@ -57,18 +57,30 @@ const createTopic = async (req, res) => {
       // attachmentUrl = req.file.path; // Cloudinary URL
     }
 
+    // Ensure subtopics are properly formatted without _id fields
+    const cleanedSubtopics = subtopics.map(subtopic => ({
+      title: subtopic.title,
+      completed: subtopic.completed || false,
+      // Don't include _id fields for new subtopics
+    }));
+
     const topicData = {
       title,
       description,
       user: req.user._id,
-      subtopics: subtopics || [],
+      subtopics: cleanedSubtopics,
       attachmentUrl
     };
     
     console.log('Creating topic with data:', topicData);
     
+    // Create the topic
     const topic = await Topic.create(topicData);
-    res.status(201).json(topic);
+    
+    // Convert to plain object to avoid serialization issues
+    const plainTopic = topic.toObject();
+    
+    res.status(201).json(plainTopic);
   } catch (error) {
     console.error('Error creating topic:', error);
     res.status(500).json({ message: error.message });
