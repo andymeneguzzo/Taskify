@@ -1,0 +1,149 @@
+.circular-progress-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SVG Base */
+.circular-progress {
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+/* Track Circle */
+.circular-progress-track {
+  stroke: var(--bg-secondary, #e9ecef);
+  transition: stroke 0.3s ease;
+}
+
+/* Progress Circle */
+.circular-progress-indicator {
+  stroke: var(--primary-color, #4a6fa5);
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+/* Pulse Animation for Completed State */
+.circular-progress-pulse {
+  stroke-opacity: 0;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    stroke-opacity: 0.6;
+    stroke-width: 0;
+  }
+  50% {
+    stroke-opacity: 0;
+    stroke-width: 6px;
+  }
+  100% {
+    stroke-opacity: 0;
+    stroke-width: 12px;
+  }
+}
+
+/* Percentage Text */
+.circular-progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 600;
+  color: var(--text-color, #212529);
+  transition: color 0.3s ease;
+}
+
+.circular-progress-text-small {
+  font-size: 1rem;
+}
+
+.circular-progress-text-medium {
+  font-size: 1.5rem;
+}
+
+.circular-progress-text-large {
+  font-size: 2rem;
+}
+
+/* Size Variants */
+.circular-progress-small {
+  width: 80px;
+  height: 80px;
+}
+
+.circular-progress-medium {
+  width: 120px;
+  height: 120px;
+}
+
+.circular-progress-large {
+  width: 160px;
+  height: 160px;
+}
+
+/* Neumorphic Styles */
+.circular-progress-container {
+  padding: 12px;
+  border-radius: 50%;
+  background-color: var(--bg-color, #f8f9fa);
+  box-shadow: var(--neu-shadow-small, 
+    6px 6px 12px rgba(0, 0, 0, 0.1),
+    -6px -6px 12px rgba(255, 255, 255, 0.8)
+  );
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.circular-progress-container:hover {
+  box-shadow: var(--neu-shadow-medium,
+    8px 8px 16px rgba(0, 0, 0, 0.1),
+    -8px -8px 16px rgba(255, 255, 255, 0.8)
+  );
+}
+
+/* Complete state */
+.circular-progress-container.complete {
+  box-shadow: var(--neu-shadow-small,
+    6px 6px 12px rgba(0, 0, 0, 0.1),
+    -6px -6px 12px rgba(255, 255, 255, 0.8)
+  ),
+  0 0 15px rgba(74, 111, 165, 0.3);
+}
+
+/* Animation for progress change */
+.circular-progress.animated .circular-progress-indicator {
+  transition: stroke-dashoffset 0.8s ease-in-out;
+}
+
+/* Dark Theme Support */
+.dark-theme .circular-progress-container {
+  background-color: var(--bg-color, #212529);
+  box-shadow: var(--neu-shadow-small,
+    6px 6px 12px rgba(0, 0, 0, 0.3),
+    -6px -6px 12px rgba(255, 255, 255, 0.05)
+  );
+}
+
+.dark-theme .circular-progress-container:hover {
+  box-shadow: var(--neu-shadow-medium,
+    8px 8px 16px rgba(0, 0, 0, 0.3),
+    -8px -8px 16px rgba(255, 255, 255, 0.05)
+  );
+}
+
+.dark-theme .circular-progress-track {
+  stroke: var(--bg-secondary, #2c3136);
+}
+
+.dark-theme .circular-progress-text {
+  color: var(--text-color, #e9ecef);
+}
+
+.dark-theme .circular-progress-container.complete {
+  box-shadow: var(--neu-shadow-small,
+    6px 6px 12px rgba(0, 0, 0, 0.3),
+    -6px -6px 12px rgba(255, 255, 255, 0.05)
+  ),
+  0 0 15px rgba(74, 111, 165, 0.4);
+}
