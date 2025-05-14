@@ -16,6 +16,7 @@ import TaskFilters from '../components/TaskFilters';
 import ThemeToggle from '../components/ThemeToggle';
 import NotificationBell from '../components/NotificationBell';
 import StudifyButton from '../components/StudifyButton';
+import CalendarButton from '../components/CalendarButton';
 import DashboardProgress from '../components/DashboardProgress';
 import CategoryProgress from '../components/CategoryProgress';
 
@@ -167,6 +168,7 @@ function Dashboard() {
           <h2>Taskify</h2>
           <div className="dashboard-controls">
             <StudifyButton />
+            <CalendarButton />
             <NotificationBell />
             <ThemeToggle />
             <button className="logout-btn" onClick={handleLogout}>Logout</button>

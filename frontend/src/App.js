@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Studify from './pages/Studify';
+import CalendarPage from './pages/CalendarPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ThemeProvider } from './context/ThemeContext';
 import { TopicProvider } from './context/TopicContext';
@@ -37,6 +38,16 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <NotificationsPage />
+                  </ProtectedRoute>
+                } 
+              />
+              
+              {/* Calendar route */}
+              <Route 
+                path="/calendar" 
+                element={
+                  <ProtectedRoute>
+                    <CalendarPage />
                   </ProtectedRoute>
                 } 
               />
