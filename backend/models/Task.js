@@ -16,6 +16,11 @@ const taskSchema = new Schema({
         enum: ['pending', 'in-progress', 'completed'],
         default: 'pending'
     },
+    priority: {
+        type: String,
+        enum: ['low', 'medium', 'high', 'asap'],
+        default: 'medium'
+    },
     category: {
         type: String,
         enum: ['general', 'work', 'personal', 'education', 'health'],

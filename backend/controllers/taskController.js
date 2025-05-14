@@ -41,7 +41,7 @@ const createTask = async (req, res) => {
         // Add logging to see what's being received
         console.log('Received task data:', req.body);
         
-        const {title, description, status, category, dueDate, reminderDate} = req.body;
+        const {title, description, status, category, priority, dueDate, reminderDate} = req.body;
 
         if(!title) {
             return res.status(400).json({message: 'Please add a title'}); // 400 is the status code for bad request
@@ -53,6 +53,7 @@ const createTask = async (req, res) => {
             description,
             status,
             category,
+            priority: priority || 'medium', // Default to medium if not provided
             owner: req.user._id,
             dueDate: dueDate ? new Date(dueDate) : null,
             reminderDate: reminderDate ? new Date(reminderDate) : null
