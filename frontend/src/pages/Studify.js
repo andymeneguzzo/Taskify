@@ -110,6 +110,27 @@ function Studify() {
     navigate('/login');
   };
 
+  // Inside the Studify component, add a useEffect for scroll handling
+  useEffect(() => {
+    const handleScroll = () => {
+      const header = document.querySelector('.studify-header');
+      if (header) {
+        if (window.scrollY > 10) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    // Clean up
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <div className="studify-container">
       <div className="studify-header">

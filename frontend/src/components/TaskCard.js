@@ -111,7 +111,7 @@ function TaskCard({task, onDelete, onToggleComplete, onEdit}) {
           <div className="task-progress">
             <CircularProgress 
               percentage={progressPercentage}
-              size="small"
+              size="extra-small"
               showText={false}
               strokeColor={
                 status === 'completed' ? '#4caf50' :

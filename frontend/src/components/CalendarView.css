@@ -179,8 +179,10 @@
   width: 90%;
   max-width: 500px;
   max-height: 80vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   animation: mini-calendar-modal-appear 0.3s ease-out;
+  position: relative;
 }
 
 @keyframes mini-calendar-modal-appear {
@@ -200,6 +202,11 @@
   align-items: center;
   padding: 15px 20px;
   border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-color);
+  z-index: 2;
+  border-radius: 15px 15px 0 0;
 }
 
 .mini-calendar-modal-header h3 {
@@ -235,6 +242,10 @@
 
 .mini-calendar-modal-content {
   padding: 20px;
+  overflow-y: auto;
+  max-height: calc(80vh - 70px);
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color, #4a6fa5) transparent;
 }
 
 .mini-calendar-no-tasks {
@@ -298,4 +309,32 @@
   color: var(--text-secondary);
   display: flex;
   align-items: center;
+}
+
+/* Styling for scrollbars in WebKit browsers */
+.mini-calendar-modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mini-calendar-modal-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.mini-calendar-modal-content::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color, #4a6fa5);
+  border-radius: 3px;
+}
+
+/* Add a subtle fade effect at the bottom when content is scrollable */
+.mini-calendar-modal-content::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(to top, var(--bg-color) 0%, transparent 100%);
+  pointer-events: none;
+  opacity: 0.7;
+  border-radius: 0 0 15px 15px;
 }

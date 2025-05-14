@@ -2,6 +2,7 @@
   max-width: 1000px;
   margin: 0 auto;
   padding: var(--spacing-lg);
+  padding-top: calc(var(--spacing-lg) + 20px);
 }
 
 .studify-header {
@@ -9,6 +10,23 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-color);
+  padding: var(--spacing-md) var(--spacing-lg);
+  z-index: 1000;
+  box-shadow: var(--neu-shadow-small);
+  transition: box-shadow 0.3s ease;
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: -20px;
+  padding-top: 20px;
+}
+
+.studify-header.scrolled {
+  box-shadow: var(--neu-shadow);
 }
 
 .studify-header h2 {

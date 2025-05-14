@@ -5,7 +5,7 @@ import './CircularProgress.css';
  * CircularProgress Component - A customizable circular progress indicator using SVG
  * 
  * Features:
- * - Responsive sizing (small, medium, large)
+ * - Responsive sizing (extra-small, small, medium, large)
  * - Customizable stroke and background colors
  * - Smooth animations for progress updates
  * - Completion pulse animation when reaching 100%
@@ -16,7 +16,7 @@ import './CircularProgress.css';
  * 
  * @param {Object} props - Component properties
  * @param {number} [props.percentage=0] - Current progress percentage (0-100)
- * @param {('small'|'medium'|'large')} [props.size='medium'] - Size variant of the circular progress
+ * @param {('extra-small'|'small'|'medium'|'large')} [props.size='medium'] - Size variant of the circular progress
  * @param {number} [props.strokeWidth] - Custom width of the progress stroke (overrides size-based default)
  * @param {string} [props.strokeColor] - Custom color for the progress stroke (overrides CSS variable)
  * @param {string} [props.backgroundColor] - Custom color for the track background (overrides CSS variable)
@@ -67,6 +67,7 @@ const CircularProgress = ({
    */
   const getDefaultStrokeWidth = () => {
     switch (size) {
+      case 'extra-small': return 3;
       case 'small': return 4;
       case 'large': return 8;
       default: return 6;
@@ -79,6 +80,7 @@ const CircularProgress = ({
    */
   const getDimensions = () => {
     switch (size) {
+      case 'extra-small': return { size: 60, viewBox: '0 0 60 60' };
       case 'small': return { size: 80, viewBox: '0 0 80 80' };
       case 'large': return { size: 160, viewBox: '0 0 160 160' };
       default: return { size: 120, viewBox: '0 0 120 120' };

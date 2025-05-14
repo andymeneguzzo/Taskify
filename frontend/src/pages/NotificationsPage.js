@@ -18,6 +18,27 @@ function NotificationsPage() {
         fetchNotifications();
     }, []);
 
+    // Add scroll handler for sticky header
+    useEffect(() => {
+        const handleScroll = () => {
+            const header = document.querySelector('.notifications-header');
+            if (header) {
+                if (window.scrollY > 10) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            }
+        };
+        
+        window.addEventListener('scroll', handleScroll);
+        
+        // Clean up
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     const fetchNotifications = async () => {
         setIsLoading(true);
         try {

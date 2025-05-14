@@ -161,6 +161,26 @@ function Dashboard() {
         }
     };
 
+    // Inside the Dashboard component, add a useEffect for scroll handling
+    useEffect(() => {
+      const handleScroll = () => {
+        const header = document.querySelector('.dashboard-header');
+        if (header) {
+          if (window.scrollY > 10) {
+            header.classList.add('scrolled');
+          } else {
+            header.classList.remove('scrolled');
+          }
+        }
+      };
+      
+      window.addEventListener('scroll', handleScroll);
+      
+      // Clean up
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }, []);
 
     return (
       <div className="dashboard-container">

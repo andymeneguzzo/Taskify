@@ -72,7 +72,7 @@ const DashboardProgress = ({ tasks }) => {
             <div className="stat-progress">
               <CircularProgress 
                 percentage={completedTasks > 0 ? 100 : 0}
-                size="small"
+                size="extra-small"
                 strokeColor="#4caf50"
                 showText={false}
               />
@@ -87,7 +87,7 @@ const DashboardProgress = ({ tasks }) => {
             <div className="stat-progress">
               <CircularProgress 
                 percentage={inProgressTasks > 0 ? 50 : 0}
-                size="small" 
+                size="extra-small" 
                 strokeColor="#2196f3"
                 showText={false}
               />
@@ -102,7 +102,7 @@ const DashboardProgress = ({ tasks }) => {
             <div className="stat-progress">
               <CircularProgress 
                 percentage={0}
-                size="small"
+                size="extra-small"
                 strokeColor="#ff9800"
                 showText={false}
               />
