@@ -10,6 +10,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { TopicProvider } from './context/TopicContext';
 import NotificationsPage from './pages/NotificationsPage';
 import { ToastProvider } from './context/ToastContext';
+import LandingPage from './pages/LandingPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <div className="App">
             <Routes>
               {/* Public routes */}
+              <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               
@@ -64,18 +66,15 @@ function App() {
                 } 
               />
               
-              {/* Redirect root to dashboard or login based on auth state */}
+              {/* Catch all - redirect to landing page if not authenticated, dashboard if authenticated */}
               <Route 
-                path="/" 
+                path="*" 
                 element={
                   localStorage.getItem('token') 
                     ? <Navigate to="/dashboard" replace />
-                    : <Navigate to="/login" replace />
+                    : <Navigate to="/" replace />
                 } 
               />
-              
-              {/* Catch all - redirect to login */}
-              <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
           </div>
         </BrowserRouter>
