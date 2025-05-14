@@ -331,3 +331,34 @@
     font-size: calc(var(--font-size-medium) - 2px);
   }
 }
+
+/* Priority badge color variations */
+.priority-low {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.priority-medium {
+  background-color: #e1f5fe;
+  color: #0277bd;
+}
+
+.priority-high {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+.priority-asap {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+/* Make the priority badge match the style of other badges */
+.task-priority {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.02em;
+}

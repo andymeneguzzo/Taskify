@@ -10,6 +10,7 @@ function EditTaskForm({task, onTaskUpdated, onCancel}) {
         description: task.description || '',
         status: task.status || 'pending',
         category: task.category || 'general',
+        priority: task.priority || 'medium',
         dueDate: task.dueDate || '',
         reminderDate: task.reminderDate || ''
     });
@@ -25,6 +26,7 @@ function EditTaskForm({task, onTaskUpdated, onCancel}) {
             description: task.description || '',
             status: task.status || 'pending',
             category: task.category || 'general',
+            priority: task.priority || 'medium',
             dueDate: task.dueDate || '',
             reminderDate: task.reminderDate || ''
         });
@@ -79,8 +81,14 @@ function EditTaskForm({task, onTaskUpdated, onCancel}) {
         setLoading(true);
 
         try {
-            // Create data to send
-            const taskData = { ...formData };
+            // Create data to send with explicit priority field
+            const taskData = {
+                ...formData,
+                priority: formData.priority // Explicitly include priority
+            };
+            
+            console.log('Full task data being sent for update:', taskData);
+            console.log('Priority value being sent:', taskData.priority);
             
             // Explicitly convert dates to ISO strings if they exist
             if (formData.dueDate) {
@@ -94,15 +102,21 @@ function EditTaskForm({task, onTaskUpdated, onCancel}) {
             }
             
             const response = await api.put(`/tasks/${task._id}`, taskData);
+            console.log('Response after update:', response.data);
+            console.log('Priority in response:', response.data.priority);
             
             // Hide calendar
             setShowCalendar(false);
 
-            // Notify parent component about updated task
+            // Notify parent component about updated task with complete data
             if(onTaskUpdated) {
-                onTaskUpdated(response.data);
+                // Ensure priority is preserved in the response
+                const completeUpdatedTask = {
+                    ...response.data,
+                    priority: response.data.priority || taskData.priority
+                };
+                onTaskUpdated(completeUpdatedTask);
             }
-
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to update task. Please try again.');
             console.error('Error updating task:', err);
@@ -183,6 +197,23 @@ function EditTaskForm({task, onTaskUpdated, onCancel}) {
                   }))}
                 />
               </div>
+            </div>
+            
+            <div className="form-group">
+              <CustomDropdown
+                id="priority"
+                name="priority"
+                label="Priority"
+                value={formData.priority}
+                onChange={handleChange}
+                disabled={loading}
+                options={[
+                  { value: 'low', label: 'Low' },
+                  { value: 'medium', label: 'Medium' },
+                  { value: 'high', label: 'High' },
+                  { value: 'asap', label: 'ASAP' }
+                ]}
+              />
             </div>
             
             {/* Dates display */}

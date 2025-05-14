@@ -3,15 +3,16 @@ import './TaskCard.css';
 import CircularProgress from './CircularProgress';
 
 function TaskCard({task, onDelete, onToggleComplete, onEdit}) {
+    // Extract all properties except priority directly from task
     const {_id, title, description, status, category, dueDate, reminderDate, subtasks = []} = task;
-
+    
+    // Handle priority separately to debug
     console.log('Task data in card:', task);
-    console.log('Task dates (explicit check):', {
-      dueDate: task.dueDate,
-      reminderDate: task.reminderDate,
-      dueDate_type: task.dueDate ? typeof task.dueDate : 'not present',
-      reminderDate_type: task.reminderDate ? typeof task.reminderDate : 'not present'
-    });
+    console.log('Raw priority value:', task.priority);
+    
+    // Ensure priority is correctly extracted, with fallback to 'medium'
+    const priority = typeof task.priority === 'string' ? task.priority : 'medium';
+    console.log('Priority to be used:', priority);
 
     // Calculate task progress percentage
     // If there are no subtasks, use status as progress indicator
@@ -39,6 +40,14 @@ function TaskCard({task, onDelete, onToggleComplete, onEdit}) {
       personal: 'Personal',
       education: 'Education',
       health: 'Health'
+    }
+    
+    // priority label mapping with proper capitalization for ASAP
+    const priorityLabels = {
+      low: 'Low',
+      medium: 'Medium',
+      high: 'High',
+      asap: 'ASAP'
     }
 
     // Format date for display
@@ -136,6 +145,11 @@ function TaskCard({task, onDelete, onToggleComplete, onEdit}) {
                 {categoryLabels[category] || category}
               </span>
             )}
+            
+            {/* Always display priority badge with proper handling */}
+            <span className={`task-priority priority-${priority}`}>
+              {priorityLabels[priority] || priorityLabels.medium}
+            </span>
           </div>
           
           {/* Date information */}

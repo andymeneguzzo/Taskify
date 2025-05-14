@@ -11,6 +11,7 @@ function CreateTaskForm({onTaskCreated}) {
         description: '',
         status: 'pending',
         category: 'general', // default
+        priority: 'medium',
         dueDate: '',
         reminderDate: ''
     });
@@ -75,45 +76,37 @@ function CreateTaskForm({onTaskCreated}) {
         setLoading(true);
 
         try {
-            // Log the form data
-            console.log('Raw form data:', {
-                dueDate: formData.dueDate,
-                reminderDate: formData.reminderDate
-            });
-
             // Create data to send
-            const taskData = { ...formData };
+            const taskData = { 
+                ...formData,
+                priority: formData.priority  // Explicitly include priority
+            };
+            
+            console.log('Full task data being sent:', taskData);
+            console.log('Priority specifically:', taskData.priority);
             
             // Explicitly convert dates to ISO strings if they exist
             if (formData.dueDate) {
-                console.log('Converting dueDate:', formData.dueDate);
                 const dueDate = new Date(formData.dueDate);
                 taskData.dueDate = dueDate.toISOString();
-                console.log('Converted dueDate:', taskData.dueDate);
             }
             
             if (formData.reminderDate) {
-                console.log('Converting reminderDate:', formData.reminderDate);
                 const reminderDate = new Date(formData.reminderDate);
                 taskData.reminderDate = reminderDate.toISOString();
-                console.log('Converted reminderDate:', taskData.reminderDate);
             }
-            
-            console.log('Data being sent to API:', taskData);
 
             const response = await api.post('/tasks', taskData);
             console.log('Response from API:', response.data);
-            console.log('Response includes dates:', {
-                dueDate: response.data.dueDate,
-                reminderDate: response.data.reminderDate
-            });
-
+            console.log('Priority in response:', response.data.priority);
+            
             // clear form after successful submission
             setFormData({
                 title: '',
                 description: '',
                 status: 'pending',
                 category: 'general',
+                priority: 'medium',
                 dueDate: '',
                 reminderDate: ''
             });
@@ -121,9 +114,14 @@ function CreateTaskForm({onTaskCreated}) {
             // Hide calendar
             setShowCalendar(false);
 
-            // Notify parent component about new task
+            // Notify parent component about new task with complete data
             if(onTaskCreated) {
-                onTaskCreated(response.data);
+                // Make sure all fields are preserved
+                const completeTask = {
+                    ...response.data,
+                    priority: response.data.priority || taskData.priority
+                };
+                onTaskCreated(completeTask);
             }
 
             // Show success toast
@@ -235,6 +233,23 @@ function CreateTaskForm({onTaskCreated}) {
                   }))}
                 />
               </div>
+            </div>
+            
+            <div className="form-group">
+              <CustomDropdown
+                id="priority"
+                name="priority"
+                label="Priority"
+                value={formData.priority}
+                onChange={handleChange}
+                disabled={loading}
+                options={[
+                  { value: 'low', label: 'Low' },
+                  { value: 'medium', label: 'Medium' },
+                  { value: 'high', label: 'High' },
+                  { value: 'asap', label: 'ASAP' }
+                ]}
+              />
             </div>
             
             {/* Dates display */}

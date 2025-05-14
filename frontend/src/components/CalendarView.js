@@ -185,8 +185,15 @@ const CalendarView = ({ tasks }) => {
                           <li key={task._id} className="mini-calendar-task-item">
                             <div className="mini-calendar-task-title">{task.title}</div>
                             {task.description && <div className="mini-calendar-task-description">{task.description}</div>}
-                            <div className="mini-calendar-task-time">
-                              Due at: {new Date(task.dueDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            <div className="mini-calendar-task-info">
+                              {task.priority && (
+                                <span className={`mini-calendar-task-priority priority-${task.priority}`}>
+                                  Priority: {task.priority}
+                                </span>
+                              )}
+                              <div className="mini-calendar-task-time">
+                                Due at: {new Date(task.dueDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </div>
                             </div>
                           </li>
                         ))}
@@ -205,8 +212,15 @@ const CalendarView = ({ tasks }) => {
                           <li key={task._id} className="mini-calendar-task-item">
                             <div className="mini-calendar-task-title">{task.title}</div>
                             {task.description && <div className="mini-calendar-task-description">{task.description}</div>}
-                            <div className="mini-calendar-task-time">
-                              Reminder at: {new Date(task.reminderDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            <div className="mini-calendar-task-info">
+                              {task.priority && (
+                                <span className={`mini-calendar-task-priority priority-${task.priority}`}>
+                                  Priority: {task.priority}
+                                </span>
+                              )}
+                              <div className="mini-calendar-task-time">
+                                Reminder at: {new Date(task.reminderDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </div>
                             </div>
                           </li>
                         ))}
